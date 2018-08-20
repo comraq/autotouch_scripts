@@ -769,7 +769,7 @@ function with_insufficient_ap_check(action, ap_options)
         return false
       end
 
-      consume_ap_option2(ap_option.name)
+      consume_ap_option(ap_option.name)
       return true
 
     end, false, LIST.fmap(function(ap_option)
@@ -804,55 +804,13 @@ function ap_option_available(loc)
   return loc.COLOR.AVAILABLE == getColor(loc.x, loc.y)
 end
 
-function ap_potions_available()
-  return LIST.foldl(function(e, loc)
-    return e or ap_option_available(loc)
-  end, false, AP_POTIONS_LIST)
-end
-
-function ap_stone_available()
-  return ap_option_available(MISSIONS.INSUFFICIENT_AP.APSTONE)
-end
-
 function consume_ap_option(name)
-  local loc = MISSIONS.INSUFFICIENT_AP[name]
-
-  return function(k)
-    if ap_option_available(loc) then
-      if LOG_ENABLED then
-        log(string.format("consume_ap_option for option[%s]", name))
-      end
-
-      retry(insufficient_ap_tap_potion(name))()
-      retry(insufficient_ap_tap_consume_confirm)()
-      return
-    end
-
-    return k()
-  end
-end
-
-function consume_ap_option2(name)
   if LOG_ENABLED then
     log(string.format("consume_ap_option for option[%s]", name))
   end
 
   retry(insufficient_ap_tap_potion(name))()
   retry(insufficient_ap_tap_consume_confirm)()
-end
-
-function consume_ap_potion()
-  return consume_ap_option("AP10")(function()
-    return consume_ap_option("AP30")(function()
-      return consume_ap_option("AP50")(function()
-        return consume_ap_option("APMAX")(function() end)
-      end)
-    end)
-  end)
-end
-
-function consume_ap_stone()
-  return consume_ap_option("APSTONE")(function() end)
 end
 
 function ap_consumed_still_insufficient()
