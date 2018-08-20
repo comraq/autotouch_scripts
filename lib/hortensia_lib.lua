@@ -139,30 +139,35 @@ local MISSIONS = {
     },
 
     AP10 = {
+      name = "AP10",
       x = 655,
       y = 590,
       COLOR = { AVAILABLE = 1292043 }
     },
 
     AP30 = {
+      name = "AP30",
       x = 1310,
       y = 590,
       COLOR = { AVAILABLE = 962568 }
     },
 
     AP50 = {
+      name = "AP50",
       x = 655,
       y = 795,
       COLOR = { AVAILABLE = 1293321 }
     },
 
     APMAX = {
+      name = "APMAX",
       x = 1310,
       y = 795,
       COLOR = { AVAILABLE = 1161480 }
     },
 
     APSTONE = {
+      name = "APSTONE",
       x = 655,
       y = 1000,
       COLOR = { AVAILABLE = 1427719 }
@@ -223,6 +228,11 @@ local BATTLE = {
     CONFIRM = {
       x = 875,
       y = 1133
+    },
+
+    CLOSE = {
+      x = 1862,
+      y = 377
     }
   },
 
@@ -338,6 +348,11 @@ local OATH = {
     SAVED_MISSION = {
       x = 800,
       y = 1100
+    },
+
+    BATTLE = {
+      x = 169,
+      y = 1000,
     }
   },
 
@@ -383,7 +398,84 @@ local OATH = {
         RP1 = { x = 787, y = 840 },
         RP2 = { x = 1007, y = 840 },
         RP3 = { x = 1227, y = 840 }
-      }
+      },
+
+
+      INSUFFICIENT_RP = {
+        CONSUME = {
+          COLORS = {
+            {x = 608, y = 508, color = 15327428},
+            {x = 708, y = 508, color = 15261635},
+            {x = 808, y = 508, color = 15261379},
+            {x = 908, y = 508, color = 15064256},
+            {x = 1008, y = 508, color = 14998207},
+            {x = 1108, y = 508, color = 15195842},
+            {x = 1208, y = 508, color = 15195585},
+            {x = 1308, y = 508, color = 15261378},
+            {x = 1408, y = 508, color = 15195841},
+            {x = 608, y = 643, color = 15130049},
+            {x = 708, y = 643, color = 15130049},
+            {x = 808, y = 643, color = 13419436},
+            {x = 908, y = 643, color = 5722449},
+            {x = 1008, y = 643, color = 14801084},
+            {x = 1108, y = 643, color = 15129794},
+            {x = 1208, y = 643, color = 14932414},
+            {x = 1308, y = 643, color = 14998207},
+            {x = 1408, y = 643, color = 15261379},
+            {x = 608, y = 892, color = 15327428},
+            {x = 708, y = 892, color = 812761},
+            {x = 808, y = 892, color = 2069},
+            {x = 908, y = 892, color = 480980},
+            {x = 1008, y = 892, color = 14998207},
+            {x = 1108, y = 892, color = 11471627},
+            {x = 1208, y = 892, color = 16777215},
+            {x = 1308, y = 892, color = 11143176},
+            {x = 1408, y = 892, color = 15195841},
+          },
+
+          CONFIRM = {
+            x = 1284,
+            y = 870
+          }
+        },
+
+        PURCHASE = {
+          COLORS = {
+            {x = 608, y = 500, color = 15196098},
+            {x = 708, y = 500, color = 15326915},
+            {x = 808, y = 500, color = 15327171},
+            {x = 908, y = 500, color = 15261635},
+            {x = 1008, y = 500, color = 15129536},
+            {x = 1108, y = 500, color = 15064000},
+            {x = 1208, y = 500, color = 15130049},
+            {x = 1308, y = 500, color = 15129793},
+            {x = 1408, y = 500, color = 15130049},
+            {x = 608, y = 690, color = 15129793},
+            {x = 708, y = 690, color = 15130048},
+            {x = 808, y = 690, color = 15129793},
+            {x = 908, y = 690, color = 5722449},
+            {x = 1008, y = 690, color = 15063999},
+            {x = 1108, y = 690, color = 5722449},
+            {x = 1208, y = 690, color = 15129793},
+            {x = 1308, y = 690, color = 15129792},
+            {x = 1408, y = 690, color = 15261122},
+            {x = 600, y = 801, color = 15063999},
+            {x = 700, y = 801, color = 1737187},
+            {x = 800, y = 801, color = 1135760},
+            {x = 900, y = 801, color = 1539041},
+            {x = 1000, y = 801, color = 11312244},
+            {x = 1100, y = 801, color = 13053743},
+            {x = 1200, y = 801, color = 16777215},
+            {x = 1300, y = 801, color = 12857135},
+            {x = 1400, y = 801, color = 15195585},
+          },
+
+          CLOSE = {
+            x = 1444,
+            y = 456
+          }
+        }
+      },
     },
 
     COMPLETE = {
@@ -460,6 +552,7 @@ end
 
 battle_helper_select_tap_first_helper = generate_tap_function("battle_helper_select_tap_first_helper", BATTLE.HELPER_SELECT.FIRST.x, BATTLE.HELPER_SELECT.FIRST.y)
 battle_party_select_tap_confirm = generate_tap_function("battle_helper_select_tap_confirm", BATTLE.PARTY_SELECT.CONFIRM.x, BATTLE.PARTY_SELECT.CONFIRM.y)
+battle_party_select_tap_close = generate_tap_function("battle_helper_select_tap_close", BATTLE.PARTY_SELECT.CLOSE.x, BATTLE.PARTY_SELECT.CLOSE.y)
 
 
 mission_complete_rewards_tap_confirm = generate_tap_function("mission_complete_rewards_tap_confirm", BATTLE.COMPLETE.CONFIRM.x, BATTLE.COMPLETE.CONFIRM.y)
@@ -477,6 +570,7 @@ insufficient_ap_tap_consumed_still_insufficient_confirm = generate_tap_function(
 										MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.CONFIRM.x,
 										MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.CONFIRM.y)
 
+
 oath_encountered_tap_proceed = generate_tap_function("oath_encountered_tap_proceed",
                                                      OATH.ENCOUNTERED.PROCEED.x,
                                                      OATH.ENCOUNTERED.PROCEED.y)
@@ -487,7 +581,6 @@ oath_battle_party_select_rp_select_tap_rp = function(rp)
   local name = "oath_battle_party_select_rp_select_tap_rp_" .. rp
   return generate_tap_function(name, OATH.BATTLE.PARTY_SELECT.RP_SELECT[rp].x, OATH.BATTLE.PARTY_SELECT.RP_SELECT[rp].y)
 end
-
 oath_battle_complete_tap_boss = generate_tap_function("oath_battle_complete_tap_boss",
                                                       OATH.BATTLE.COMPLETE.BOSS.x,
                                                       OATH.BATTLE.COMPLETE.BOSS.y)
@@ -497,6 +590,18 @@ oath_battle_complete_tap_oath_home = generate_tap_function("oath_battle_complete
 oath_home_tap_missions = generate_tap_function("oath_home_tap_missions",
                                                OATH.HOME.MISSIONS.x,
                                                OATH.HOME.MISSIONS.y)
+oath_home_tap_battle = generate_tap_function("oath_home_tap_battle",
+                                               OATH.HOME.BATTLE.x,
+                                               OATH.HOME.BATTLE.y)
+oath_battle_party_select_consume_rp_tap_confirm = generate_tap_function("oath_battle_party_select_consume_rp",
+                                                                        OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.x,
+                                                                        OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.y)
+oath_battle_party_select_rp_consumed_tap_proceed = generate_tap_function("oath_battle_party_select_rp_consumed_tap_proceed",
+                                                                         OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.x,
+                                                                         OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.y)
+oath_battle_party_select_rp_purchase_tap_close = generate_tap_function("oath_battle_party_select_consume_rp",
+                                                                        OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.CLOSE.x,
+                                                                        OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.CLOSE.y)
 
 
 ----------------------
@@ -568,6 +673,64 @@ function oath_battle_complete()
   end, true, OATH.BATTLE.COMPLETE.COLORS)
 end
 
+function insufficient_rp_consume()
+  return LIST.foldl(function(e, loc)
+    return e and (loc.color == getColor(loc.x, loc.y))
+  end, true, OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.COLORS)
+end
+
+function insufficient_rp_purchase()
+  return LIST.foldl(function(e, loc)
+    return e and (loc.color == getColor(loc.x, loc.y))
+  end, true, OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.COLORS)
+end
+
+function with_insufficient_rp_check(action, rp_amount, allow_potions)
+  local function f(k)
+    if LOG_ENABLED then
+      log(string.format("with_insufficient_rp_check executing action with allow_potions[%s]", tostring(allow_potions)))
+    end
+    action()
+
+    local rp_consume = insufficient_rp_consume()
+    local rp_purchase = insufficient_rp_purchase()
+    if (not rp_consume) and (not rp_purchase) then
+      return k()
+    end
+
+    if rp_consume and allow_potions then
+      act_once(oath_battle_party_select_consume_rp_tap_confirm)()
+      retry(oath_battle_party_select_rp_consumed_tap_proceed)()
+      return k()
+    end
+
+    if rp_purchase or (not allow_potions) then
+      retry(oath_battle_party_select_rp_purchase_tap_close)()
+      retry(battle_party_select_tap_close)()
+
+      act_once(missions_tap_home_or_back)()
+      retry(missions_tap_home_or_back)()
+
+      if LOG_ENABLED then
+        log(string.format("Insufficient rp, sleeping for [%d*10] minutes", rp_amount))
+      end
+      sleep_sec(rp_amount * 60 * 10)
+      if LOG_ENABLED then
+        log(string.format("Woken after [%d*10] minutes, resuming", rp_amount))
+      end
+
+      retry(oath_home_tap_battle)()
+      retry(oath_battle_prep_tap_proceed)()
+      retry(battle_helper_select_tap_first_helper)()
+      retry(battle_party_select_tap_confirm)()
+
+      return f(k)
+    end
+  end
+
+  return f
+end
+
 
 ----------------------------
 -- Insufficient AP Checks --
@@ -585,7 +748,7 @@ function with_insufficient_ap_check(action, allow_potions, allow_stone)
     end
 
     if not allow_potions then
-      return alert("insufficent ap!")
+      return alert("insufficient ap!")
     end
 
     if ap_potions_available() then
@@ -602,7 +765,7 @@ function with_insufficient_ap_check(action, allow_potions, allow_stone)
       end
 
     elseif not allow_stone then
-      return alert("insufficent ap!")
+      return alert("insufficient ap!")
 
     elseif ap_stone_available() then
       consume_ap_stone()
@@ -619,6 +782,51 @@ function with_insufficient_ap_check(action, allow_potions, allow_stone)
 
     else
       return alert("insufficient ap!")
+    end
+  end
+
+  return f
+end
+
+function with_insufficient_ap_check2(action, ap_options)
+  local function f(k)
+    if LOG_ENABLED then
+      log(string.format("with_insufficient_ap_check executing action with ap_options[%s]", tostring(ap_options)))
+    end
+    action()
+
+    if (not insufficient_ap()) then
+      return k()
+    end
+
+    local ap_consumed = LIST.foldl(function(consumed, ap_option)
+      if consumed then
+        return true
+      end
+
+      if not ap_option_available(ap_option) then
+        return false
+      end
+
+      consume_ap_option2(ap_option.name)
+      return true
+
+    end, false, LIST.fmap(function(ap_option)
+      return MISSIONS.INSUFFICIENT_AP[ap_option]
+    end, ap_options))
+
+    if not ap_consumed then
+      return alert("insufficient ap!")
+    end
+
+    if ap_consumed_still_insufficient() then
+      if LOG_ENABLED then
+        log("ap consumed but still insufficient!")
+      end
+      retry(insufficient_ap_tap_consumed_still_insufficient_confirm)()
+      return f(k)
+    else
+      return k()
     end
   end
 
@@ -661,6 +869,15 @@ function consume_ap_option(name)
 
     return k()
   end
+end
+
+function consume_ap_option2(name)
+  if LOG_ENABLED then
+    log(string.format("consume_ap_option for option[%s]", name))
+  end
+
+  retry(insufficient_ap_tap_potion(name))()
+  retry(insufficient_ap_tap_consume_confirm)()
 end
 
 function consume_ap_potion()
@@ -778,6 +995,40 @@ function get_oath_battle_complete_colors()
     {{1107,720}, {1907,720}},
     {{1100,843}, {1400,843}},
     {{1600,842}, {1900,842}}
+  }
+
+  LIST.fmap(function(coords)
+    local init_x1, cy1 = coords[1][1], coords[1][2]
+    local final_x1 = coords[2][1]
+    for cx1 = init_x1, final_x1, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+    end
+  end, coords_list)
+end
+
+function get_oath_battle_party_select_insufficient_rp_consume_colors()
+  local coords_list = {
+    {{608,508}, {1408,508}},
+    {{608,643}, {1408,643}},
+    {{608,892}, {1408,892}}
+  }
+
+  LIST.fmap(function(coords)
+    local init_x1, cy1 = coords[1][1], coords[1][2]
+    local final_x1 = coords[2][1]
+    for cx1 = init_x1, final_x1, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+    end
+  end, coords_list)
+end
+
+function get_oath_battle_party_select_insufficient_rp_purchase_colors()
+  local coords_list = {
+    {{608,500}, {1408,500}},
+    {{608,690}, {1408,690}},
+    {{600,801}, {1400,801}}
   }
 
   LIST.fmap(function(coords)

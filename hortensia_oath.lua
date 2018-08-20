@@ -1,18 +1,23 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = false
-ALLOW_AP_POTIONS = false
-ALLOW_AP_STONE = false
+ALLOWED_AP_OPTIONS = {
+  "AP30",
+  "AP50",
+  "APMAX"
+}
+ALLOW_RP_POTIONS = true
 
 if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
 function execute_mission(k)
+  local rp_amount = 1
   local action = retry(missions_daily_tap_mission("FIRST"))
-  local rp_sel = retry(oath_battle_party_select_rp_select_tap_rp("RP1"))
+  local rp_sel = retry(oath_battle_party_select_rp_select_tap_rp("RP"..tostring(rp_amount)))
 
-  return with_insufficient_ap_check(action, ALLOW_AP_POTIONS, ALLOW_AP_STONE)(function()
+  return with_insufficient_ap_check2(action, ALLOWED_AP_OPTIONS)(function()
     -- Daily Mission
     retry(battle_helper_select_tap_first_helper)()
     retry(battle_party_select_tap_confirm)()
@@ -31,15 +36,17 @@ function execute_mission(k)
     retry(oath_battle_prep_tap_proceed)()
     retry(battle_helper_select_tap_first_helper)()
     retry(battle_party_select_tap_confirm)()
-    rp_sel()
 
-    in_battle_daemon(oath_battle_complete)
+    return with_insufficient_rp_check(rp_sel, rp_amount, ALLOW_RP_POTIONS)(function()
 
-    retry(oath_battle_complete_tap_oath_home)()
-    retry(oath_home_tap_missions)()
-    retry(missions_tap_daily_missions)()
+      in_battle_daemon(oath_battle_complete)
 
-    return k()
+      retry(oath_battle_complete_tap_oath_home)()
+      retry(oath_home_tap_missions)()
+      retry(missions_tap_daily_missions)()
+
+      return k()
+    end)
   end)
 end
 
