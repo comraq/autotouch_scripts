@@ -1,17 +1,20 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = false
-ALLOW_AP_POTIONS = false
-ALLOW_AP_STONE = false
+ALLOWED_AP_OPTIONS = {
+  "AP30",
+  "AP50",
+  "APMAX"
+}
 
 if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
+local action = retry(missions_daily_tap_mission("FOURTH"))
 function execute_mission(k)
-  local action = retry(missions_daily_tap_mission("FOURTH"))
 
-  return with_insufficient_ap_check(action, ALLOW_AP_POTIONS, ALLOW_AP_STONE)(function()
+  return with_insufficient_ap_check(action, ALLOWED_AP_OPTIONS)(function()
     retry(battle_helper_select_tap_first_helper)()
     retry(battle_party_select_tap_confirm)()
 
