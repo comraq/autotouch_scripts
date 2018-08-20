@@ -328,6 +328,111 @@ local IN_BATTLE = {
   }
 }
 
+local OATH = {
+  HOME = {
+    MISSIONS = {
+      x = 637,
+      y = 1100
+    },
+
+    SAVED_MISSION = {
+      x = 800,
+      y = 1100
+    }
+  },
+
+  ENCOUNTERED = {
+    COLORS = {
+      {x = 100, y = 1245, color = 41725},
+      {x = 200, y = 1245, color = 37093},
+      {x = 300, y = 1245, color = 37093},
+      {x = 400, y = 1245, color = 153254},
+      {x = 500, y = 1245, color = 7709647},
+      {x = 600, y = 1245, color = 16777215},
+      {x = 700, y = 1245, color = 27843},
+      {x = 800, y = 1245, color = 37093},
+      {x = 900, y = 1245, color = 39665},
+      {x = 1048, y = 1245, color = 16639634},
+      {x = 1148, y = 1245, color = 12265216},
+      {x = 1248, y = 1245, color = 16399616},
+      {x = 1348, y = 1245, color = 9969408},
+      {x = 1448, y = 1245, color = 16777215},
+      {x = 1548, y = 1245, color = 9969408},
+      {x = 1648, y = 1245, color = 9969408},
+      {x = 1748, y = 1245, color = 16399616},
+      {x = 1848, y = 1245, color = 16268032},
+      {x = 1948, y = 1245, color = 2498837}
+    },
+
+    PROCEED = {
+      x = 1348,
+      y = 1251
+    }
+  },
+
+  BATTLE = {
+    PREP = {
+      PROCEED = {
+        x = 1356,
+        y = 819
+      },
+    },
+
+    PARTY_SELECT = {
+      RP_SELECT = {
+        RP1 = { x = 787, y = 840 },
+        RP2 = { x = 1007, y = 840 },
+        RP3 = { x = 1227, y = 840 }
+      }
+    },
+
+    COMPLETE = {
+      COLORS = {
+        {x = 657, y = 357, color = 4074267},
+        {x = 757, y = 357, color = 3351574},
+        {x = 857, y = 357, color = 658179},
+        {x = 957, y = 357, color = 658179},
+        {x = 1057, y = 357, color = 658179},
+        {x = 1157, y = 357, color = 658179},
+        {x = 1257, y = 357, color = 658179},
+        {x = 1357, y = 357, color = 4074267},
+        {x = 1107, y = 720, color = 7222581},
+        {x = 1207, y = 720, color = 7222581},
+        {x = 1307, y = 720, color = 7222581},
+        {x = 1407, y = 720, color = 7222581},
+        {x = 1507, y = 720, color = 7222581},
+        {x = 1607, y = 720, color = 7222581},
+        {x = 1707, y = 720, color = 7222581},
+        {x = 1807, y = 720, color = 7222581},
+        {x = 1907, y = 720, color = 7222581},
+        {x = 1100, y = 843, color = 2143986},
+        {x = 1200, y = 843, color = 16777215},
+        {x = 1300, y = 843, color = 16777215},
+        {x = 1400, y = 843, color = 16777215},
+        {x = 1600, y = 842, color = 15421520},
+        {x = 1700, y = 842, color = 13316144},
+        {x = 1800, y = 842, color = 11676202},
+        {x = 1900, y = 842, color = 13185072},
+      },
+
+      BOSS = {
+        x = 527,
+        y = 670
+      },
+
+      OATH_HOME = {
+        x = 1288,
+        y = 836
+      },
+
+      SAVED_MISSION = {
+        x = 1757,
+        y = 836
+      }
+    }
+  },
+}
+
 local BATTLE_MEMBERS_LIST = {"FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"}
 
 local AP_POTIONS_LIST = {
@@ -372,14 +477,39 @@ insufficient_ap_tap_consumed_still_insufficient_confirm = generate_tap_function(
 										MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.CONFIRM.x,
 										MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.CONFIRM.y)
 
+oath_encountered_tap_proceed = generate_tap_function("oath_encountered_tap_proceed",
+                                                     OATH.ENCOUNTERED.PROCEED.x,
+                                                     OATH.ENCOUNTERED.PROCEED.y)
+oath_battle_prep_tap_proceed = generate_tap_function("oath_battle_prep_tap_proceed",
+                                                     OATH.BATTLE.PREP.PROCEED.x,
+                                                     OATH.BATTLE.PREP.PROCEED.y)
+oath_battle_party_select_rp_select_tap_rp = function(rp)
+  local name = "oath_battle_party_select_rp_select_tap_rp_" .. rp
+  return generate_tap_function(name, OATH.BATTLE.PARTY_SELECT.RP_SELECT[rp].x, OATH.BATTLE.PARTY_SELECT.RP_SELECT[rp].y)
+end
+
+oath_battle_complete_tap_boss = generate_tap_function("oath_battle_complete_tap_boss",
+                                                      OATH.BATTLE.COMPLETE.BOSS.x,
+                                                      OATH.BATTLE.COMPLETE.BOSS.y)
+oath_battle_complete_tap_oath_home = generate_tap_function("oath_battle_complete_tap_oath_home",
+                                                           OATH.BATTLE.COMPLETE.OATH_HOME.x,
+                                                           OATH.BATTLE.COMPLETE.OATH_HOME.y)
+oath_home_tap_missions = generate_tap_function("oath_home_tap_missions",
+                                               OATH.HOME.MISSIONS.x,
+                                               OATH.HOME.MISSIONS.y)
+
+
 ----------------------
 -- In Battle Daemon --
 ----------------------
 
-function in_battle_daemon(interval)
+function in_battle_daemon(battle_complete, interval)
   local thunk_interval = thunk(interval)
   local thunk_default_interval = thunk(DEFAULT_BATTLE_DAEMON_INTERVAL_SEC)
-  while (not mission_complete())
+  local thunk_battle_complete = thunk(battle_complete)
+  local thunk_mission_complete = thunk(mission_complete)
+
+  while (not fif(battle_complete, thunk_battle_complete, thunk_mission_complete)())
   do
     if LOG_ENABLED then
       log("not mission complete")
@@ -416,6 +546,26 @@ function mission_complete()
   return LIST.foldl(function(e, loc)
     return e and (loc.color == getColor(loc.x, loc.y))
   end, true, BATTLE.COMPLETE.COLORS)
+end
+
+
+----------
+-- Oath --
+----------
+
+function encountered_oath()
+  return LIST.foldl(function(e, loc)
+    return e and (loc.color == getColor(loc.x, loc.y))
+  end, true, OATH.ENCOUNTERED.COLORS)
+end
+
+function oath_battle_complete()
+  local act = act_once(oath_battle_complete_tap_boss)
+  act(2)
+
+  return LIST.foldl(function(e, loc)
+    return e and (loc.color == getColor(loc.x, loc.y))
+  end, true, OATH.BATTLE.COMPLETE.COLORS)
 end
 
 
@@ -604,4 +754,38 @@ function get_ap_option_consumed_still_insufficient_colors()
   do
     log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
   end
+end
+
+function get_oath_boss_encountered_colors()
+  local init_x1, cy1 = 100, 1245
+  local final_x1 = 900
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
+
+  local init_x1, cy1 = 1048, 1245
+  local final_x1 = 1948
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
+end
+
+function get_oath_battle_complete_colors()
+  local coords_list = {
+    {{657,357}, {1357,357}},
+    {{1107,720}, {1907,720}},
+    {{1100,843}, {1400,843}},
+    {{1600,842}, {1900,842}}
+  }
+
+  LIST.fmap(function(coords)
+    local init_x1, cy1 = coords[1][1], coords[1][2]
+    local final_x1 = coords[2][1]
+    for cx1 = init_x1, final_x1, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+    end
+  end, coords_list)
 end
