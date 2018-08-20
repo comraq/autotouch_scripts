@@ -107,6 +107,13 @@ local MISSIONS = {
     }
   },
 
+  THREE_BATTLES = {
+    THIRD = {
+      x = 1511,
+      y = 867
+    }
+  },
+
   INSUFFICIENT_AP = {
     COLORS = {
       {x = 330, y = 330, color = 14998208},
@@ -548,7 +555,10 @@ missions_daily_tap_mission = function(mission_name)
   local name = "missions_daily_tap_mission_" .. mission_name
   return generate_tap_function(name, MISSIONS.DAILY[mission_name].x, MISSIONS.DAILY[mission_name].y)
 end
-
+missions_three_battles_tap_battle = function(number)
+  local name = "missions_three_battles_tap_battle_" .. number
+  return generate_tap_function("missions_tap_daily_missions", MISSIONS.THREE_BATTLES[number].x, MISSIONS.THREE_BATTLES[number].y)
+end
 
 battle_helper_select_tap_first_helper = generate_tap_function("battle_helper_select_tap_first_helper", BATTLE.HELPER_SELECT.FIRST.x, BATTLE.HELPER_SELECT.FIRST.y)
 battle_party_select_tap_confirm = generate_tap_function("battle_helper_select_tap_confirm", BATTLE.PARTY_SELECT.CONFIRM.x, BATTLE.PARTY_SELECT.CONFIRM.y)
@@ -587,6 +597,9 @@ oath_battle_complete_tap_boss = generate_tap_function("oath_battle_complete_tap_
 oath_battle_complete_tap_oath_home = generate_tap_function("oath_battle_complete_tap_oath_home",
                                                            OATH.BATTLE.COMPLETE.OATH_HOME.x,
                                                            OATH.BATTLE.COMPLETE.OATH_HOME.y)
+oath_battle_complete_tap_saved_mission = generate_tap_function("oath_battle_complete_tap_saved_mission",
+                                                           OATH.BATTLE.COMPLETE.SAVED_MISSION.x,
+                                                           OATH.BATTLE.COMPLETE.SAVED_MISSION.y)
 oath_home_tap_missions = generate_tap_function("oath_home_tap_missions",
                                                OATH.HOME.MISSIONS.x,
                                                OATH.HOME.MISSIONS.y)
