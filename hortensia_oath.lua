@@ -14,6 +14,7 @@ end
 
 local rp_amount = 1
 local rp_sel = retry(oath_battle_party_select_rp_select_tap_rp("RP"..tostring(rp_amount)))
+local battle_interval = 3
 
 function execute_with_daily_mission(k)
   local action = retry(missions_daily_tap_mission("FIRST"))
@@ -26,7 +27,7 @@ function execute_with_daily_mission(k)
     in_battle_daemon()
 
     mission_complete_EP_tap_confirm()
-    retry(mission_complete_rewards_tap_confirm)()
+    retry(mission_complete_rewards_tap_confirm)(10)
 
     if (not encountered_oath()) then
       return k()
@@ -36,11 +37,11 @@ function execute_with_daily_mission(k)
     retry(oath_encountered_tap_proceed)()
     retry(oath_battle_prep_tap_proceed)()
     retry(battle_helper_select_tap_first_helper)()
-    retry(battle_party_select_tap_confirm)()
+    retry(battle_party_select_tap_confirm)(10)
 
     return with_insufficient_rp_check(rp_sel, rp_amount, ALLOW_RP_POTIONS)(function()
 
-      in_battle_daemon(oath_battle_complete)
+      in_battle_daemon(oath_battle_complete, battle_interval)
       retry(oath_battle_complete_tap_oath_home)()
       retry(oath_home_tap_missions)()
       retry(missions_tap_daily_missions)()
@@ -75,7 +76,7 @@ function execute_with_saved_mission(k)
 
     return with_insufficient_rp_check(rp_sel, rp_amount, ALLOW_RP_POTIONS)(function()
 
-      in_battle_daemon(oath_battle_complete)
+      in_battle_daemon(oath_battle_complete, battle_interval)
       retry(oath_battle_complete_tap_saved_mission)()
 
       return k()

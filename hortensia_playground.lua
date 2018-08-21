@@ -12,16 +12,17 @@ if LOG_ENABLED then
 end
 
 
---[[
-retry(battle_party_select_tap_confirm)()
+giftbox_accept_items()
+retry(missions_tap_dropdown)()
+retry(home_tap_missions)()
 
-local rp_sel = retry(oath_battle_party_select_rp_select_tap_rp("RP1"))
-with_insufficient_rp_check(rp_sel, ALLOW_RP_POTIONS)(function()
+if in_mission_boss_unavailable() then
+  return alert("boss not available, cannot proceed")
+end
+retry(missions_tap_boss)()
 
-  in_battle_daemon(oath_battle_complete)
-
-  retry(oath_battle_complete_tap_oath_home)()
-  retry(oath_home_tap_missions)()
-  retry(missions_tap_daily_missions)()
-end)
---]]
+local rp_amount = 1
+sleep_sec(rp_amount * 60 * 10)
+if LOG_ENABLED then
+  alert(string.format("Woken after [%d*10] minutes, resuming", rp_amount))
+end

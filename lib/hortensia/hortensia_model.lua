@@ -202,19 +202,20 @@ HORTENSIA = {
     },
 
     ITEMS = {
-      x = 178,
-      y = 465,
+      x = 112,
+      y = 469,
       COLOR = {
-        HIGHLIGHTED = 1493256,
-        NON_HIGHLIGHTED = 8799242
+        HIGHLIGHTED = 1893390,
+        NON_HIGHLIGHTED = 10504213
       }
     },
 
     CARDS = {
-      x = 149,
-      y = 600,
+      x = 115,
+      y = 602,
       COLOR = {
-        HIGHLIGHTED = 1559561
+        HIGHLIGHTED = 2485262,
+        NON_HIGHLIGHTED = 13792787
       }
     }
   },
