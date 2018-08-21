@@ -261,9 +261,18 @@ function oath_battle_complete()
   local act = act_once(oath_battle_complete_tap_boss)
   act(2)
 
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
+  local function f()
+    return LIST.foldl(function(e, loc)
+      return e and (loc.color == getColor(loc.x, loc.y))
+    end, true, HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
+  end
+
+  if f() then
+    sleep_sec(2)
+    return f()
+  end
+
+  return false
 end
 
 function insufficient_rp_consume()
