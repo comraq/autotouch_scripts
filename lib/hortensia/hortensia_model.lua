@@ -21,6 +21,24 @@ HORTENSIA = {
       y = 264
     },
 
+    DROPDOWN = {
+      x = 1905,
+      y = 311,
+
+      GIFTBOX = {
+        x = 1942,
+        y = 687
+      }
+    },
+
+    BOSS = {
+      x = 1227,
+      y = 235,
+      COLOR = {
+        UNAVAILABLE = 8347976
+      }
+    },
+
     DAILY = {
       x = 1414,
       y = 1268,
@@ -46,6 +64,16 @@ HORTENSIA = {
       THIRD = {
         x = 1511,
         y = 867
+      },
+
+      SECOND = {
+        x = 1511,
+        y = 1070
+      },
+
+      FIRST = {
+        x = 1511,
+        y = 1270
       }
     },
 
@@ -154,6 +182,39 @@ HORTENSIA = {
           x = 1080,
           y = 964
         }
+      }
+    }
+  },
+
+  GIFTBOX = {
+    ACCEPT_ONCE = {
+      x = 1496,
+      y = 1265,
+      COLOR = {
+        AVAILABLE = 11537163,
+        UNAVAILABLE = 2434085
+      }
+    },
+
+    ACCEPT_CONFIRMATION = {
+      x = 969,
+      y = 967
+    },
+
+    ITEMS = {
+      x = 178,
+      y = 465,
+      COLOR = {
+        HIGHLIGHTED = 1493256,
+        NON_HIGHLIGHTED = 8799242
+      }
+    },
+
+    CARDS = {
+      x = 149,
+      y = 600,
+      COLOR = {
+        HIGHLIGHTED = 1559561
       }
     }
   },

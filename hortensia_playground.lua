@@ -7,8 +7,6 @@ ALLOWED_AP_OPTIONS = {
 }
 ALLOW_RP_POTIONS = true
 
-LOG_ENABLED = false
-
 if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end

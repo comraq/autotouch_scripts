@@ -11,6 +11,7 @@ local DEFAULT_SWIPE_LENGTH_RES = 500
 local DEFAULT_SWIPE_BEGIN_SEC = 0.5
 local DEFAULT_SWIPE_END_SEC = 0.5
 local DEFAULT_SWIPE_DUR_SEC = 0.1
+local DEFAULT_GIFTBOX_PAUSE_DUR_SEC = 10
 
 function fif(cond, a, b)
   if cond then
@@ -79,6 +80,7 @@ home_tap_status_bar = generate_tap_function("home_tap_status_bar",
                                             HORTENSIA.HOME.STATUS_BAR.x,
                                             HORTENSIA.HOME.STATUS_BAR.y)
 
+
 missions_tap_home_or_back = generate_tap_function("missions_tap_home_or_back",
                                                   HORTENSIA.MISSIONS.HOME_OR_BACK.x,
                                                   HORTENSIA.MISSIONS.HOME_OR_BACK.y)
@@ -97,6 +99,30 @@ missions_three_battles_tap_battle = function(number)
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].x,
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].y)
 end
+missions_tap_dropdown = generate_tap_function("missions_tap_dropdown",
+                                              HORTENSIA.MISSIONS.DROPDOWN.x,
+                                              HORTENSIA.MISSIONS.DROPDOWN.y)
+missions_dropdown_tap_giftbox = generate_tap_function("missions_dropdown_tap_giftbox",
+                                                      HORTENSIA.MISSIONS.DROPDOWN.GIFTBOX.x,
+                                                      HORTENSIA.MISSIONS.DROPDOWN.GIFTBOX.y)
+missions_tap_boss = generate_tap_function("missions_tap_boss",
+                                          HORTENSIA.MISSIONS.BOSS.x,
+                                          HORTENSIA.MISSIONS.BOSS.y)
+
+
+giftbox_tap_items = generate_tap_function("giftbox_tap_items",
+                                          HORTENSIA.GIFTBOX.ITEMS.x,
+                                          HORTENSIA.GIFTBOX.ITEMS.y)
+giftbox_tap_cards = generate_tap_function("giftbox_tap_cards",
+                                          HORTENSIA.GIFTBOX.CARDS.x,
+                                          HORTENSIA.GIFTBOX.CARDS.y)
+giftbox_tap_accept_once = generate_tap_function("giftbox_tap_accept_once",
+                                                HORTENSIA.GIFTBOX.ACCEPT_ONCE.x,
+                                                HORTENSIA.GIFTBOX.ACCEPT_ONCE.y)
+giftbox_accepted_tap_confirm = generate_tap_function("giftbox_accepted_tap_confirm",
+                                                     HORTENSIA.GIFTBOX.ACCEPT_CONFIRMATION.x,
+                                                     HORTENSIA.GIFTBOX.ACCEPT_CONFIRMATION.y)
+
 
 battle_helper_select_tap_first_helper = generate_tap_function("battle_helper_select_tap_first_helper",
                                                               HORTENSIA.BATTLE.HELPER_SELECT.FIRST.x,
@@ -275,8 +301,17 @@ function with_insufficient_rp_check(action, rp_amount, allow_potions)
       retry(oath_battle_party_select_rp_purchase_tap_close)()
       retry(battle_party_select_tap_close)()
 
-      act_once(missions_tap_home_or_back)()
-      retry(missions_tap_home_or_back)()
+      if LOG_ENABLED then
+        log("Insufficient rp, accepting items from giftbox")
+      end
+      giftbox_accept_items()
+      retry(missions_tap_dropdown)()
+      retry(home_tap_missions)()
+
+      if in_mission_boss_unavailable() then
+        return alert("boss not available, cannot proceed")
+      end
+      retry(missions_tap_boss)()
 
       if LOG_ENABLED then
         log(string.format("Insufficient rp, sleeping for [%d*10] minutes", rp_amount))
@@ -286,7 +321,6 @@ function with_insufficient_rp_check(action, rp_amount, allow_potions)
         log(string.format("Woken after [%d*10] minutes, resuming", rp_amount))
       end
 
-      retry(oath_home_tap_battle)()
       retry(oath_battle_prep_tap_proceed)()
       retry(battle_helper_select_tap_first_helper)()
       retry(battle_party_select_tap_confirm)()
@@ -296,6 +330,58 @@ function with_insufficient_rp_check(action, rp_amount, allow_potions)
   end
 
   return f
+end
+
+function in_mission_boss_unavailable()
+  local cx,cy = HORTENSIA.MISSIONS.BOSS.x,HORTENSIA.MISSIONS.BOSS.y
+  return HORTENSIA.MISSIONS.BOSS.COLOR.UNAVAILABLE == getColor(cx, cy)
+end
+
+
+--------------
+-- Gift Box --
+--------------
+
+function giftbox_accept_items(pause, hold)
+  retry(missions_tap_dropdown)(pause, hold)
+
+  -- GiftBox loading may take a long time, pause for extended duration
+  retry(missions_dropdown_tap_giftbox)(DEFAULT_GIFTBOX_PAUSE_DUR_SEC, hold)
+
+  if not in_giftbox_items() then
+    retry(giftbox_tap_items)(DEFAULT_GIFTBOX_PAUSE_DUR_SEC, hold)
+  end
+
+  if giftbox_accept_once_available() then
+    if LOG_ENABLED then
+      log("accepting once from giftbox items")
+    end
+
+    retry(giftbox_tap_accept_once)(pause, hold)
+    retry(giftbox_accepted_tap_confirm)(pause, hold)
+
+  else
+    if LOG_ENABLED then
+      log("nothing to accept in giftbox items")
+    end
+  end
+
+  return
+end
+
+function giftbox_accept_once_available()
+  local cx,cy = HORTENSIA.GIFTBOX.ACCEPT_ONCE.x,HORTENSIA.GIFTBOX.ACCEPT_ONCE.y
+  return HORTENSIA.GIFTBOX.ACCEPT_ONCE.COLOR.AVAILABLE == getColor(cx, cy)
+end
+
+function in_giftbox_items()
+  local cx,cy = HORTENSIA.GIFTBOX.ITEMS.x,HORTENSIA.GIFTBOX.ITEMS.y
+  return HORTENSIA.GIFTBOX.ITEMS.COLOR.HIGHLIGHTED == getColor(cx, cy)
+end
+
+function in_giftbox_cards()
+  local cx,cy = HORTENSIA.GIFTBOX.CARDS.x,HORTENSIA.GIFTBOX.CARDS.y
+  return HORTENSIA.GIFTBOX.CARDS.COLOR.HIGHLIGHTED == getColor(cx, cy)
 end
 
 
