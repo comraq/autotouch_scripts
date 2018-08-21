@@ -206,19 +206,25 @@ function in_battle_daemon(battle_complete, interval)
   local thunk_battle_complete = thunk(battle_complete)
   local thunk_mission_complete = thunk(mission_complete)
 
-  while (not fif(battle_complete, thunk_battle_complete, thunk_mission_complete)())
-  do
+  local function f(k)
+    if fif(battle_complete, thunk_battle_complete, thunk_mission_complete)() then
+      if LOG_ENABLED then
+        log("battle complete!")
+      end
+      return k()
+    end
+
     if LOG_ENABLED then
-      log("not mission complete")
+      log("battle not complete")
     end
 
     LIST.fmap(activate_skill, HORTENSIA.BATTLE_MEMBERS_LIST)
     sleep_sec(fif(interval, thunk_interval, thunk_default_interval))
+
+    return f(k)
   end
 
-  if LOG_ENABLED then
-    log("mission complete!")
-  end
+  return f
 end
 
 function activate_skill(member)

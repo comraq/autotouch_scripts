@@ -11,27 +11,26 @@ if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
-local action = function()
+local mission_sel = function()
   return retry(missions_daily_tap_mission("FOURTH"))(10)
 end
 
-function execute_mission(k)
+function execute(k)
 
-  return with_insufficient_ap_check(action, ALLOWED_AP_OPTIONS)(function()
+  return with_insufficient_ap_check(mission_sel, ALLOWED_AP_OPTIONS)(function()
     retry(battle_helper_select_tap_first_helper)()
     retry(battle_party_select_tap_confirm)()
 
-    in_battle_daemon()
-
-    mission_complete_EP_tap_confirm()
-    retry(mission_complete_rewards_tap_confirm)()
-
-    return k()
+    return in_battle_daemon()(function()
+      mission_complete_EP_tap_confirm()
+      retry(mission_complete_rewards_tap_confirm)()
+      return k()
+    end)
   end)
 end
 
 local function main()
-  return execute_mission(main)
+  return execute(main)
 end
 
 main()
