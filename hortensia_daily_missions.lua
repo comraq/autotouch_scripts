@@ -11,7 +11,10 @@ if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
-local action = retry(missions_daily_tap_mission("FOURTH"))
+local action = function()
+  return retry(missions_daily_tap_mission("FOURTH"))(10)
+end
+
 function execute_mission(k)
 
   return with_insufficient_ap_check(action, ALLOWED_AP_OPTIONS)(function()

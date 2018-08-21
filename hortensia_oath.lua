@@ -17,7 +17,9 @@ local rp_sel = retry(oath_battle_party_select_rp_select_tap_rp("RP"..tostring(rp
 local battle_interval = 3
 
 function execute_with_daily_mission(k)
-  local action = retry(missions_daily_tap_mission("FIRST"))
+  local action = function()
+    return retry(missions_daily_tap_mission("FIRST"))(10)
+  end
 
   return with_insufficient_ap_check(action, ALLOWED_AP_OPTIONS)(function()
     -- Regular Mission
@@ -35,9 +37,9 @@ function execute_with_daily_mission(k)
 
     -- Oath Battle
     retry(oath_encountered_tap_proceed)()
-    retry(oath_battle_prep_tap_proceed)()
+    retry(oath_battle_prep_tap_proceed)(10)
     retry(battle_helper_select_tap_first_helper)()
-    retry(battle_party_select_tap_confirm)(10)
+    retry(battle_party_select_tap_confirm)()
 
     return with_insufficient_rp_check(rp_sel, rp_amount, ALLOW_RP_POTIONS)(function()
 
@@ -52,7 +54,9 @@ function execute_with_daily_mission(k)
 end
 
 function execute_with_saved_mission(k)
-  local action = retry(missions_three_battles_tap_battle("THIRD"))
+  local action = function()
+    return retry(missions_three_battles_tap_battle("THIRD"))(10)
+  end
 
   return with_insufficient_ap_check(action, ALLOWED_AP_OPTIONS)(function()
     -- Regular Mission
@@ -70,7 +74,7 @@ function execute_with_saved_mission(k)
 
     -- Oath Battle
     retry(oath_encountered_tap_proceed)()
-    retry(oath_battle_prep_tap_proceed)()
+    retry(oath_battle_prep_tap_proceed)(10)
     retry(battle_helper_select_tap_first_helper)()
     retry(battle_party_select_tap_confirm)()
 
