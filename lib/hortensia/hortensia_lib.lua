@@ -133,6 +133,12 @@ battle_party_select_tap_confirm = generate_tap_function("battle_helper_select_ta
 battle_party_select_tap_close = generate_tap_function("battle_helper_select_tap_close",
                                                       HORTENSIA.BATTLE.PARTY_SELECT.CLOSE.x,
                                                       HORTENSIA.BATTLE.PARTY_SELECT.CLOSE.y)
+battle_failed_tap_stone_resume = generate_tap_function("battle_failed_tap_stone_resume",
+                                                       HORTENSIA.BATTLE.FAILED.STONE_RESUME.x,
+                                                       HORTENSIA.BATTLE.FAILED.STONE_RESUME.y)
+battle_failed_tap_retreat = generate_tap_function("battle_failed_tap_retreat",
+                                                  HORTENSIA.BATTLE.FAILED.RETREAT.x,
+                                                  HORTENSIA.BATTLE.FAILED.RETREAT.y)
 
 
 mission_complete_rewards_tap_confirm = generate_tap_function("mission_complete_rewards_tap_confirm",
@@ -206,12 +212,25 @@ function in_battle_daemon(battle_complete, interval)
   local thunk_battle_complete = thunk(battle_complete)
   local thunk_mission_complete = thunk(mission_complete)
 
-  local function f(k)
+  local function f(succ_k, fail_k)
     if fif(battle_complete, thunk_battle_complete, thunk_mission_complete)() then
       if LOG_ENABLED then
         log("battle complete!")
       end
-      return k()
+      return succ_k()
+    end
+
+    if mission_failed() then
+      if LOG_ENABLED then
+        log("battle failed!")
+      end
+
+      if not fail_k then
+        return alert("battle failed, no continuation for battle failure!");
+
+      else
+        return fail_k()
+      end
     end
 
     if LOG_ENABLED then
@@ -221,7 +240,7 @@ function in_battle_daemon(battle_complete, interval)
     LIST.fmap(activate_skill, HORTENSIA.BATTLE_MEMBERS_LIST)
     sleep_sec(fif(interval, thunk_interval, thunk_default_interval))
 
-    return f(k)
+    return f(succ_k, fail_k)
   end
 
   return f
@@ -249,6 +268,12 @@ function mission_complete()
   return LIST.foldl(function(e, loc)
     return e and (loc.color == getColor(loc.x, loc.y))
   end, true, HORTENSIA.BATTLE.COMPLETE.COLORS)
+end
+
+function mission_failed()
+  return LIST.foldl(function(e, loc)
+    return e and (loc.color == getColor(loc.x, loc.y))
+  end, true, HORTENSIA.BATTLE.FAILED.COLORS)
 end
 
 

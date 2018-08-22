@@ -137,3 +137,21 @@ function get_oath_battle_party_select_insufficient_rp_purchase_colors()
     end
   end, coords_list)
 end
+
+function get_quest_failed_colors()
+  local coords_list = {
+    {{530,630}, {1530,630}},
+    {{530,1050}, {1530,1050}},
+    {{660,700}, {740,700}},
+    {{660,750}, {740,750}}
+  }
+
+  LIST.fmap(function(coords)
+    local init_x1, cy1 = coords[1][1], coords[1][2]
+    local final_x1 = coords[2][1]
+    for cx1 = init_x1, final_x1, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+    end
+  end, coords_list)
+end
