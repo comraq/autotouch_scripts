@@ -40,7 +40,7 @@ function execute_with(mission_sel, on_oath_complete)
       return in_battle_daemon()(function()
 
         mission_complete_EP_tap_confirm()
-        retry(mission_complete_rewards_tap_confirm)()
+        retry(mission_complete_rewards_tap_confirm)(10)
 
         if (not encountered_oath()) then
           return k()
