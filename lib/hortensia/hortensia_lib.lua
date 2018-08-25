@@ -67,6 +67,12 @@ function swipe(cx, cy, cx_end, cy_end)
   sleep_sec(DEFAULT_SWIPE_END_SEC)
 end
 
+function check_colors(cs)
+  return LIST.foldl(function(e, loc)
+    return e and (loc.color == getColor(loc.x, loc.y))
+  end, true, cs)
+end
+
 
 
 -----------------------------------------
@@ -265,15 +271,11 @@ function activate_skill(member)
 end
 
 function mission_complete()
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.BATTLE.COMPLETE.COLORS)
+  return check_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
 end
 
 function mission_failed()
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.BATTLE.FAILED.COLORS)
+  return check_colors(HORTENSIA.BATTLE.FAILED.COLORS)
 end
 
 
@@ -283,19 +285,14 @@ end
 ----------
 
 function encountered_oath()
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.OATH.ENCOUNTERED.COLORS)
+  return check_colors(HORTENSIA.OATH.ENCOUNTERED.COLORS)
 end
 
 function oath_battle_complete()
-  local act = act_once(oath_battle_complete_tap_boss)
-  act(2)
+  act_once(oath_battle_complete_tap_boss)(2)
 
   local function f()
-    return LIST.foldl(function(e, loc)
-      return e and (loc.color == getColor(loc.x, loc.y))
-    end, true, HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
+    return check_colors(HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
   end
 
   if f() then
@@ -307,15 +304,11 @@ function oath_battle_complete()
 end
 
 function insufficient_rp_consume()
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.COLORS)
+  return check_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.COLORS)
 end
 
 function insufficient_rp_purchase()
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.COLORS)
+  return check_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.COLORS)
 end
 
 function with_insufficient_rp_check(action, rp_amount, allow_potions)
@@ -475,9 +468,7 @@ function with_insufficient_ap_check(action, ap_options)
 end
 
 function insufficient_ap()
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.MISSIONS.INSUFFICIENT_AP.COLORS)
+  return check_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.COLORS)
 end
 
 function ap_option_available(loc)
@@ -494,7 +485,5 @@ function consume_ap_option(name)
 end
 
 function ap_consumed_still_insufficient()
-  return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
-  end, true, HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.COLORS)
+  return check_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.COLORS)
 end
