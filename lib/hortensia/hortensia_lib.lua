@@ -250,8 +250,7 @@ end
 function activate_skill(member)
   local cx,cy = HORTENSIA.IN_BATTLE.MEMBERS[member].SKILLBAR.TOP.x, HORTENSIA.IN_BATTLE.MEMBERS[member].SKILLBAR.TOP.y
 
-  local skillbar_color = cgetColor(cx,cy)
-  if skillbar_color ~= HORTENSIA.IN_BATTLE.COLORS.SKILLBAR.FULL then
+  if not match_color(HORTENSIA.IN_BATTLE.COLORS.SKILLBAR.FULL, cx, cy) then
     if LOG_ENABLED then
       log(string.format("skillbar not full for member[%s], with skillbar_color[%d]", member, skillbar_color))
     end

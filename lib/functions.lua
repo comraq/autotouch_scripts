@@ -28,14 +28,16 @@ end
 
 function match_color(c, x, y)
   local locs = findColor(c, 1, calc_reg(x, y))
-  if #locs > 0 then
-    if LOG_ENABLED then
-      log(string.format("c[%f], x[%f], y[%f]", c, x, y))
-      for i,v in pairs(locs) do
-        log(string.format("x[%f], y[%f]", v[1], v[2]))
-      end
+  if #locs > 0 and LOG_ENABLED then
+    log(string.format("c[%f], x[%f], y[%f]", c, x, y))
+    for i,v in pairs(locs) do
+      log(string.format("x[%f], y[%f]", v[1], v[2]))
     end
   end
+  if #locs > 1 and LOG_ENABLED then
+    log(string.format("more than one match found for c[%f], at x[%f], y[%f]", c, x, y))
+  end
+
   return #locs > 0
 end
 
