@@ -2,7 +2,8 @@
 -- Dimensions and Timing --
 ---------------------------
 
-local DEFAULT_SLEEP_SEC = 5
+local WAIT_LOADING = true
+local DEFAULT_TAP_PAUSE_SEC = 5
 local DEFAULT_TAP_DUR_SEC = 1
 local DEFAULT_BATTLE_DAEMON_INTERVAL_SEC = 5
 local DEFAULT_SWIPE_LENGTH_RES = 500
@@ -28,7 +29,7 @@ end
 
 function tap_and_pause(x, y, pause, hold)
   mytap(x, y, hold)
-  sleep_sec(fif(pause, thunk(pause), thunk(DEFAULT_SLEEP_SEC)))
+  sleep_sec(fif(pause, thunk(pause), thunk(DEFAULT_TAP_PAUSE_SEC)))
 end
 
 function generate_tap_function(name, cx, cy)
@@ -43,6 +44,7 @@ function generate_tap_function(name, cx, cy)
         end
 
         tap_and_pause(x, y, pause, hold)
+        wait_network_loading()
       end)
     end
   end
@@ -62,10 +64,16 @@ function swipe(cx, cy, cx_end, cy_end)
   sleep_sec(DEFAULT_SWIPE_END_SEC)
 end
 
-function match_colors(cs)
+function match_all_colors(cs)
   return LIST.foldl(function(e, loc)
     return e and match_color(loc.color, loc.x, loc.y)
   end, true, cs)
+end
+
+function match_any_colors(cs)
+  return LIST.foldl(function(e, loc)
+    return e or match_color(loc.color, loc.x, loc.y)
+  end, false, cs)
 end
 
 
@@ -265,11 +273,11 @@ function activate_skill(member)
 end
 
 function mission_complete()
-  return match_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
+  return match_all_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
 end
 
 function mission_failed()
-  return match_colors(HORTENSIA.BATTLE.FAILED.COLORS)
+  return match_all_colors(HORTENSIA.BATTLE.FAILED.COLORS)
 end
 
 
@@ -279,14 +287,14 @@ end
 ----------
 
 function encountered_oath()
-  return match_colors(HORTENSIA.OATH.ENCOUNTERED.COLORS)
+  return match_all_colors(HORTENSIA.OATH.ENCOUNTERED.COLORS)
 end
 
 function oath_battle_complete()
   act_once(oath_battle_complete_tap_boss)(2)
 
   local function f()
-    return match_colors(HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
+    return match_all_colors(HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
   end
 
   if f() then
@@ -298,11 +306,11 @@ function oath_battle_complete()
 end
 
 function insufficient_rp_consume()
-  return match_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.COLORS)
+  return match_all_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.COLORS)
 end
 
 function insufficient_rp_purchase()
-  return match_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.COLORS)
+  return match_all_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.COLORS)
 end
 
 function with_insufficient_rp_check(action, rp_amount, allow_potions)
@@ -462,7 +470,7 @@ function with_insufficient_ap_check(action, ap_options)
 end
 
 function insufficient_ap()
-  return match_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.COLORS)
+  return match_all_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.COLORS)
 end
 
 function ap_option_available(loc)
@@ -479,5 +487,29 @@ function consume_ap_option(name)
 end
 
 function ap_consumed_still_insufficient()
-  return match_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.COLORS)
+  return match_all_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.COLORS)
+end
+
+
+-----------------------
+-- Loading Detection --
+-----------------------
+
+function wait_network_loading()
+  if WAIT_LOADING then
+    local ccs = LIST.fmap(function(c)
+      return {
+        x = HORTENSIA.LOADING.CIRCLE.CENTER.x,
+        y = HORTENSIA.LOADING.CIRCLE.CENTER.y,
+        color = c
+      }
+    end, HORTENSIA.LOADING.CIRCLE.CENTER.COLORS)
+
+    while match_any_colors(ccs) do
+      if LOG_ENABLED then
+        log("waiting for network loading")
+      end
+      sleep_sec(1)
+    end
+  end
 end

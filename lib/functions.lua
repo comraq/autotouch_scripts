@@ -31,9 +31,9 @@ function match_color(c, x, y)
   if APPROX_COLOR_MATCH then
     local locs = findColor(c, 1, calc_reg(x, y))
     if #locs > 0 and LOG_ENABLED then
-      log(string.format("c[%f], x[%f], y[%f]", c, x, y))
+      log(string.format("matching c[%f], centered around x[%f], y[%f]", c, x, y))
       for i,v in pairs(locs) do
-        log(string.format("x[%f], y[%f]", v[1], v[2]))
+        log(string.format("found x[%f], y[%f]", v[1], v[2]))
       end
     end
     if #locs > 1 and LOG_ENABLED then

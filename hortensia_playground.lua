@@ -11,10 +11,14 @@ if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
+---[[
+wait_network_loading()
+alert("loading completed!")
+--]]
 
-local region = {-100, 50, 200, 200};
-local result = findColor(0x00ddff, 1, region);
-for i, v in pairs(result) do
-  log(string.format("Found pixel: x:%f, y:%f", v[1], v[2]));
-end
-log(string.format("size of result: %d", #result))
+
+--[[
+log(string.format("border_top[%f], sword_tip[%f]",
+    getColor(HORTENSIA.LOADING.CIRCLE.BORDER_TOP.x, HORTENSIA.LOADING.CIRCLE.BORDER_TOP.y),
+    getColor(HORTENSIA.LOADING.CIRCLE.TOP_SWORD_TIP.x, HORTENSIA.LOADING.CIRCLE.TOP_SWORD_TIP.y)))
+    --]]
