@@ -252,7 +252,7 @@ function activate_skill(member)
 
   if not match_color(HORTENSIA.IN_BATTLE.COLORS.SKILLBAR.FULL, cx, cy) then
     if LOG_ENABLED then
-      log(string.format("skillbar not full for member[%s], with skillbar_color[%d]", member, skillbar_color))
+      log(string.format("skillbar not full for member[%s], with skillbar_color[%d]", member, cgetColor(cx, cy)))
     end
     return
   end

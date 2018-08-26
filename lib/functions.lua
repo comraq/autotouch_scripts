@@ -1,6 +1,7 @@
 DEFAULT_WIDTH = 2048
 DEFAULT_HEIGHT = 1536
 
+local APPROX_COLOR_MATCH = true
 local w_reg,h_reg = 20,14
 
 local WIDTH,HEIGHT = getScreenResolution();
@@ -27,18 +28,23 @@ function ctouchMove(id, x, y)
 end
 
 function match_color(c, x, y)
-  local locs = findColor(c, 1, calc_reg(x, y))
-  if #locs > 0 and LOG_ENABLED then
-    log(string.format("c[%f], x[%f], y[%f]", c, x, y))
-    for i,v in pairs(locs) do
-      log(string.format("x[%f], y[%f]", v[1], v[2]))
+  if APPROX_COLOR_MATCH then
+    local locs = findColor(c, 1, calc_reg(x, y))
+    if #locs > 0 and LOG_ENABLED then
+      log(string.format("c[%f], x[%f], y[%f]", c, x, y))
+      for i,v in pairs(locs) do
+        log(string.format("x[%f], y[%f]", v[1], v[2]))
+      end
     end
-  end
-  if #locs > 1 and LOG_ENABLED then
-    log(string.format("more than one match found for c[%f], at x[%f], y[%f]", c, x, y))
+    if #locs > 1 and LOG_ENABLED then
+      log(string.format("more than one match found for c[%f], at x[%f], y[%f]", c, x, y))
+    end
+
+    return #locs > 0
+  else
+    return c == cgetColor(x, y)
   end
 
-  return #locs > 0
 end
 
 function calc_reg(x, y)
