@@ -1,7 +1,9 @@
 DEFAULT_WIDTH = 2048
 DEFAULT_HEIGHT = 1536
 
-local WIDTH, HEIGHT = getScreenResolution();
+local w_reg,h_reg = 20,14
+
+local WIDTH,HEIGHT = getScreenResolution();
 local w,h = WIDTH/DEFAULT_WIDTH,HEIGHT/DEFAULT_HEIGHT
 
 function adjust_coords(x, y)
@@ -25,7 +27,20 @@ function ctouchMove(id, x, y)
 end
 
 function match_color(c, x, y)
-  return c == cgetColor(x, y)
+  local locs = findColor(c, 1, calc_reg(x, y))
+  if #locs > 0 then
+    if LOG_ENABLED then
+      log(string.format("c[%f], x[%f], y[%f]", c, x, y))
+      for i,v in pairs(locs) do
+        log(string.format("x[%f], y[%f]", v[1], v[2]))
+      end
+    end
+  end
+  return #locs > 0
+end
+
+function calc_reg(x, y)
+  return {w * (x - w_reg/2), h * (y - h_reg/2), w * w_reg, h * h_reg}
 end
 
 -----------------------

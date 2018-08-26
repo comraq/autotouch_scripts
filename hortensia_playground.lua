@@ -11,4 +11,10 @@ if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
-alert(string.format("type w[%s] and h[%s]", type(w), type(h)))
+
+local region = {-100, 50, 200, 200};
+local result = findColor(0x00ddff, 1, region);
+for i, v in pairs(result) do
+  log(string.format("Found pixel: x:%f, y:%f", v[1], v[2]));
+end
+log(string.format("size of result: %d", #result))
