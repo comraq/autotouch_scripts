@@ -2,8 +2,6 @@
 -- Dimensions and Timing --
 ---------------------------
 
-local WIDTH = 1536
-local HEIGHT = 2048
 local DEFAULT_SLEEP_SEC = 5
 local DEFAULT_TAP_DUR_SEC = 1
 local DEFAULT_BATTLE_DAEMON_INTERVAL_SEC = 5
@@ -12,6 +10,7 @@ local DEFAULT_SWIPE_BEGIN_SEC = 0.5
 local DEFAULT_SWIPE_END_SEC = 0.5
 local DEFAULT_SWIPE_DUR_SEC = 0.1
 local DEFAULT_GIFTBOX_PAUSE_DUR_SEC = 10
+
 
 function fif(cond, a, b)
   if cond then
@@ -22,18 +21,14 @@ function fif(cond, a, b)
 end
 
 function mytap(x, y, dur)
-  touchDown(0, x, y)
+  ctouchDown(0, x, y)
   sleep_sec(fif(dur, thunk(dur), thunk(DEFAULT_TAP_DUR_SEC)))
-  touchUp(0, x, y)
+  ctouchUp(0, x, y)
 end
 
 function tap_and_pause(x, y, pause, hold)
   mytap(x, y, hold)
   sleep_sec(fif(pause, thunk(pause), thunk(DEFAULT_SLEEP_SEC)))
-end
-
-function adjust_coords(x, y)
-  return WIDTH-y, x
 end
 
 function generate_tap_function(name, cx, cy)
@@ -57,19 +52,19 @@ function swipe(cx, cy, cx_end, cy_end)
   local x,y = adjust_coords(cx, cy)
   local x_end,y_end = adjust_coords(cx_end, cy_end)
 
-  touchDown(0, x, y)
+  ctouchDown(0, x, y)
   sleep_sec(DEFAULT_SWIPE_BEGIN_SEC)
 
-  touchMove(0, x_end, y_end)
+  ctouchMove(0, x_end, y_end)
   sleep_sec(DEFAULT_SWIPE_DUR_SEC)
 
-  touchUp(0, x_end, y_end)
+  ctouchUp(0, x_end, y_end)
   sleep_sec(DEFAULT_SWIPE_END_SEC)
 end
 
-function check_colors(cs)
+function match_colors(cs)
   return LIST.foldl(function(e, loc)
-    return e and (loc.color == getColor(loc.x, loc.y))
+    return e and match_color(loc.color, loc.x, loc.y)
   end, true, cs)
 end
 
@@ -255,7 +250,7 @@ end
 function activate_skill(member)
   local cx,cy = HORTENSIA.IN_BATTLE.MEMBERS[member].SKILLBAR.TOP.x, HORTENSIA.IN_BATTLE.MEMBERS[member].SKILLBAR.TOP.y
 
-  local skillbar_color = getColor(cx,cy)
+  local skillbar_color = cgetColor(cx,cy)
   if skillbar_color ~= HORTENSIA.IN_BATTLE.COLORS.SKILLBAR.FULL then
     if LOG_ENABLED then
       log(string.format("skillbar not full for member[%s], with skillbar_color[%d]", member, skillbar_color))
@@ -271,11 +266,11 @@ function activate_skill(member)
 end
 
 function mission_complete()
-  return check_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
+  return match_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
 end
 
 function mission_failed()
-  return check_colors(HORTENSIA.BATTLE.FAILED.COLORS)
+  return match_colors(HORTENSIA.BATTLE.FAILED.COLORS)
 end
 
 
@@ -285,14 +280,14 @@ end
 ----------
 
 function encountered_oath()
-  return check_colors(HORTENSIA.OATH.ENCOUNTERED.COLORS)
+  return match_colors(HORTENSIA.OATH.ENCOUNTERED.COLORS)
 end
 
 function oath_battle_complete()
   act_once(oath_battle_complete_tap_boss)(2)
 
   local function f()
-    return check_colors(HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
+    return match_colors(HORTENSIA.OATH.BATTLE.COMPLETE.COLORS)
   end
 
   if f() then
@@ -304,11 +299,11 @@ function oath_battle_complete()
 end
 
 function insufficient_rp_consume()
-  return check_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.COLORS)
+  return match_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.COLORS)
 end
 
 function insufficient_rp_purchase()
-  return check_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.COLORS)
+  return match_colors(HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.COLORS)
 end
 
 function with_insufficient_rp_check(action, rp_amount, allow_potions)
@@ -367,7 +362,7 @@ end
 
 function in_mission_boss_unavailable()
   local cx,cy = HORTENSIA.MISSIONS.BOSS.x,HORTENSIA.MISSIONS.BOSS.y
-  return HORTENSIA.MISSIONS.BOSS.COLOR.UNAVAILABLE == getColor(cx, cy)
+  return match_color(HORTENSIA.MISSIONS.BOSS.COLOR.UNAVAILABLE, cx, cy)
 end
 
 
@@ -404,17 +399,17 @@ end
 
 function giftbox_accept_once_available()
   local cx,cy = HORTENSIA.GIFTBOX.ACCEPT_ONCE.x,HORTENSIA.GIFTBOX.ACCEPT_ONCE.y
-  return HORTENSIA.GIFTBOX.ACCEPT_ONCE.COLOR.AVAILABLE == getColor(cx, cy)
+  return match_color(HORTENSIA.GIFTBOX.ACCEPT_ONCE.COLOR.AVAILABLE, cx, cy)
 end
 
 function in_giftbox_items()
   local cx,cy = HORTENSIA.GIFTBOX.ITEMS.x,HORTENSIA.GIFTBOX.ITEMS.y
-  return HORTENSIA.GIFTBOX.ITEMS.COLOR.HIGHLIGHTED == getColor(cx, cy)
+  return match_color(HORTENSIA.GIFTBOX.ITEMS.COLOR.HIGHLIGHTED, cx, cy)
 end
 
 function in_giftbox_cards()
   local cx,cy = HORTENSIA.GIFTBOX.CARDS.x,HORTENSIA.GIFTBOX.CARDS.y
-  return HORTENSIA.GIFTBOX.CARDS.COLOR.HIGHLIGHTED == getColor(cx, cy)
+  return match_color(HORTENSIA.GIFTBOX.CARDS.COLOR.HIGHLIGHTED, cx, cy)
 end
 
 
@@ -468,11 +463,11 @@ function with_insufficient_ap_check(action, ap_options)
 end
 
 function insufficient_ap()
-  return check_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.COLORS)
+  return match_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.COLORS)
 end
 
 function ap_option_available(loc)
-  return loc.COLOR.AVAILABLE == getColor(loc.x, loc.y)
+  return match_color(loc.COLOR.AVAILABLE, loc.x, loc.y)
 end
 
 function consume_ap_option(name)
@@ -485,5 +480,5 @@ function consume_ap_option(name)
 end
 
 function ap_consumed_still_insufficient()
-  return check_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.COLORS)
+  return match_colors(HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.COLORS)
 end

@@ -1,3 +1,37 @@
+DEFAULT_WIDTH = 2048
+DEFAULT_HEIGHT = 1536
+
+local WIDTH, HEIGHT = getScreenResolution();
+local w,h = WIDTH/DEFAULT_WIDTH,HEIGHT/DEFAULT_HEIGHT
+
+function adjust_coords(x, y)
+  return DEFAULT_HEIGHT-y, x
+end
+
+function cgetColor(x, y)
+  return getColor(w * x, h * y)
+end
+
+function ctouchDown(id, x, y)
+  return touchDown(id, w * x, h * y)
+end
+
+function ctouchUp(id, x, y)
+  return touchUp(id, w * x, h * y)
+end
+
+function ctouchMove(id, x, y)
+  return touchMove(id, w * x, h * y)
+end
+
+function match_color(c, x, y)
+  return c == cgetColor(x, y)
+end
+
+-----------------------
+-- Utility Functions --
+-----------------------
+
 function sleep_sec(sec)
   usleep(sec * 1000000)
 end
@@ -8,10 +42,11 @@ function thunk(x)
   end
 end
 
+
 function retry(f)
   return function(...)
     return f(...)(function (cx, cy, action)
-      local orig_color = getColor(cx, cy)
+      local orig_color = cgetColor(cx, cy)
 
       local function g(color)
         if orig_color ~= color then
@@ -25,7 +60,7 @@ function retry(f)
           end
           action()
 
-          local c = getColor(cx,cy)
+          local c = cgetColor(cx,cy)
           if LOG_ENABLED then
             log(string.format("color after executing action is:%d", c))
           end

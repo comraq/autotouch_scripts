@@ -11,4 +11,4 @@ if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
-alert("mission_failed = ".. tostring(mission_failed()))
+alert(string.format("type w[%s] and h[%s]", type(w), type(h)))
