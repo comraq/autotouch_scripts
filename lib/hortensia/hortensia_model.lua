@@ -161,6 +161,18 @@ HORTENSIA = {
       }
     },
 
+    BATTLE_SELECT = {
+      THIRD_BATTLE = {
+        BORDER = {
+          {x = 1741, y = 1182},
+          {x = 1741, y = 1227},
+          {x = 1741, y = 1245},
+          {x = 1741, y = 1283},
+          {x = 1741, y = 1337},
+        }
+      }
+    },
+
     INSUFFICIENT_AP = {
       COLORS = {
         {x = 330, y = 330, color = 14998208},

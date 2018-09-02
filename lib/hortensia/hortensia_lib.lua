@@ -525,3 +525,42 @@ function wait_network_loading()
     end
   end
 end
+
+
+------------------------------
+-- Missions - Battle Select --
+------------------------------
+
+function missions_battle_select_scroll_down_one_battle()
+  local bcs = missions_battle_select_get_border_color()
+
+  if LOG_ENABLED then
+    log("missions_battle_select_scroll_down_one_battle, trying to match colors")
+    LIST.fmap(function(loc)
+      log(string.format("color[%d], x[%f], y[%f]", loc.color, loc.x, loc.y))
+    end, bcs)
+  end
+
+  -- TODO: APPROX REGION COLOR MATCH is not supported with sliding
+  if LOG_ENABLED then
+    log(string.format("missions_battle_select_scroll_down_one_battle, disabling APPROX_COLOR_MATCH from [%s]", tostring(APPROX_COLOR_MATCH)))
+  end
+  local approx_before = APPROX_COLOR_MATCH
+  APPROX_COLOR_MATCH = false
+
+  slide("UP",
+        function() return match_all_colors(bcs) end,
+        HORTENSIA.MISSIONS.THREE_BATTLES.THIRD.x,
+        HORTENSIA.MISSIONS.THREE_BATTLES.THIRD.y)
+
+  APPROX_COLOR_MATCH = approx_before
+  if LOG_ENABLED then
+    log(string.format("missions_battle_select_scroll_down_one_battle, restoring APPROX_COLOR_MATCH to [%s]", tostring(APPROX_COLOR_MATCH)))
+  end
+end
+
+function missions_battle_select_get_border_color()
+  return LIST.fmap(function(loc)
+    return {x = loc.x, y = loc.y, color = cgetColor(loc.x, loc.y)}
+  end, HORTENSIA.MISSIONS.BATTLE_SELECT.THIRD_BATTLE.BORDER)
+end

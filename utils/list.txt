@@ -1,4 +1,5 @@
 hortensia_model
 functions
+motions
 hortensia_lib
 hortensia_debug

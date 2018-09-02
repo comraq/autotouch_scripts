@@ -1,7 +1,7 @@
 DEFAULT_WIDTH = 2048
 DEFAULT_HEIGHT = 1536
 
-local APPROX_COLOR_MATCH = true
+APPROX_COLOR_MATCH = true
 local w_reg,h_reg = 20,14
 
 local WIDTH,HEIGHT = getScreenResolution();
@@ -10,6 +10,18 @@ local w,h = WIDTH/DEFAULT_WIDTH,HEIGHT/DEFAULT_HEIGHT
 function adjust_coords(x, y)
   return DEFAULT_HEIGHT-y, x
 end
+
+function adjust_coords_inverse(x, y)
+  return y, -1 * (x - DEFAULT_HEIGHT)
+end
+
+function out_of_bounds(x, y)
+  return x < 0 or x > DEFAULT_WIDTH or y < 0 or y > DEFAULT_HEIGHT
+end
+
+--------------------------------------------------
+-- Wrappers around device interaction functions --
+--------------------------------------------------
 
 function cgetColor(x, y)
   return getColor(w * x, h * y)
@@ -27,6 +39,7 @@ function ctouchMove(id, x, y)
   return touchMove(id, w * x, h * y)
 end
 
+-- The public function with additional logic to match color c at location x,y
 function match_color(c, x, y)
   if APPROX_COLOR_MATCH then
     local locs = findColor(c, 1, calc_reg(x, y))
