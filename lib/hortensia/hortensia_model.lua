@@ -868,5 +868,43 @@ HORTENSIA = {
     },
   },
 
-  BATTLE_MEMBERS_LIST = {"FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"}
+  BATTLE_MEMBERS_LIST = {"FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"},
+
+  GREETING = {
+    DIALOG = {
+      STICKER_SEL = {
+        ONE   = {x = 377,  y = 528},
+        TWO   = {x = 970,  y = 528},
+        THREE = {x = 1531, y = 528},
+        FOUR  = {x = 377,  y = 780},
+        FIVE  = {x = 970,  y = 780},
+        SIX   = {x = 1531, y = 780},
+        SEVEN = {x = 377,  y = 1029},
+        EIGHT = {x = 970,  y = 1029},
+        NINE  = {x = 1531, y = 1029},
+
+        LIST = {
+          ONE   = {x = 172, y = 1276},
+          TWO   = {
+            x = 422,
+            y = 1276,
+            BORDER = {
+              {x = 292, y = 1300},
+              {x = 307, y = 1298},
+              {x = 324, y = 1270},
+              {x = 498, y = 1253},
+              {x = 516, y = 1272},
+              {x = 527, y = 1273}
+            }
+          },
+          THREE = {x = 645, y = 1276},
+          FOUR  = {x = 889, y = 1276},
+          FIVE  = {x = 1122, y = 1276},
+          SIX   = {x = 1359, y = 1276},
+          SEVEN = {x = 1592, y = 1276},
+          EIGHT = {x = 1832, y = 1276}
+        }
+      }
+    }
+  }
 }

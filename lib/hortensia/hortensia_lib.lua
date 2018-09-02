@@ -699,3 +699,35 @@ function sixhr_raid_complete()
 
   return false
 end
+
+
+--------------
+-- Greeting --
+--------------
+
+function greeting_dialog_sticker_list_scroll_right_once()
+  local bcs = greeting_dialog_sticker_sel_get_border_color()
+
+  if LOG_ENABLED then
+    log("greeting_dialog_sticker_list_scroll_right_once, trying to match colors")
+    LIST.fmap(function(loc)
+      log(string.format("color[%d], x[%f], y[%f]", loc.color, loc.x, loc.y))
+    end, bcs)
+  end
+
+  -- TODO: APPROX REGION COLOR MATCH is not supported with sliding
+  return run_with_approx_colors(false, function(k)
+    slide("LEFT",
+          function() return match_all_colors(bcs) end,
+          HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST.FIVE.x,
+          HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST.FIVE.y)
+
+    return k()
+  end)
+end
+
+function greeting_dialog_sticker_sel_get_border_color()
+  return LIST.fmap(function(loc)
+    return {x = loc.x, y = loc.y, color = cgetColor(loc.x, loc.y)}
+  end, HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST.TWO.BORDER)
+end

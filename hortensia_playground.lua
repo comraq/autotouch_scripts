@@ -12,7 +12,7 @@ if LOG_ENABLED then
 end
 
 --get_oath_boss_encountered_colors()
-get_oath_battle_party_select_insufficient_rp_consume_colors()
+--get_oath_battle_party_select_insufficient_rp_consume_colors()
 
 --[[
 while not match_all_colors(HORTENSIA.LOADING.RUNNING.COLORS) do
@@ -24,3 +24,4 @@ wait_network_loading()
 alert("loading completed!")
 --]]
 
+greeting_dialog_sticker_list_scroll_right_once()
