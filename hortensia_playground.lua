@@ -24,4 +24,5 @@ alert("loading completed!")
 --]]
 
 --missions_battle_select_scroll_down_once()
-get_mission_complete_colors()
+local res = mission_complete_EP_confirmed()
+alert(string.format("Got result [%s] from mission_complete_EP_confirmed", tostring(res)))

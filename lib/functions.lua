@@ -96,46 +96,50 @@ function thunk(x)
 end
 
 
-function retry(f)
+function retry(f, pred)
+
   return function(...)
-    return f(...)(function (cx, cy, action)
-      local orig_color = cgetColor(cx, cy)
+    return f(function (cx, cy, action)
+      local retry_pred = fif(pred, thunk(pred),
+                                   function() return act_color_changed(cx, cy) end)
 
-      local function g(color)
-        if orig_color ~= color then
-          if LOG_ENABLED then
-            log(string.format("color changed to:%d", color))
-          end
-          return
-        else
-          if LOG_ENABLED then
-            log(string.format("orig_color is:%d", orig_color))
-          end
-          action()
+      local res
+      repeat
+        res = action()
+      until retry_pred()
 
-          local c = cgetColor(cx,cy)
-          if LOG_ENABLED then
-            log(string.format("color after executing action is:%d", c))
-          end
+      return res
 
-          return g(c)
-        end
-      end
-
-      return g(orig_color)
-    end)
+    end, ...)
   end
 end
 
 function act_once(f)
   return function(...)
-    return f(...)(function (_cx, _cy, action)
+    return f(function (_cx, _cy, action)
       if LOG_ENABLED then
         log("executing action once")
       end
 
       return action()
-    end)
+    end, ...)
+  end
+end
+
+-- Retry predicate that returns true when the color before and after action has changed
+function act_color_changed(cx, cy)
+  local orig_color = cgetColor(cx, cy)
+  if LOG_ENABLED then
+    log(string.format("original color is [%d]", orig_color))
+  end
+
+  return function()
+    local c = cgetColor(cx,cy)
+    if LOG_ENABLED then
+      log(string.format("color after executing action is [%d]", c))
+    end
+
+    return orig_color ~= c
   end
 end
 

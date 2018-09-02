@@ -32,21 +32,19 @@ function tap_and_pause(x, y, pause, hold)
   sleep_sec(fif(pause, thunk(pause), thunk(DEFAULT_TAP_PAUSE_SEC)))
 end
 
-function generate_tap_function(name, cx, cy)
+function generate_act_function(name, cx, cy)
   local x,y = adjust_coords(cx, cy)
 
-  return function(pause, hold)
-    return function(k)
-      return k(cx, cy, function()
-        if LOG_ENABLED then
-          log(string.format("%s, x:%d, y:%d", name, x, y))
-          log(name .. ", pause:" .. (pause or "false/nil") .. ", hold:" .. (hold or "false/nil"))
-        end
+  return function(k, pause, hold)
+    return k(cx, cy, function()
+      if LOG_ENABLED then
+        log(string.format("%s, x:%d, y:%d", name, x, y))
+        log(name .. ", pause:" .. (pause or "false/nil") .. ", hold:" .. (hold or "false/nil"))
+      end
 
-        tap_and_pause(x, y, pause, hold)
-        wait_network_loading()
-      end)
-    end
+      tap_and_pause(x, y, pause, hold)
+      wait_network_loading()
+    end)
   end
 end
 
@@ -82,133 +80,133 @@ end
 -- Taps for buttons in various screens --
 -----------------------------------------
 
-home_tap_missions = generate_tap_function("home_tap_missions",
+home_tap_missions = generate_act_function("home_tap_missions",
                                           HORTENSIA.HOME.MISSIONS.x,
                                           HORTENSIA.HOME.MISSIONS.y)
-home_tap_status_bar = generate_tap_function("home_tap_status_bar",
+home_tap_status_bar = generate_act_function("home_tap_status_bar",
                                             HORTENSIA.HOME.STATUS_BAR.x,
                                             HORTENSIA.HOME.STATUS_BAR.y)
 
 
-missions_tap_home_or_back = generate_tap_function("missions_tap_home_or_back",
+missions_tap_home_or_back = generate_act_function("missions_tap_home_or_back",
                                                   HORTENSIA.MISSIONS.HOME_OR_BACK.x,
                                                   HORTENSIA.MISSIONS.HOME_OR_BACK.y)
-missions_tap_daily_missions = generate_tap_function("missions_tap_daily_missions",
+missions_tap_daily_missions = generate_act_function("missions_tap_daily_missions",
                                                     HORTENSIA.MISSIONS.DAILY.x,
                                                     HORTENSIA.MISSIONS.DAILY.y)
 missions_daily_tap_mission = function(mission_name)
   local name = "missions_daily_tap_mission_" .. mission_name
-  return generate_tap_function(name,
+  return generate_act_function(name,
                                HORTENSIA.MISSIONS.DAILY[mission_name].x,
                                HORTENSIA.MISSIONS.DAILY[mission_name].y)
 end
 missions_three_battles_tap_battle = function(number)
   local name = "missions_three_battles_tap_battle_" .. number
-  return generate_tap_function(name,
+  return generate_act_function(name,
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].x,
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].y)
 end
-missions_tap_dropdown = generate_tap_function("missions_tap_dropdown",
+missions_tap_dropdown = generate_act_function("missions_tap_dropdown",
                                               HORTENSIA.MISSIONS.DROPDOWN.x,
                                               HORTENSIA.MISSIONS.DROPDOWN.y)
-missions_dropdown_tap_giftbox = generate_tap_function("missions_dropdown_tap_giftbox",
+missions_dropdown_tap_giftbox = generate_act_function("missions_dropdown_tap_giftbox",
                                                       HORTENSIA.MISSIONS.DROPDOWN.GIFTBOX.x,
                                                       HORTENSIA.MISSIONS.DROPDOWN.GIFTBOX.y)
-missions_tap_boss = generate_tap_function("missions_tap_boss",
+missions_tap_boss = generate_act_function("missions_tap_boss",
                                           HORTENSIA.MISSIONS.BOSS.x,
                                           HORTENSIA.MISSIONS.BOSS.y)
 
 
-giftbox_tap_items = generate_tap_function("giftbox_tap_items",
+giftbox_tap_items = generate_act_function("giftbox_tap_items",
                                           HORTENSIA.GIFTBOX.ITEMS.x,
                                           HORTENSIA.GIFTBOX.ITEMS.y)
-giftbox_tap_cards = generate_tap_function("giftbox_tap_cards",
+giftbox_tap_cards = generate_act_function("giftbox_tap_cards",
                                           HORTENSIA.GIFTBOX.CARDS.x,
                                           HORTENSIA.GIFTBOX.CARDS.y)
-giftbox_tap_accept_once = generate_tap_function("giftbox_tap_accept_once",
+giftbox_tap_accept_once = generate_act_function("giftbox_tap_accept_once",
                                                 HORTENSIA.GIFTBOX.ACCEPT_ONCE.x,
                                                 HORTENSIA.GIFTBOX.ACCEPT_ONCE.y)
-giftbox_accepted_tap_confirm = generate_tap_function("giftbox_accepted_tap_confirm",
+giftbox_accepted_tap_confirm = generate_act_function("giftbox_accepted_tap_confirm",
                                                      HORTENSIA.GIFTBOX.ACCEPT_CONFIRMATION.x,
                                                      HORTENSIA.GIFTBOX.ACCEPT_CONFIRMATION.y)
 
 
-battle_helper_select_tap_first_helper = generate_tap_function("battle_helper_select_tap_first_helper",
+battle_helper_select_tap_first_helper = generate_act_function("battle_helper_select_tap_first_helper",
                                                               HORTENSIA.BATTLE.HELPER_SELECT.FIRST.x,
                                                               HORTENSIA.BATTLE.HELPER_SELECT.FIRST.y)
-battle_party_select_tap_confirm = generate_tap_function("battle_helper_select_tap_confirm",
+battle_party_select_tap_confirm = generate_act_function("battle_helper_select_tap_confirm",
                                                         HORTENSIA.BATTLE.PARTY_SELECT.CONFIRM.x,
                                                         HORTENSIA.BATTLE.PARTY_SELECT.CONFIRM.y)
-battle_party_select_tap_close = generate_tap_function("battle_helper_select_tap_close",
+battle_party_select_tap_close = generate_act_function("battle_helper_select_tap_close",
                                                       HORTENSIA.BATTLE.PARTY_SELECT.CLOSE.x,
                                                       HORTENSIA.BATTLE.PARTY_SELECT.CLOSE.y)
-battle_failed_tap_stone_resume = generate_tap_function("battle_failed_tap_stone_resume",
+battle_failed_tap_stone_resume = generate_act_function("battle_failed_tap_stone_resume",
                                                        HORTENSIA.BATTLE.FAILED.STONE_RESUME.x,
                                                        HORTENSIA.BATTLE.FAILED.STONE_RESUME.y)
-battle_failed_tap_retreat = generate_tap_function("battle_failed_tap_retreat",
+battle_failed_tap_retreat = generate_act_function("battle_failed_tap_retreat",
                                                   HORTENSIA.BATTLE.FAILED.RETREAT.x,
                                                   HORTENSIA.BATTLE.FAILED.RETREAT.y)
 
 
-mission_complete_rewards_tap_confirm = generate_tap_function("mission_complete_rewards_tap_confirm",
+mission_complete_rewards_tap_confirm = generate_act_function("mission_complete_rewards_tap_confirm",
                                                              HORTENSIA.BATTLE.COMPLETE.CONFIRM.x,
                                                              HORTENSIA.BATTLE.COMPLETE.CONFIRM.y)
-mission_complete_EP_tap_confirm = generate_tap_function("mission_complete_EP_tap_confirm",
+mission_complete_EP_tap_confirm = generate_act_function("mission_complete_EP_tap_confirm",
                                                         HORTENSIA.BATTLE.COMPLETE.CONFIRM.x,
                                                         HORTENSIA.BATTLE.COMPLETE.CONFIRM.y)
-mission_complete_tap_saved_mission = generate_tap_function("mission_complete_tap_saved_mission",
+mission_complete_tap_saved_mission = generate_act_function("mission_complete_tap_saved_mission",
                                                            HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.x,
                                                            HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.y)
 
 
 insufficient_ap_tap_potion = function(potion_name)
   local name = "insufficient_ap_tap_potion_" .. potion_name
-  return generate_tap_function(name,
+  return generate_act_function(name,
                                HORTENSIA.MISSIONS.INSUFFICIENT_AP[potion_name].x,
                                HORTENSIA.MISSIONS.INSUFFICIENT_AP[potion_name].y)
 end
-insufficient_ap_tap_consume_confirm = generate_tap_function("insufficient_ap_tap_consume_confirm",
+insufficient_ap_tap_consume_confirm = generate_act_function("insufficient_ap_tap_consume_confirm",
 							                                              HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUME_CONFIRM.x,
                                                             HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUME_CONFIRM.y)
-insufficient_ap_tap_consumed_still_insufficient_confirm = generate_tap_function("insufficient_ap_tap_consumed_still_insufficient_confirm",
+insufficient_ap_tap_consumed_still_insufficient_confirm = generate_act_function("insufficient_ap_tap_consumed_still_insufficient_confirm",
                                                             										HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.CONFIRM.x,
                                                             										HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUMED_STILL_INSUFFICIENT.CONFIRM.y)
 
 
-oath_encountered_tap_proceed = generate_tap_function("oath_encountered_tap_proceed",
+oath_encountered_tap_proceed = generate_act_function("oath_encountered_tap_proceed",
                                                      HORTENSIA.OATH.ENCOUNTERED.PROCEED.x,
                                                      HORTENSIA.OATH.ENCOUNTERED.PROCEED.y)
-oath_battle_prep_tap_proceed = generate_tap_function("oath_battle_prep_tap_proceed",
+oath_battle_prep_tap_proceed = generate_act_function("oath_battle_prep_tap_proceed",
                                                      HORTENSIA.OATH.BATTLE.PREP.PROCEED.x,
                                                      HORTENSIA.OATH.BATTLE.PREP.PROCEED.y)
 oath_battle_party_select_rp_select_tap_rp = function(rp)
   local name = "oath_battle_party_select_rp_select_tap_rp_" .. rp
-  return generate_tap_function(name,
+  return generate_act_function(name,
                                HORTENSIA.OATH.BATTLE.PARTY_SELECT.RP_SELECT[rp].x,
                                HORTENSIA.OATH.BATTLE.PARTY_SELECT.RP_SELECT[rp].y)
 end
-oath_battle_complete_tap_boss = generate_tap_function("oath_battle_complete_tap_boss",
+oath_battle_complete_tap_boss = generate_act_function("oath_battle_complete_tap_boss",
                                                       HORTENSIA.OATH.BATTLE.COMPLETE.BOSS.x,
                                                       HORTENSIA.OATH.BATTLE.COMPLETE.BOSS.y)
-oath_battle_complete_tap_oath_home = generate_tap_function("oath_battle_complete_tap_oath_home",
+oath_battle_complete_tap_oath_home = generate_act_function("oath_battle_complete_tap_oath_home",
                                                            HORTENSIA.OATH.BATTLE.COMPLETE.OATH_HOME.x,
                                                            HORTENSIA.OATH.BATTLE.COMPLETE.OATH_HOME.y)
-oath_battle_complete_tap_saved_mission = generate_tap_function("oath_battle_complete_tap_saved_mission",
+oath_battle_complete_tap_saved_mission = generate_act_function("oath_battle_complete_tap_saved_mission",
                                                                HORTENSIA.OATH.BATTLE.COMPLETE.SAVED_MISSION.x,
                                                                HORTENSIA.OATH.BATTLE.COMPLETE.SAVED_MISSION.y)
-oath_home_tap_missions = generate_tap_function("oath_home_tap_missions",
+oath_home_tap_missions = generate_act_function("oath_home_tap_missions",
                                                HORTENSIA.OATH.HOME.MISSIONS.x,
                                                HORTENSIA.OATH.HOME.MISSIONS.y)
-oath_home_tap_battle = generate_tap_function("oath_home_tap_battle",
+oath_home_tap_battle = generate_act_function("oath_home_tap_battle",
                                              HORTENSIA.OATH.HOME.BATTLE.x,
                                              HORTENSIA.OATH.HOME.BATTLE.y)
-oath_battle_party_select_consume_rp_tap_confirm = generate_tap_function("oath_battle_party_select_consume_rp",
+oath_battle_party_select_consume_rp_tap_confirm = generate_act_function("oath_battle_party_select_consume_rp",
                                                                         HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.x,
                                                                         HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.y)
-oath_battle_party_select_rp_consumed_tap_proceed = generate_tap_function("oath_battle_party_select_rp_consumed_tap_proceed",
+oath_battle_party_select_rp_consumed_tap_proceed = generate_act_function("oath_battle_party_select_rp_consumed_tap_proceed",
                                                                          HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.x,
                                                                          HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.CONSUME.CONFIRM.y)
-oath_battle_party_select_rp_purchase_tap_close = generate_tap_function("oath_battle_party_select_consume_rp",
+oath_battle_party_select_rp_purchase_tap_close = generate_act_function("oath_battle_party_select_consume_rp",
                                                                        HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.CLOSE.x,
                                                                        HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.CLOSE.y)
 
@@ -288,6 +286,18 @@ end
 
 function mission_failed()
   return match_all_colors(HORTENSIA.BATTLE.FAILED.COLORS)
+end
+
+function mission_complete_EP_confirmed()
+  local c,x,y = HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.COLOR.AVAILBLE,
+                HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.x,
+                HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.y
+
+  if LOG_ENABLED then
+    log(string.format("mission_complete_EP_confirmed, trying to match c[%d] at x[%f], y[%f]", c, x, y))
+  end
+
+  return match_color(c, x, y)
 end
 
 
