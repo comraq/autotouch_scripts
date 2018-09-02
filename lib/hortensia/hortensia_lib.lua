@@ -276,7 +276,14 @@ function activate_skill(member)
 end
 
 function mission_complete()
-  return match_all_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
+  local function f()
+    return match_all_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
+  end
+
+  if f() then
+    sleep_sec(2)
+    return f()
+  end
 end
 
 function mission_failed()
@@ -545,21 +552,14 @@ function missions_battle_select_scroll_down_once()
   end
 
   -- TODO: APPROX REGION COLOR MATCH is not supported with sliding
-  if LOG_ENABLED then
-    log(string.format("missions_battle_select_scroll_down_once, disabling APPROX_COLOR_MATCH from [%s]", tostring(APPROX_COLOR_MATCH)))
-  end
-  local approx_before = APPROX_COLOR_MATCH
-  APPROX_COLOR_MATCH = false
+  return run_with_approx_colors(false, function(k)
+    slide("UP",
+          function() return match_all_colors(bcs) end,
+          HORTENSIA.MISSIONS.THREE_BATTLES.THIRD.x,
+          HORTENSIA.MISSIONS.THREE_BATTLES.THIRD.y)
 
-  slide("UP",
-        function() return match_all_colors(bcs) end,
-        HORTENSIA.MISSIONS.THREE_BATTLES.THIRD.x,
-        HORTENSIA.MISSIONS.THREE_BATTLES.THIRD.y)
-
-  APPROX_COLOR_MATCH = approx_before
-  if LOG_ENABLED then
-    log(string.format("missions_battle_select_scroll_down_once, restoring APPROX_COLOR_MATCH to [%s]", tostring(APPROX_COLOR_MATCH)))
-  end
+    return k()
+  end)
 end
 
 function missions_battle_select_get_border_color()

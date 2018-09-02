@@ -70,7 +70,7 @@ function slide(dir, pred, x, y)
 
     ctouchMove(0, x1, y1)
     sleep_sec(DEFAULT_SLIDE_DUR_SEC)
-  until pred()
+  until pred(xt, -1 * yt)
 
   ctouchUp(0, x1, y1)
   sleep_sec(DEFAULT_SLIDE_END_SEC)

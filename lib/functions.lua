@@ -1,7 +1,7 @@
 DEFAULT_WIDTH = 2048
 DEFAULT_HEIGHT = 1536
 
-APPROX_COLOR_MATCH = true
+local APPROX_COLOR_MATCH = true
 local w_reg,h_reg = 20,14
 
 local WIDTH,HEIGHT = getScreenResolution();
@@ -17,6 +17,23 @@ end
 
 function out_of_bounds(x, y)
   return x < 0 or x > DEFAULT_WIDTH or y < 0 or y > DEFAULT_HEIGHT
+end
+
+function run_with_approx_colors(ac, f)
+  if LOG_ENABLED then
+    log(string.format("Setting APPROX_COLOR_MATCH from [%s] to new value [%s]", tostring(APPROX_COLOR_MATCH), tostring(ac)))
+  end
+  local approx_before = APPROX_COLOR_MATCH
+  APPROX_COLOR_MATCH = ac
+
+  return f(function(v)
+    if LOG_ENABLED then
+      log(string.format("Restoring APPROX_COLOR_MATCH to [%s]", tostring(approx_before)))
+    end
+    APPROX_COLOR_MATCH = approx_before
+
+    return v
+  end)
 end
 
 --------------------------------------------------
