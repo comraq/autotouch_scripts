@@ -16,11 +16,11 @@ local rp_amount = 1
 local rp_sel = retry(oath_battle_party_select_rp_select_tap_rp("RP"..tostring(rp_amount)))
 local battle_interval = 3
 
-local missions_third_battle = function()
-  return retry(missions_three_battles_tap_battle("THIRD"))(10)
+local missions_first_battle = function()
+  return retry(missions_three_battles_tap_battle("FIRST"))(10)
 end
-local missions_daily_first = function()
-  return retry(missions_daily_tap_mission("FIRST"))(10)
+local missions_daily_fourth = function()
+  return retry(missions_daily_tap_mission("FOURTH"))(10)
 end
 
 local oath_complete_saved_mission = retry(oath_battle_complete_tap_saved_mission)
@@ -85,7 +85,7 @@ function execute_with(mission_sel, on_oath_complete)
 end
 
 
-local execute = execute_with(missions_third_battle, oath_complete_saved_mission)
+local execute = execute_with(missions_first_battle, oath_complete_saved_mission)
 local function main()
   return execute(main)
 end

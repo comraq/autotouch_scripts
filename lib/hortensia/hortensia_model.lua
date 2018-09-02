@@ -91,26 +91,26 @@ HORTENSIA = {
     DAILY = {
       x = 1414,
       y = 1268,
-      FIRST = {
+      FOURTH = {
         x = 1134,
         y = 1139
       },
-      SECOND = {
+      THIRD = {
         x = 1134,
         y = 901
       },
-      THIRD = {
+      SECOND = {
         x = 1134,
         y = 666
       },
-      FOURTH = {
+      FIRST = {
         x = 1134,
         y = 429
       }
     },
 
     THREE_BATTLES = {
-      THIRD = {
+      FIRST = {
         x = 1511,
         y = 867
       },
@@ -120,7 +120,7 @@ HORTENSIA = {
         y = 1070
       },
 
-      FIRST = {
+      THIRD = {
         x = 1511,
         y = 1270
       }

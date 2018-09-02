@@ -12,7 +12,7 @@ if LOG_ENABLED then
 end
 
 local mission_sel = function()
-  return retry(missions_daily_tap_mission("FOURTH"))(10)
+  return retry(missions_daily_tap_mission("FIRST"))(10)
 end
 
 function execute(k)
