@@ -1,5 +1,3 @@
-functionsImport = io.open('/var/mobile/Library/AutoTouch/Scripts/utils/list.txt', "r")
-
 local foldl = function(f, init, list)
   local acc = init
   for i,v in ipairs(list) do
@@ -20,6 +18,27 @@ package.path = foldl(function(pkg_path, path)
   return pkg_path .. ";" .. path
 end, package.path, scripts_paths)
 
-for line in functionsImport:lines() do
-  require(line)
+
+local fns = {
+  -----------
+  -- Model --
+  -----------
+  "hortensia_model",
+
+
+  --------------------------
+  -- Generic Util Modules --
+  --------------------------
+  "functions",
+  "motions",
+
+  ------------------------
+  -- Hortensia Specific --
+  ------------------------
+  "hortensia_lib",
+  "hortensia_debug"
+}
+
+for _,fn in ipairs(fns) do
+  require(fn)
 end
