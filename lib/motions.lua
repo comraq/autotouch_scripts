@@ -40,6 +40,7 @@ DIRECTION = {
 local DEFAULT_SLIDE_BEGIN_SEC = 0.5
 local DEFAULT_SLIDE_END_SEC = 0.5
 local DEFAULT_SLIDE_DUR_SEC = 0.01
+local DEFAULT_SLIDE_INCR_COUNT = 1
 
 function slide(dir, pred, x, y)
   local xt,yt = x,y
@@ -57,7 +58,7 @@ function slide(dir, pred, x, y)
     end
 
     -- Multiply by -1 due to unadjusted y is calculated as a negative value when adjusted
-    xt,yt = get_new_coords(dir, xt, -1 * yt)
+    xt,yt = slide_increment(dir, xt, -1 * yt, 2)
     x1,y1 = adjust_coords(xt, -1 * yt)
 
     if x1 == nil or y1 == nil then
@@ -94,4 +95,15 @@ function get_new_coords(dir, x, y)
     return DIRECTION.RIGHT.get_coords(x, y)
 
   end
+end
+
+function slide_increment(dir, x, y, times)
+  local n = fif(times, thunk(times), thunk(DEFAULT_SLIDE_INCR_COUNT))
+
+  local xt,yt = x,y
+  for i = 1, n, 1 do
+    xt,yt = get_new_coords(dir, xt, yt)
+  end
+
+  return xt,yt
 end
