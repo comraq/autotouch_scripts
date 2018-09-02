@@ -495,7 +495,8 @@ end
 -- Loading Detection --
 -----------------------
 
-function wait_network_loading()
+-- Deprecated due to loading image changed
+function deprecated_wait_network_loading()
   if WAIT_LOADING then
     local ccs = LIST.fmap(function(c)
       return {
@@ -506,6 +507,17 @@ function wait_network_loading()
     end, HORTENSIA.LOADING.CIRCLE.CENTER.COLORS)
 
     while match_any_colors(ccs) do
+      if LOG_ENABLED then
+        log("waiting for network loading")
+      end
+      sleep_sec(1)
+    end
+  end
+end
+
+function wait_network_loading()
+  if WAIT_LOADING then
+    while match_all_colors(HORTENSIA.LOADING.RUNNING.COLORS) do
       if LOG_ENABLED then
         log("waiting for network loading")
       end
