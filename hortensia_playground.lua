@@ -23,4 +23,5 @@ wait_network_loading()
 alert("loading completed!")
 --]]
 
-missions_battle_select_scroll_down_one_battle()
+--missions_battle_select_scroll_down_once()
+get_mission_complete_colors()

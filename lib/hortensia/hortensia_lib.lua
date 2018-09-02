@@ -104,7 +104,7 @@ missions_daily_tap_mission = function(mission_name)
 end
 missions_three_battles_tap_battle = function(number)
   local name = "missions_three_battles_tap_battle_" .. number
-  return generate_tap_function("missions_tap_daily_missions",
+  return generate_tap_function(name,
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].x,
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].y)
 end
@@ -156,6 +156,9 @@ mission_complete_rewards_tap_confirm = generate_tap_function("mission_complete_r
 mission_complete_EP_tap_confirm = generate_tap_function("mission_complete_EP_tap_confirm",
                                                         HORTENSIA.BATTLE.COMPLETE.CONFIRM.x,
                                                         HORTENSIA.BATTLE.COMPLETE.CONFIRM.y)
+mission_complete_tap_saved_mission = generate_tap_function("mission_complete_tap_saved_mission",
+                                                           HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.x,
+                                                           HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.y)
 
 
 insufficient_ap_tap_potion = function(potion_name)
@@ -531,11 +534,11 @@ end
 -- Missions - Battle Select --
 ------------------------------
 
-function missions_battle_select_scroll_down_one_battle()
+function missions_battle_select_scroll_down_once()
   local bcs = missions_battle_select_get_border_color()
 
   if LOG_ENABLED then
-    log("missions_battle_select_scroll_down_one_battle, trying to match colors")
+    log("missions_battle_select_scroll_down_once, trying to match colors")
     LIST.fmap(function(loc)
       log(string.format("color[%d], x[%f], y[%f]", loc.color, loc.x, loc.y))
     end, bcs)
@@ -543,7 +546,7 @@ function missions_battle_select_scroll_down_one_battle()
 
   -- TODO: APPROX REGION COLOR MATCH is not supported with sliding
   if LOG_ENABLED then
-    log(string.format("missions_battle_select_scroll_down_one_battle, disabling APPROX_COLOR_MATCH from [%s]", tostring(APPROX_COLOR_MATCH)))
+    log(string.format("missions_battle_select_scroll_down_once, disabling APPROX_COLOR_MATCH from [%s]", tostring(APPROX_COLOR_MATCH)))
   end
   local approx_before = APPROX_COLOR_MATCH
   APPROX_COLOR_MATCH = false
@@ -555,7 +558,7 @@ function missions_battle_select_scroll_down_one_battle()
 
   APPROX_COLOR_MATCH = approx_before
   if LOG_ENABLED then
-    log(string.format("missions_battle_select_scroll_down_one_battle, restoring APPROX_COLOR_MATCH to [%s]", tostring(APPROX_COLOR_MATCH)))
+    log(string.format("missions_battle_select_scroll_down_once, restoring APPROX_COLOR_MATCH to [%s]", tostring(APPROX_COLOR_MATCH)))
   end
 end
 

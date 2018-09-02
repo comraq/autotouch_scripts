@@ -39,7 +39,7 @@ DIRECTION = {
 
 local DEFAULT_SLIDE_BEGIN_SEC = 0.5
 local DEFAULT_SLIDE_END_SEC = 0.5
-local DEFAULT_SLIDE_DUR_SEC = 0.001
+local DEFAULT_SLIDE_DUR_SEC = 0.01
 
 function slide(dir, pred, x, y)
   local xt,yt = x,y
