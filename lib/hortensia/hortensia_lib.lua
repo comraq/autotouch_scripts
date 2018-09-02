@@ -5,12 +5,13 @@
 local WAIT_LOADING = true
 local DEFAULT_TAP_PAUSE_SEC = 5
 local DEFAULT_TAP_DUR_SEC = 1
-local DEFAULT_BATTLE_DAEMON_INTERVAL_SEC = 5
+local DEFAULT_BATTLE_DAEMON_INTERVAL_SEC = 3
 local DEFAULT_SWIPE_LENGTH_RES = 500
 local DEFAULT_SWIPE_BEGIN_SEC = 0.5
 local DEFAULT_SWIPE_END_SEC = 0.5
 local DEFAULT_SWIPE_DUR_SEC = 0.1
 local DEFAULT_GIFTBOX_PAUSE_DUR_SEC = 10
+local DEFAULT_MISSION_COMPLETE_REAFFIRM_DELAY_SEC = 2
 
 
 function fif(cond, a, b)
@@ -157,6 +158,17 @@ mission_complete_EP_tap_confirm = generate_act_function("mission_complete_EP_tap
 mission_complete_tap_saved_mission = generate_act_function("mission_complete_tap_saved_mission",
                                                            HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.x,
                                                            HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.y)
+mission_complete_rank_up_tap_confirm = generate_act_function("mission_complete_rank_up_tap_confirm",
+                                                             HORTENSIA.BATTLE.COMPLETE.RANK_UP.CONFIRM.x,
+                                                             HORTENSIA.BATTLE.COMPLETE.RANK_UP.CONFIRM.y)
+mission_complete_ep_up_story_unlock_tap_confirm =
+  generate_act_function("mission_complete_ep_up_story_unlock_tap_confirm",
+                        HORTENSIA.BATTLE.COMPLETE.EP_UP.STORY_UNLOCK.CONFIRM.x,
+                        HORTENSIA.BATTLE.COMPLETE.EP_UP.STORY_UNLOCK.CONFIRM.y)
+mission_complete_ep_up_awakening_unlock_tap_confirm =
+  generate_act_function("mission_complete_ep_up_awakening_unlock_tap_confirm",
+                        HORTENSIA.BATTLE.COMPLETE.EP_UP.AWAKENING_UNLOCK.CONFIRM.x,
+                        HORTENSIA.BATTLE.COMPLETE.EP_UP.AWAKENING_UNLOCK.CONFIRM.y)
 
 
 insufficient_ap_tap_potion = function(potion_name)
@@ -274,13 +286,88 @@ function activate_skill(member)
 end
 
 function mission_complete()
-  local function f()
-    return match_all_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
-  end
+  if mission_complete_reaffirm(mission_complete_battle_complete, "battle_complete") then
+    return true
 
-  if f() then
-    sleep_sec(2)
-    return f()
+  elseif mission_complete_reaffirm(mission_complete_rank_up, "rank_up") then
+    return true
+
+  elseif mission_complete_reaffirm(mission_complete_ep_up_story_unlock, "ep_up_story_unlock") then
+    return true
+
+  elseif mission_complete_reaffirm(mission_complete_ep_up_awakening_unlock, "ep_up_awakening_unlock") then
+    return true
+
+  else
+    return false
+  end
+end
+
+function mission_complete_battle_complete()
+  return match_all_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
+end
+
+function mission_complete_reaffirm(pred, name)
+  if pred() then
+    sleep_sec(DEFAULT_MISSION_COMPLETE_REAFFIRM_DELAY_SEC)
+
+    local res = pred()
+    if LOG_ENABLED then
+      log(string.format("Detected mission complete with [%s], checking again with result [%s]", name, tostring(res)))
+    end
+    return res
+  end
+end
+
+function mission_complete_rank_up()
+  return match_all_colors(HORTENSIA.BATTLE.COMPLETE.RANK_UP.COLORS)
+end
+
+function mission_complete_ep_up_story_unlock()
+  return match_all_colors(HORTENSIA.BATTLE.COMPLETE.EP_UP.STORY_UNLOCK.COLORS)
+end
+
+function mission_complete_ep_up_awakening_unlock()
+  return match_all_colors(HORTENSIA.BATTLE.COMPLETE.EP_UP.AWAKENING_UNLOCK.COLORS)
+end
+
+function mission_complete_proceed_to_rewards_confirm(pause, hold)
+  while true do
+    if LOG_ENABLED then
+      log("entering mission_complete_proceed_to_rewards_confirm loop")
+    end
+
+    if mission_complete_EP_confirmed() then
+      if LOG_ENABLED then
+        log("proceed_to_rewards_confirm, EP_confirmed")
+      end
+      return
+
+    elseif mission_complete_battle_complete() then
+      if LOG_ENABLED then
+        log("proceed_to_rewards_confirm, EP_tap_confirm")
+      end
+      retry(mission_complete_EP_tap_confirm, mission_complete_EP_confirmed)(pause, hold)
+
+    elseif mission_complete_rank_up() then
+      if LOG_ENABLED then
+        log("proceed_to_rewards_confirm, rank_up_tap_confirm")
+      end
+      retry(mission_complete_rank_up_tap_confirm)(pause, hold)
+
+    elseif mission_complete_ep_up_story_unlock() then
+      if LOG_ENABLED then
+        log("proceed_to_rewards_confirm, ep_up_story_unlock_tap_confirm")
+      end
+      retry(mission_complete_ep_up_story_unlock_tap_confirm)(pause, hold)
+
+    elseif mission_complete_ep_up_awakening_unlock() then
+      if LOG_ENABLED then
+        log("proceed_to_rewards_confirm, ep_up_awakening_unlock_tap_confirm")
+      end
+      retry(mission_complete_ep_up_awakening_unlock_tap_confirm)(pause, hold)
+
+    end
   end
 end
 
@@ -299,7 +386,6 @@ function mission_complete_EP_confirmed()
 
   return match_color(c, x, y)
 end
-
 
 
 ----------

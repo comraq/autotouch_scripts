@@ -195,3 +195,117 @@ function get_loading_running_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_rank_up_colors()
+  local cs = {
+    {621,357},
+    {623,421},
+    {622,476},
+    {691,368},
+    {673,417},
+    {704,479},
+    {749,399},
+    {760,440},
+    {817,452},
+    {750,483},
+    {824,489},
+    {878,406},
+    {876,476},
+    {917,397},
+    {948,421},
+    {951,483},
+
+    {1010,357},
+    {1014,473},
+    {1073,395},
+    {1062,436},
+    {1084,479},
+
+    {1210,361},
+    {1210,447},
+    {1260,489},
+    {1304,459},
+    {1302,371},
+
+    {1364,360},
+    {1429,370},
+    {1357,420},
+    {1395,416},
+    {1360,484}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
+
+function get_ep_up_story_unlock_colors()
+  local hcs = {
+    {{1160,232}, {1960,232}},
+
+    {{1210,995}, {1910,995}},
+
+    {{1159,1182}, {1959,1182}}
+  }
+
+  local vcs = {
+    {{1115,301}, {1115,1101}},
+
+    {{2009,260}, {2009,1160}},
+  }
+
+  log("horizontal list colors")
+  LIST.fmap(function(p)
+    local xi, yi = p[1][1], p[1][2]
+    local xe = p[2][1]
+    for cx = xi, xe, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", cx, yi, getColor(cx, yi)))
+    end
+  end, hcs)
+
+  log("vertical list colors")
+  LIST.fmap(function(p)
+    local xi, yi = p[1][1], p[1][2]
+    local ye = p[2][2]
+    for cy = yi, ye, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", xi, cy, getColor(xi, cy)))
+    end
+  end, vcs)
+end
+
+function get_ep_up_awakening_unlock_colors()
+  local hcs = {
+    {{1160,232}, {1960,232}},
+
+    {{1159,1081}, {1959,1081}}
+  }
+
+  local vcs = {
+    {{1115,301}, {1115,1001}},
+
+    {{2009,260}, {2009,1060}},
+  }
+
+  log("horizontal list colors")
+  LIST.fmap(function(p)
+    local xi, yi = p[1][1], p[1][2]
+    local xe = p[2][1]
+    for cx = xi, xe, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", cx, yi, getColor(cx, yi)))
+    end
+  end, hcs)
+
+  log("vertical list colors")
+  LIST.fmap(function(p)
+    local xi, yi = p[1][1], p[1][2]
+    local ye = p[2][2]
+    for cy = yi, ye, 100
+    do
+      log(string.format("{x = %d, y = %d, color = %d},", xi, cy, getColor(xi, cy)))
+    end
+  end, vcs)
+end

@@ -38,11 +38,11 @@ end
 ---------------------------------
 
 local battle_complete_saved_mission = function()
-  retry(mission_complete_EP_tap_confirm, mission_complete_EP_confirmed)()
+  mission_complete_proceed_to_rewards_confirm()
   retry(mission_complete_tap_saved_mission)()
 end
 local battle_complete_daily_missions = function()
-  retry(mission_complete_EP_tap_confirm, mission_complete_EP_confirmed)()
+  mission_complete_proceed_to_rewards_confirm()
   retry(mission_complete_rewards_tap_confirm)()
 end
 

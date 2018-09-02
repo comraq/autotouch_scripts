@@ -14,7 +14,6 @@ end
 
 local rp_amount = 1
 local rp_sel = retry(oath_battle_party_select_rp_select_tap_rp("RP"..tostring(rp_amount)))
-local battle_interval = 3
 
 -------------------------------
 -- Options for Battle Select --
@@ -48,7 +47,7 @@ function execute_with(mission_sel, on_oath_complete)
 
       return in_battle_daemon()(function()
 
-        retry(mission_complete_EP_tap_confirm, mission_complete_EP_confirmed)()
+        mission_complete_proceed_to_rewards_confirm()
         retry(mission_complete_rewards_tap_confirm)(10)
 
         if (not encountered_oath()) then
@@ -62,7 +61,7 @@ function execute_with(mission_sel, on_oath_complete)
 
           return with_insufficient_rp_check(rp_sel, 1, ALLOW_RP_POTIONS)(function()
 
-            return in_battle_daemon(oath_battle_complete, battle_interval)(function()
+            return in_battle_daemon(oath_battle_complete)(function()
               on_oath_complete()
               return k()
             end, function()
