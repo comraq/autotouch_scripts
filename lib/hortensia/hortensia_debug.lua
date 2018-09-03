@@ -309,3 +309,50 @@ function get_ep_up_awakening_unlock_colors()
     end
   end, vcs)
 end
+
+function get_not_greeted_dialog_colors()
+  local cs = {
+    {431,472},
+    {482,463},
+    {535,472},
+    {483,493},
+    {432,526},
+    {548,557},
+    {971,531},
+    {1654,512},
+    {450,783},
+    {684,770},
+    {889,772},
+    {1026,772},
+    {1161,775},
+    {1405,767},
+    {1612,772}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
+
+function get_greeted_dialog_colors()
+  local cs = {
+    {392,396},
+    {447,529},
+    {535,472},
+    {504,554},
+    {535,600},
+    {553,617},
+    {978,601},
+    {1587,366},
+    {685,797},
+    {917,814},
+    {1160,806},
+    {1532,805},
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end

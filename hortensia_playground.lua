@@ -11,9 +11,6 @@ if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
---get_oath_boss_encountered_colors()
---get_oath_battle_party_select_insufficient_rp_consume_colors()
-
 --[[
 while not match_all_colors(HORTENSIA.LOADING.RUNNING.COLORS) do
   log("loading image not detected")
@@ -24,4 +21,7 @@ wait_network_loading()
 alert("loading completed!")
 --]]
 
-greeting_dialog_sticker_list_scroll_right_once()
+for i = 1, 3, 1 do
+  friends_list_scroll_down_once()
+end
+

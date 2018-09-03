@@ -230,6 +230,33 @@ sixhr_raid_complete_tap_home = generate_act_function("sixhr_raid_complete_tap_ho
                                                      HORTENSIA.SIXHR.RAID.COMPLETE.HOME.y)
 
 
+friends_list_tap_greet = function(n)
+  local name = "friends_list_tap_greet" .. n
+  return generate_act_function(name,
+                               HORTENSIA.FRIENDS_LIST[n].GREET.x,
+                               HORTENSIA.FRIENDS_LIST[n].GREET.y)
+end
+
+greeting_dialog_not_greeted_tap_stickers = generate_act_function("greeting_dialog_not_greeted_tap_stickers",
+                                                                 HORTENSIA.GREETING.DIALOG.NOT_GREETED.STICKERS.x,
+                                                                 HORTENSIA.GREETING.DIALOG.NOT_GREETED.STICKERS.y)
+greeting_dialog_greeted_tap_close = generate_act_function("greeting_dialog_greeted_tap_close",
+                                                          HORTENSIA.GREETING.DIALOG.GREETED.CLOSE.x,
+                                                          HORTENSIA.GREETING.DIALOG.GREETED.CLOSE.y)
+
+stickers_tap_sticker = function(n)
+  local name = "stickers_tap_sticker" .. n
+  return generate_act_function(name,
+                               HORTENSIA.GREETING.DIALOG.STICKER_SEL[n].x,
+                               HORTENSIA.GREETING.DIALOG.STICKER_SEL[n].y)
+end
+stickers_list_tap_coll = function(n)
+  local name = "stickers_list_tap_coll" .. n
+  return generate_act_function(name,
+                               HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST[n].x,
+                               HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST[n].y)
+end
+
 
 ----------------------
 -- In Battle Daemon --
@@ -726,8 +753,43 @@ function greeting_dialog_sticker_list_scroll_right_once()
   end)
 end
 
+function friends_list_scroll_down_once()
+  local bcs = first_friend_rank_get_border_color()
+
+  if LOG_ENABLED then
+    log("friends_list_scroll_down_once, trying to match colors")
+    LIST.fmap(function(loc)
+      log(string.format("color[%d], x[%f], y[%f]", loc.color, loc.x, loc.y))
+    end, bcs)
+  end
+
+  -- TODO: APPROX REGION COLOR MATCH is not supported with sliding
+  return run_with_approx_colors(false, function(k)
+    slide("UP",
+          function() return match_all_colors(bcs) end,
+          HORTENSIA.FRIENDS_LIST.THIRD.CENTER.x,
+          HORTENSIA.FRIENDS_LIST.THIRD.CENTER.y)
+
+    return k()
+  end)
+end
+
 function greeting_dialog_sticker_sel_get_border_color()
   return LIST.fmap(function(loc)
     return {x = loc.x, y = loc.y, color = cgetColor(loc.x, loc.y)}
   end, HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST.TWO.BORDER)
+end
+
+function first_friend_rank_get_border_color()
+  return LIST.fmap(function(loc)
+    return {x = loc.x, y = loc.y, color = cgetColor(loc.x, loc.y)}
+  end, HORTENSIA.FRIENDS_LIST.FIRST.RANK_BORDER)
+end
+
+function not_greeted_dialog()
+  return match_all_colors(HORTENSIA.GREETING.DIALOG.NOT_GREETED.COLORS)
+end
+
+function greeted_dialog()
+  return match_all_colors(HORTENSIA.GREETING.DIALOG.GREETED.COLORS)
 end
