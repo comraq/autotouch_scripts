@@ -31,6 +31,9 @@ local missions_sixth_battle = function()
   end
   return retry(missions_three_battles_tap_battle("THIRD"))(10)
 end
+local missions_first_battle = function()
+  return retry(missions_three_battles_tap_battle("FIRST"))(10)
+end
 
 
 ---------------------------------
@@ -62,7 +65,7 @@ function execute_with(mission_sel, on_battle_complete)
   end
 end
 
-local execute = execute_with(missions_sixth_battle, battle_complete_saved_mission)
+local execute = execute_with(missions_first_battle, battle_complete_saved_mission)
 local function main()
   return execute(main)
 end

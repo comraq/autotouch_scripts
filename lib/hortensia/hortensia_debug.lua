@@ -78,7 +78,7 @@ function get_oath_boss_encountered_colors()
     log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
   end
 
-  local init_x1, cy1 = 1048, 1245
+  local init_x1, cy1 = 1148, 1245
   local final_x1 = 1948
   for cx1 = init_x1, final_x1, 100
   do

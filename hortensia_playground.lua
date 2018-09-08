@@ -11,7 +11,8 @@ if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
 end
 
---get_loading_running_colors()
+--get_oath_boss_encountered_colors()
+get_oath_battle_party_select_insufficient_rp_consume_colors()
 
 --[[
 while not match_all_colors(HORTENSIA.LOADING.RUNNING.COLORS) do
@@ -23,15 +24,3 @@ wait_network_loading()
 alert("loading completed!")
 --]]
 
---missions_battle_select_scroll_down_once()
-
-local a,b,c = mission_complete_rank_up(),mission_complete_ep_up_story_unlock(),mission_complete_ep_up_awakening_unlock()
-log(string.format("rank_up[%s], story_unlock[%s], awakening_unlock[%s]", tostring(a), tostring(b), tostring(c)))
-
-local mc = mission_complete()
-log(string.format("mission_complete[%s]", tostring(mc)))
-
-if mc then
-  mission_complete_proceed_to_rewards_confirm()
-  retry(mission_complete_rewards_tap_confirm)()
-end

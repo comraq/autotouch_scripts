@@ -222,6 +222,13 @@ oath_battle_party_select_rp_purchase_tap_close = generate_act_function("oath_bat
                                                                        HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.CLOSE.x,
                                                                        HORTENSIA.OATH.BATTLE.PARTY_SELECT.INSUFFICIENT_RP.PURCHASE.CLOSE.y)
 
+sixhr_home_tap_sp_mission = generate_act_function("sixhr_home_tap_sp_mission",
+                                                  HORTENSIA.SIXHR.HOME.SP_MISSION.x,
+                                                  HORTENSIA.SIXHR.HOME.SP_MISSION.y)
+sixhr_raid_complete_tap_home = generate_act_function("sixhr_raid_complete_tap_home",
+                                                     HORTENSIA.SIXHR.RAID.COMPLETE.HOME.x,
+                                                     HORTENSIA.SIXHR.RAID.COMPLETE.HOME.y)
+
 
 
 ----------------------
@@ -429,6 +436,9 @@ function with_insufficient_rp_check(action, rp_amount, allow_potions)
     local rp_consume = insufficient_rp_consume()
     local rp_purchase = insufficient_rp_purchase()
     if (not rp_consume) and (not rp_purchase) then
+      if LOG_ENABLED then
+        log("RP sufficient, proceeding to battle")
+      end
       return k()
     end
 
@@ -662,4 +672,30 @@ function missions_battle_select_get_border_color()
   return LIST.fmap(function(loc)
     return {x = loc.x, y = loc.y, color = cgetColor(loc.x, loc.y)}
   end, HORTENSIA.MISSIONS.BATTLE_SELECT.THIRD_BATTLE.BORDER)
+end
+
+
+--------------
+-- 6HR Raid --
+--------------
+
+function encountered_sixhr_raid()
+  return match_all_colors(HORTENSIA.SIXHR.RAID.ENCOUNTERED.COLORS)
+end
+
+function sixhr_raid_complete()
+  for i = 1,10,1 do
+    act_once(oath_battle_complete_tap_boss)(0.5, 0.5)
+  end
+
+  local function f()
+    return match_all_colors(HORTENSIA.SIXHR.RAID.COMPLETE.COLORS)
+  end
+
+  if f() then
+    sleep_sec(2)
+    return f()
+  end
+
+  return false
 end
