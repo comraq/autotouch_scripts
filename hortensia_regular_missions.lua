@@ -18,9 +18,17 @@ end
 -- Options for Battle Select --
 -------------------------------
 
+-- Daily
 local missions_daily = function()
   return retry(missions_daily_tap_mission("FIRST"))(10)
 end
+
+-- First battle
+local missions_first_battle = function()
+  return retry(missions_three_battles_tap_battle("FIRST"))(10)
+end
+
+-- Sixth battle
 local missions_sixth_battle = function()
   -- Scrolling Down 3 times and selecting the third battle in screen
   -- ie: the 6th battle in the current battle select interface
@@ -31,9 +39,10 @@ local missions_sixth_battle = function()
   end
   return retry(missions_three_battles_tap_battle("THIRD"))(10)
 end
-local missions_first_battle = function()
-  return retry(missions_three_battles_tap_battle("FIRST"))(10)
-end
+
+-- United sp_mission
+local united_sp_mission = retry(united_battle_home_tap_sp_mission)
+
 
 
 ---------------------------------
@@ -44,7 +53,7 @@ local battle_complete_saved_mission = function()
   mission_complete_proceed_to_rewards_confirm()
   retry(mission_complete_tap_saved_mission)()
 end
-local battle_complete_daily_missions = function()
+local battle_complete_confirm = function()
   mission_complete_proceed_to_rewards_confirm()
   retry(mission_complete_rewards_tap_confirm)()
 end
@@ -65,7 +74,14 @@ function execute_with(mission_sel, on_battle_complete)
   end
 end
 
-local execute = execute_with(missions_first_battle, battle_complete_saved_mission)
+local execute = execute_with(
+                             --missions_first_battle
+                             united_sp_mission
+                             ,
+
+                             --battle_complete_saved_mission
+                             battle_complete_confirm
+                             )
 local function main()
   return execute(main)
 end

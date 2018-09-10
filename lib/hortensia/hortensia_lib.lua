@@ -257,6 +257,11 @@ stickers_list_tap_coll = function(n)
                                HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST[n].y)
 end
 
+united_battle_home_tap_sp_mission = generate_act_function("united_battle_home_tap_sp_mission",
+                                                          HORTENSIA.UNITED_BATTLE.HOME.SP_MISSION.x,
+                                                          HORTENSIA.UNITED_BATTLE.HOME.SP_MISSION.y)
+
+
 
 ----------------------
 -- In Battle Daemon --

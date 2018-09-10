@@ -993,5 +993,14 @@ HORTENSIA = {
       GREET = {x = 1881, y = 1187},
       CENTER = {x = 1491, y = 1219}
     },
+  },
+
+  UNITED_BATTLE = {
+    HOME = {
+      SP_MISSION = {
+        x = 1942,
+        y = 1225
+      }
+    }
   }
 }
