@@ -29,8 +29,10 @@ local fns = {
   --------------------------
   -- Generic Util Modules --
   --------------------------
+  "device",
   "functions",
   "motions",
+
 
   ------------------------
   -- Hortensia Specific --

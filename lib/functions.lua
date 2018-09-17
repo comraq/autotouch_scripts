@@ -41,19 +41,30 @@ end
 --------------------------------------------------
 
 function cgetColor(x, y)
-  return getColor(w * x, h * y)
+  if ipad_air() then
+    if LOG_ENABLED then
+      log(string.format("ipad_air true, getColor(w[%f] * x[%f], h[%f] * y[%f])", w, x, h, y))
+    end
+    return getColor(w * x, h * y)
+  else
+    local x1,y1 = adjust_coords(x, y)
+    if LOG_ENABLED then
+      log(string.format("ipad_air false, getColor(h[%f] * x1[%f], w[%f] * y1[%f])", h, x1, w, y1))
+    end
+    return getColor(h * x1, w * y1)
+  end
 end
 
 function ctouchDown(id, x, y)
-  return touchDown(id, w * x, h * y)
+  return touchDown(id, h * x, w * y)
 end
 
 function ctouchUp(id, x, y)
-  return touchUp(id, w * x, h * y)
+  return touchUp(id, h * x, w * y)
 end
 
 function ctouchMove(id, x, y)
-  return touchMove(id, w * x, h * y)
+  return touchMove(id, h * x, w * y)
 end
 
 -- The public function with additional logic to match color c at location x,y
@@ -130,13 +141,13 @@ end
 function act_color_changed(cx, cy)
   local orig_color = cgetColor(cx, cy)
   if LOG_ENABLED then
-    log(string.format("original color is [%d]", orig_color))
+    log(string.format("cx[%f], cy[%f], original color is [%d]", cx, cy, orig_color))
   end
 
   return function()
     local c = cgetColor(cx,cy)
     if LOG_ENABLED then
-      log(string.format("color after executing action is [%d]", c))
+      log(string.format("cx[%f], cy[%f], color after executing action is [%d]", cx, cy, c))
     end
 
     return orig_color ~= c
