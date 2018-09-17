@@ -41,7 +41,9 @@ local missions_sixth_battle = function()
 end
 
 -- United sp_mission
-local united_sp_mission = retry(united_battle_home_tap_sp_mission)
+local united_sp_mission = function()
+  return retry(united_battle_home_tap_sp_mission)(10)
+end
 
 
 
@@ -51,11 +53,11 @@ local united_sp_mission = retry(united_battle_home_tap_sp_mission)
 
 local battle_complete_saved_mission = function()
   mission_complete_proceed_to_rewards_confirm()
-  retry(mission_complete_tap_saved_mission)()
+  return retry(mission_complete_tap_saved_mission)()
 end
 local battle_complete_confirm = function()
   mission_complete_proceed_to_rewards_confirm()
-  retry(mission_complete_rewards_tap_confirm)()
+  return retry(mission_complete_rewards_tap_confirm)(10)
 end
 
 
@@ -75,12 +77,14 @@ function execute_with(mission_sel, on_battle_complete)
 end
 
 local execute = execute_with(
-                             --missions_first_battle
-                             united_sp_mission
+                             missions_first_battle
+                             --missions_sixth_battle
+                             --united_sp_mission
+                             --missions_daily
                              ,
 
-                             --battle_complete_saved_mission
-                             battle_complete_confirm
+                             battle_complete_saved_mission
+                             --battle_complete_confirm
                              )
 local function main()
   return execute(main)
