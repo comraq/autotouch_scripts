@@ -117,6 +117,18 @@ missions_tap_boss = generate_act_function("missions_tap_boss",
                                           HORTENSIA.MISSIONS.BOSS.x,
                                           HORTENSIA.MISSIONS.BOSS.y)
 
+missions_tap_knights_quest_tab = generate_act_function("missions_tap_knights_quest_tab",
+                                                       HORTENSIA.MISSIONS.KNIGHTS_QUEST.TAB.x,
+                                                       HORTENSIA.MISSIONS.KNIGHTS_QUEST.TAB.y)
+
+
+missions_knights_quest_tap_quest = function(number)
+  local name = "missions_knights_quest_tap_quest_" .. number
+  return generate_act_function(name,
+                               HORTENSIA.MISSIONS.KNIGHTS_QUEST[number].x,
+                               HORTENSIA.MISSIONS.KNIGHTS_QUEST[number].y)
+end
+
 
 giftbox_tap_items = generate_act_function("giftbox_tap_items",
                                           HORTENSIA.GIFTBOX.ITEMS.x,

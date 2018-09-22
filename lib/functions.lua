@@ -182,3 +182,9 @@ LIST = {
     return acc
   end
 }
+
+FUNCTIONS = {
+  id = function(...)
+    return ...
+  end
+}

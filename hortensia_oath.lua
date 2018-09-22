@@ -37,8 +37,15 @@ local oath_complete_daily_missions = function()
   retry(missions_tap_daily_missions)()
 end
 
+--------------------------------------
+-- Options for Oath Not Encountered --
+--------------------------------------
+local oath_not_encountered_third_knight_quest = retry(missions_knights_quest_tap_quest("THIRD"))
+local oath_not_encountered_noop = FUNCTIONS.id
 
-function execute_with(mission_sel, on_oath_complete)
+
+
+function execute_with(mission_sel, on_oath_complete, oath_not_encountered)
   return function(k)
     return with_insufficient_ap_check(mission_sel, ALLOWED_AP_OPTIONS)(function()
       -- Regular Mission
@@ -51,6 +58,7 @@ function execute_with(mission_sel, on_oath_complete)
         retry(mission_complete_rewards_tap_confirm)(10)
 
         if (not encountered_oath()) then
+          oath_not_encountered()
           return k()
         end
 
@@ -93,7 +101,7 @@ function execute_with(mission_sel, on_oath_complete)
 end
 
 
-local execute = execute_with(missions_first_battle, oath_complete_saved_mission)
+local execute = execute_with(missions_first_battle, oath_complete_saved_mission, oath_not_encountered_third_knight_quest)
 local function main()
   return execute(main)
 end

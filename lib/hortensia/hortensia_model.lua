@@ -123,6 +123,28 @@ HORTENSIA = {
       }
     },
 
+    KNIGHTS_QUEST = {
+      TAB = {
+        x = 1033,
+        y = 1280
+      },
+
+      FIRST = {
+        x = 1568,
+        y = 551
+      },
+
+      SECOND = {
+        x = 1559,
+        y = 775
+      },
+
+      THIRD = {
+        x = 1544,
+        y = 989
+      }
+    },
+
     DAILY = {
       x = 1414,
       y = 1268,

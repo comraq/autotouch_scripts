@@ -25,6 +25,7 @@ for i = 1, 3, 1 do
 end
 --]]
 
+--[[
 local x1,y1 = 1511, 867
 log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
 
@@ -33,4 +34,8 @@ log(string.format("x[%f], y[%f], c[%d]", x2, y2, getColor(x2, y2)))
 
 log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
+--]]
 
+a,b,c = FUNCTIONS.id(1,2)
+
+log(string.format("a[%d], b[%d], c[%s]", a,b,tostring(c)))
