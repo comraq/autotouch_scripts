@@ -125,7 +125,7 @@ function get_oath_battle_party_select_insufficient_rp_purchase_colors()
   local coords_list = {
     {{608,500}, {1408,500}},
     {{608,690}, {1408,690}},
-    {{600,801}, {1400,801}}
+    {{900,801}, {1400,801}}
   }
 
   LIST.fmap(function(coords)
