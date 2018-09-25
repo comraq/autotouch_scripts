@@ -7,6 +7,7 @@ ALLOWED_AP_OPTIONS = {
   "APMAX"
 }
 ALLOW_RP_POTIONS = true
+FINAL_WAVE_SKILL = true
 
 if LOG_ENABLED then
   log("\n\n\nbegin script logging:")

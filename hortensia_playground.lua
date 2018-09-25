@@ -36,6 +36,4 @@ log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 --]]
 
-a,b,c = FUNCTIONS.id(1,2)
-
-log(string.format("a[%d], b[%d], c[%s]", a,b,tostring(c)))
+get_final_wave_colors()

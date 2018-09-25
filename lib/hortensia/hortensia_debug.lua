@@ -356,3 +356,30 @@ function get_greeted_dialog_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_final_wave_colors()
+  local cs = {
+    {25,1127},
+    {25,1133},
+    {56,1140},
+    {72,1139},
+    {79,1126},
+    {92,1135},
+    {129,1135},
+    {166,1150},
+
+    {208,1128},
+    {243,1140},
+    {256,1144},
+    {278,1139},
+    {280,1154},
+    {291,1143},
+    {297,1131},
+    {311,1143}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end

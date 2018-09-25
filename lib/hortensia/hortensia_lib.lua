@@ -310,7 +310,9 @@ function in_battle_daemon(battle_complete, interval)
       log("battle not complete")
     end
 
-    LIST.fmap(activate_skill, HORTENSIA.BATTLE_MEMBERS_LIST)
+    if FINAL_WAVE_SKILL and is_final_wave() then
+      LIST.fmap(activate_skill, HORTENSIA.BATTLE_MEMBERS_LIST)
+    end
     sleep_sec(fif(interval, thunk_interval, thunk_default_interval))
 
     return f(succ_k, fail_k)
@@ -436,6 +438,10 @@ function mission_complete_EP_confirmed()
   end
 
   return match_color(c, x, y)
+end
+
+function is_final_wave()
+  return match_all_colors(HORTENSIA.IN_BATTLE.WAVE.FINAL.COLORS)
 end
 
 
