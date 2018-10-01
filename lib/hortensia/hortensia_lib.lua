@@ -310,7 +310,7 @@ function in_battle_daemon(battle_complete, interval)
       log("battle not complete")
     end
 
-    if FINAL_WAVE_SKILL and is_final_wave() then
+    if not FINAL_WAVE_SKILL or is_final_wave() then
       LIST.fmap(activate_skill, HORTENSIA.BATTLE_MEMBERS_LIST)
     end
     sleep_sec(fif(interval, thunk_interval, thunk_default_interval))
