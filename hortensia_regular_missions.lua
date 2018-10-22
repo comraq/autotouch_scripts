@@ -1,6 +1,7 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = false
+FINAL_WAVE_SKILL = true
 ALLOWED_AP_OPTIONS = {
   --"AP10",
   --"AP30",
@@ -20,7 +21,7 @@ end
 
 -- Daily
 local missions_daily = function()
-  return retry(missions_daily_tap_mission("FIRST"))(10)
+  return retry(missions_daily_tap_mission("THIRD"))(10)
 end
 
 -- First battle
@@ -77,14 +78,14 @@ function execute_with(mission_sel, on_battle_complete)
 end
 
 local execute = execute_with(
-                             missions_first_battle
+                             --missions_first_battle
                              --missions_sixth_battle
                              --united_sp_mission
-                             --missions_daily
+                             missions_daily
                              ,
 
-                             battle_complete_saved_mission
-                             --battle_complete_confirm
+                             --battle_complete_saved_mission
+                             battle_complete_confirm
                              )
 local function main()
   return execute(main)
