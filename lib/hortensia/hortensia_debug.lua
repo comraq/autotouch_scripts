@@ -380,3 +380,41 @@ function get_final_wave_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_magonia_battle_complete_colors()
+  local cs = {
+    {1000,890},
+    {1100,890},
+    {1200,890},
+    {1300,890},
+    {1400,890},
+    {1500,890},
+    {1600,890},
+    {1700,890},
+    {1800,890},
+    {1900,890},
+    {2000,890}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
+
+function get_magonia_battle_unit_select_colors()
+  local cs = {
+    {1292,1249},
+    {383,1269},
+    {592,1269},
+    {103,1269},
+    {1328,1125},
+    {1255,307},
+    {1106,251}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end

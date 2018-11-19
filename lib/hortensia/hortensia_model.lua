@@ -906,6 +906,90 @@ HORTENSIA = {
     },
   },
 
+  MAGONIA = {
+    POTS = {
+      FIRST = {
+        BREAK = {
+          x = 767,
+          y = 683,
+          COLOR = {AVAILABLE = 1739750},
+          CONFIRM = {
+            NORMAL = {x = 1121, y = 689},
+            HAMMER = {x = 1147, y = 689}
+          }
+        }
+      }
+    },
+
+    HOME = {
+      POTS = {
+        x = 1690,
+        y = 505
+      },
+
+      MISSIONS = {
+        FIRST = {x = 1514, y = 990},
+        SECOND = {x = 1694, y = 990},
+        THIRD = {x = 1899, y = 990},
+      }
+    },
+
+    BOSS = {
+      APPEARED = {
+        SKIP = {x = 1931, y = 258}
+      },
+
+      UNIT_SELECT = {
+        RAID_TOP = {x = 1255, y = 307},
+        REFRESH = {x = 103, y = 1269},
+        BP_RECOVER = {
+          x = 383,
+          y = 1269,
+          TWO_MINS = {x = 532, y = 556},
+          COMPLETE = {x = 1783, y = 785}
+        },
+        AID_REQUEST = {
+          x = 592,
+          y = 1269,
+          ALL = {x = 876, y = 938}
+        },
+        ATTACK = {x = 1292, y = 1249},
+        UNITS = {
+          FIRST = {x = 1556, y = 320}
+        },
+        COLORS = {
+          {x = 1292, y = 1249, color = 12397612},
+          {x = 383, y = 1269, color = 8743945},
+          {x = 592, y = 1269, color = 4208406},
+          {x = 103, y = 1269, color = 9533707},
+          {x = 1255, y = 307, color = 4499517},
+          {x = 1106, y = 251, color = 3097004}
+        },
+      },
+
+      IN_BATTLE = {
+        SKIP = {x = 1534, y = 1279}
+      },
+
+      BATTLE_COMPLETE = {
+        COLORS = {
+          {x = 1100, y = 890, color = 8395030},
+          {x = 1200, y = 890, color = 3475977},
+          {x = 1300, y = 890, color = 3475977},
+          {x = 1400, y = 890, color = 3541770},
+          {x = 1500, y = 890, color = 16777215},
+          {x = 1600, y = 890, color = 3673098},
+          {x = 1700, y = 890, color = 3738378},
+          {x = 1800, y = 890, color = 3607306},
+          {x = 1900, y = 890, color = 8591896}
+        },
+        REWARDS_CONFIRM = {x = 1500, y = 589},
+        MAGONIA_HOME = {x = 1295, y = 772},
+        BREAK_POTS = {x = 1666, y = 772}
+      }
+    },
+  },
+
   BATTLE_MEMBERS_LIST = {"FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"},
 
   GREETING = {

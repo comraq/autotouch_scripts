@@ -43,13 +43,13 @@ end
 function cgetColor(x, y)
   if ipad_air() then
     if LOG_ENABLED then
-      log(string.format("ipad_air true, getColor(w[%f] * x[%f], h[%f] * y[%f])", w, x, h, y))
+      -- log(string.format("ipad_air true, getColor(w[%f] * x[%f], h[%f] * y[%f])", w, x, h, y))
     end
     return getColor(w * x, h * y)
   else
     local x1,y1 = adjust_coords(x, y)
     if LOG_ENABLED then
-      log(string.format("ipad_air false, getColor(h[%f] * x1[%f], w[%f] * y1[%f])", h, x1, w, y1))
+      -- log(string.format("ipad_air false, getColor(h[%f] * x1[%f], w[%f] * y1[%f])", h, x1, w, y1))
     end
     return getColor(h * x1, w * y1)
   end

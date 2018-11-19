@@ -243,7 +243,7 @@ sixhr_raid_complete_tap_home = generate_act_function("sixhr_raid_complete_tap_ho
 
 
 friends_list_tap_greet = function(n)
-  local name = "friends_list_tap_greet" .. n
+  local name = "friends_list_tap_greet_" .. n
   return generate_act_function(name,
                                HORTENSIA.FRIENDS_LIST[n].GREET.x,
                                HORTENSIA.FRIENDS_LIST[n].GREET.y)
@@ -257,13 +257,13 @@ greeting_dialog_greeted_tap_close = generate_act_function("greeting_dialog_greet
                                                           HORTENSIA.GREETING.DIALOG.GREETED.CLOSE.y)
 
 stickers_tap_sticker = function(n)
-  local name = "stickers_tap_sticker" .. n
+  local name = "stickers_tap_sticker_" .. n
   return generate_act_function(name,
                                HORTENSIA.GREETING.DIALOG.STICKER_SEL[n].x,
                                HORTENSIA.GREETING.DIALOG.STICKER_SEL[n].y)
 end
 stickers_list_tap_coll = function(n)
-  local name = "stickers_list_tap_coll" .. n
+  local name = "stickers_list_tap_coll_" .. n
   return generate_act_function(name,
                                HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST[n].x,
                                HORTENSIA.GREETING.DIALOG.STICKER_SEL.LIST[n].y)
@@ -273,6 +273,68 @@ united_battle_home_tap_sp_mission = generate_act_function("united_battle_home_ta
                                                           HORTENSIA.UNITED_BATTLE.HOME.SP_MISSION.x,
                                                           HORTENSIA.UNITED_BATTLE.HOME.SP_MISSION.y)
 
+magonia_home_tap_mission = function(n)
+  local name = "magonia_home_tap_mission_" .. n
+  return generate_act_function(name,
+                               HORTENSIA.MAGONIA.HOME.MISSIONS[n].x,
+                               HORTENSIA.MAGONIA.HOME.MISSIONS[n].y)
+end
+magonia_home_tap_pots = generate_act_function("magonia_home_tap_pots",
+                                              HORTENSIA.MAGONIA.HOME.POTS.x,
+                                              HORTENSIA.MAGONIA.HOME.POTS.y)
+magonia_pots_first_tap_break = generate_act_function("magonia_pots_first_tap_break",
+                                                     HORTENSIA.MAGONIA.POTS.FIRST.BREAK.x,
+                                                     HORTENSIA.MAGONIA.POTS.FIRST.BREAK.y)
+magonia_pots_first_break_tap_normal = generate_act_function("magonia_pots_first_break_tap_normal",
+                                                            HORTENSIA.MAGONIA.POTS.FIRST.BREAK.CONFIRM.NORMAL.x,
+                                                            HORTENSIA.MAGONIA.POTS.FIRST.BREAK.CONFIRM.NORMAL.y)
+magonia_boss_appeared_tap_skip = generate_act_function("magonia_boss_appeared_tap_skip",
+                                                       HORTENSIA.MAGONIA.BOSS.APPEARED.SKIP.x,
+                                                       HORTENSIA.MAGONIA.BOSS.APPEARED.SKIP.y)
+magonia_boss_unit_select_tap_unit = function(n)
+  local name = "magonia_boss_unit_select_tap_unit_" .. n
+  return generate_act_function(name,
+                               HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.UNITS[n].x,
+                               HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.UNITS[n].y)
+end
+magonia_boss_unit_select_tap_attack = generate_act_function("magonia_boss_unit_select_tap_attack",
+                                                            HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.ATTACK.x,
+                                                            HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.ATTACK.y)
+magonia_boss_in_battle_tap_skip = generate_act_function("magonia_boss_in_battle_tap_skip",
+                                                        HORTENSIA.MAGONIA.BOSS.IN_BATTLE.SKIP.x,
+                                                        HORTENSIA.MAGONIA.BOSS.IN_BATTLE.SKIP.y)
+magonia_boss_unit_select_tap_aid_request =
+  generate_act_function("magonia_boss_unit_select_tap_aid_request",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.AID_REQUEST.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.AID_REQUEST.y)
+magonia_boss_unit_select_aid_request_tap_all =
+  generate_act_function("magonia_boss_unit_select_aid_request_tap_all",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.AID_REQUEST.ALL.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.AID_REQUEST.ALL.y)
+magonia_boss_unit_select_tap_bp_recover =
+  generate_act_function("magonia_boss_unit_select_tap_bp_recover",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.y)
+magonia_boss_unit_select_bp_recover_tap_two_mins =
+  generate_act_function("magonia_boss_unit_select_bp_recover_tap_two_mins",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.TWO_MINS.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.TWO_MINS.y)
+magonia_boss_unit_select_bp_recover_tap_complete =
+  generate_act_function("magonia_boss_unit_select_bp_recover_tap_complete",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.COMPLETE.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.COMPLETE.y)
+magonia_boss_unit_select_tap_refresh =
+  generate_act_function("magonia_boss_unit_select_tap_refresh",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.REFRESH.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.REFRESH.y)
+magonia_boss_battle_complete_tap_rewards_confirm =
+  generate_act_function("magonia_boss_battle_complete_tap_rewards_confirm",
+                        HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.REWARDS_CONFIRM.x,
+                        HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.REWARDS_CONFIRM.y)
+magonia_boss_battle_complete_tap_magonia_home =
+  generate_act_function("magonia_boss_battle_complete_tap_magonia_home",
+                        HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.MAGONIA_HOME.x,
+                        HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.MAGONIA_HOME.y)
 
 
 ----------------------
@@ -816,3 +878,108 @@ end
 function greeted_dialog()
   return match_all_colors(HORTENSIA.GREETING.DIALOG.GREETED.COLORS)
 end
+
+---------------------
+-- Magonia Related --
+---------------------
+
+function is_pot_available()
+  local loc = HORTENSIA.MAGONIA.POTS.FIRST.BREAK
+  return match_color(loc.COLOR.AVAILABLE, loc.x, loc.y)
+end
+
+function magonia_boss_unit_select()
+  return match_all_colors(HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.COLORS)
+end
+
+function magonia_boss_battle_complete()
+  return match_all_colors(HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.COLORS)
+end
+
+function magonia_conduct_boss_battle(unit_sel)
+  return function(k)
+    magonia_execute_boss_battle(unit_sel)
+    if magonia_boss_battle_complete() then
+      return k()
+    end
+
+    retry(magonia_boss_unit_select_tap_aid_request)()
+    retry(magonia_boss_unit_select_aid_request_tap_all)()
+    magonia_recover_and_refresh()
+
+    while not magonia_boss_battle_complete() do
+      if LOG_ENABLED then
+        log("magonia_conduct_boss_battle, boss_battle_not_complete")
+      end
+
+      magonia_execute_boss_battle(unit_sel)
+      magonia_recover_and_refresh()
+    end
+    return k()
+  end
+end
+
+function magonia_boss_battle_complete_confirm_rewards()
+  act_once(magonia_boss_battle_complete_tap_rewards_confirm)()
+  act_once(magonia_boss_battle_complete_tap_rewards_confirm)()
+
+  retry(magonia_boss_battle_complete_tap_magonia_home)()
+end
+
+
+function magonia_execute_boss_battle(unit_sel)
+  unit_sel()
+  retry(magonia_boss_unit_select_tap_attack)()
+
+  while not (magonia_boss_unit_select() or magonia_boss_battle_complete()) do
+    if LOG_ENABLED then
+      log("magonia_execute_boss_battle, in battle tapping skip")
+    end
+    retry(magonia_boss_in_battle_tap_skip)()
+  end
+end
+
+function magonia_recover_and_refresh()
+  if magonia_boss_battle_complete() then
+    if LOG_ENABLED then
+      log("magonia_recover_and_refresh, boss_battle_complete before attempting to recover")
+    end
+    return
+  end
+  retry(magonia_boss_unit_select_tap_bp_recover)()
+
+  if magonia_boss_battle_complete() then
+    if LOG_ENABLED then
+      log("magonia_recover_and_refresh, boss_battle_complete after tapping recover")
+    end
+    return
+  end
+  retry(magonia_boss_unit_select_bp_recover_tap_two_mins)()
+
+  local function f(n)
+    if n <= 0 then
+      if LOG_ENABLED then
+        log("magonia_recover_and_refresh, n <= 0, tapping recover complete")
+      end
+      retry(magonia_boss_unit_select_bp_recover_tap_complete)()
+      return
+    end
+
+    if magonia_boss_battle_complete() then
+      if LOG_ENABLED then
+        log("magonia_recover_and_refresh, boss_battle_complete while recovering")
+      end
+      return
+    end
+
+    if LOG_ENABLED then
+      log("magonia_recover_and_refresh, not boss_battle_complete tapping refresh")
+    end
+    retry(magonia_boss_unit_select_tap_refresh)()
+
+    return f(n - 1)
+  end
+
+  return f(24)
+end
+
