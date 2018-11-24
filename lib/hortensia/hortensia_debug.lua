@@ -418,3 +418,33 @@ function get_magonia_battle_unit_select_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_magonia_aid_requests_battle_finished_colors()
+  local cs = {
+    {950,964},
+    {1101,966},
+    {1543,465},
+    {1024,1035},
+    {1872,1233},
+    {204,332},
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
+
+function get_magonia_boss_already_defeated_colors()
+  local cs = {
+    {1033,1046},
+    {957,973},
+    {1093,972},
+    {1541,467},
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end

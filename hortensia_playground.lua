@@ -26,18 +26,16 @@ end
 --]]
 
 --[[
-local x1,y1 = 1511, 867
-log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
-
-local x2,y2 = 669, 1511
-log(string.format("x[%f], y[%f], c[%d]", x2, y2, getColor(x2, y2)))
 
 log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
+
+local x1,y1 = 646, 1037
+log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+local x2,y2 = 1594, 766
+log(string.format("x[%f], y[%f], c[%d]", x2, y2, getColor(x2, y2)))
 --]]
+get_magonia_boss_already_defeated_colors()
 
 
-retry(magonia_boss_unit_select_tap_unit(2))(0.1,0)
-retry(magonia_boss_unit_select_tap_unit(3))(0.1,0)
-retry(magonia_boss_unit_select_tap_unit(4))(0.1,0)
-retry(magonia_boss_unit_select_tap_attack)(5,0.3)
+

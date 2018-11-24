@@ -75,6 +75,11 @@ function match_any_colors(cs)
   end, false, cs)
 end
 
+function color_available(loc)
+  return match_color(loc.COLOR.AVAILABLE, loc.x, loc.y)
+end
+
+
 
 
 -----------------------------------------
@@ -282,12 +287,45 @@ end
 magonia_home_tap_pots = generate_act_function("magonia_home_tap_pots",
                                               HORTENSIA.MAGONIA.HOME.POTS.x,
                                               HORTENSIA.MAGONIA.HOME.POTS.y)
+magonia_home_tap_bp_recover = generate_act_function("magonia_home_tap_bp_recover",
+                                                    HORTENSIA.MAGONIA.HOME.BP_RECOVER.x,
+                                                    HORTENSIA.MAGONIA.HOME.BP_RECOVER.y)
+magonia_home_bp_recover_tap_option = function(n)
+  local name = "magonia_home_bp_recover_tap_option_" .. n
+  return generate_act_function(name,
+                               HORTENSIA.MAGONIA.HOME.BP_RECOVER.OPTIONS[n].x,
+                               HORTENSIA.MAGONIA.HOME.BP_RECOVER.OPTIONS[n].y)
+end
+magonia_home_bp_recover_tap_confirm =
+  generate_act_function("magonia_home_bp_recover_tap_confirm",
+                        HORTENSIA.MAGONIA.HOME.BP_RECOVER.CONFIRM.x,
+                        HORTENSIA.MAGONIA.HOME.BP_RECOVER.CONFIRM.y)
+magonia_home_tap_aid_requests = generate_act_function("magonia_home_tap_aid_requests",
+                                                      HORTENSIA.MAGONIA.HOME.AID_REQUESTS.x,
+                                                      HORTENSIA.MAGONIA.HOME.AID_REQUESTS.y)
+
 magonia_pots_first_tap_break = generate_act_function("magonia_pots_first_tap_break",
                                                      HORTENSIA.MAGONIA.POTS.FIRST.BREAK.x,
                                                      HORTENSIA.MAGONIA.POTS.FIRST.BREAK.y)
 magonia_pots_first_break_tap_normal = generate_act_function("magonia_pots_first_break_tap_normal",
                                                             HORTENSIA.MAGONIA.POTS.FIRST.BREAK.CONFIRM.NORMAL.x,
                                                             HORTENSIA.MAGONIA.POTS.FIRST.BREAK.CONFIRM.NORMAL.y)
+
+magonia_aid_requests_tap_home =
+  generate_act_function("magonia_aid_requests_tap_home",
+                        HORTENSIA.MAGONIA.AID_REQUESTS.HOME.x,
+                        HORTENSIA.MAGONIA.AID_REQUESTS.HOME.y)
+magonia_aid_requests_battle_finished_tap_confirm =
+  generate_act_function("magonia_aid_requests_battle_finished_tap_confirm",
+                        HORTENSIA.MAGONIA.AID_REQUESTS.BATTLE_FINISHED.CONFIRM.x,
+                        HORTENSIA.MAGONIA.AID_REQUESTS.BATTLE_FINISHED.CONFIRM.y)
+magonia_aid_requests_tap_request = function(n)
+  local name = "magonia_aid_requests_tap_request_" .. tostring(n)
+  return generate_act_function(name,
+                               HORTENSIA.MAGONIA.AID_REQUESTS.REQUEST[n].x,
+                               HORTENSIA.MAGONIA.AID_REQUESTS.REQUEST[n].y)
+end
+
 magonia_boss_appeared_tap_skip = generate_act_function("magonia_boss_appeared_tap_skip",
                                                        HORTENSIA.MAGONIA.BOSS.APPEARED.SKIP.x,
                                                        HORTENSIA.MAGONIA.BOSS.APPEARED.SKIP.y)
@@ -327,6 +365,12 @@ magonia_boss_unit_select_tap_refresh =
   generate_act_function("magonia_boss_unit_select_tap_refresh",
                         HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.REFRESH.x,
                         HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.REFRESH.y)
+
+magonia_boss_already_defeated_tap_confirm =
+  generate_act_function("magonia_boss_already_defeated_tap_confirm",
+                        HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.CONFIRM.x,
+                        HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.CONFIRM.y)
+
 magonia_boss_battle_complete_tap_rewards_confirm =
   generate_act_function("magonia_boss_battle_complete_tap_rewards_confirm",
                         HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.REWARDS_CONFIRM.x,
@@ -896,15 +940,15 @@ function magonia_boss_battle_complete()
   return match_all_colors(HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.COLORS)
 end
 
-function magonia_conduct_boss_battle(unit_sel_attack)
+function magonia_conduct_boss_battle(unit_sel_attack, request_aid)
   return function(k)
     magonia_execute_boss_battle(unit_sel_attack)
+
     if magonia_boss_battle_complete() then
       return k()
     end
 
-    retry(magonia_boss_unit_select_tap_aid_request)()
-    retry(magonia_boss_unit_select_aid_request_tap_all)()
+    fif(request_aid, thunk(request_aid), thunk(FUNCTIONS.id))()
     magonia_recover_and_refresh()
 
     while not magonia_boss_battle_complete() do
@@ -930,11 +974,17 @@ end
 function magonia_execute_boss_battle(unit_sel_attack)
   unit_sel_attack()
 
-  while not (magonia_boss_unit_select() or magonia_boss_battle_complete()) do
+  while not (magonia_boss_unit_select()
+          or magonia_boss_battle_complete()
+          or magonia_boss_already_defeated()) do
     if LOG_ENABLED then
       log("magonia_execute_boss_battle, in battle tapping skip")
     end
     retry(magonia_boss_in_battle_tap_skip)()
+  end
+
+  if magonia_boss_already_defeated() then
+    retry(magonia_boss_already_defeated_tap_confirm)()
   end
 end
 
@@ -984,4 +1034,43 @@ end
 function magonia_recover_complete()
   local loc = HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER
   return match_color(loc.COLORS.RECOVER_COMPLETE, loc.x, loc.y)
+end
+
+function magonia_home_bp_full()
+  return not color_available(HORTENSIA.MAGONIA.HOME.BP_RECOVER)
+end
+
+function magonia_home_consume_bp(allowed_options)
+  return LIST.foldl(function(consumed, option)
+    if consumed then
+      return true
+    end
+
+    if not color_available(option) then
+      return false
+    end
+
+    if LOG_ENABLED then
+      log(string.format("magonia_home_consume_bp for option[%s]", option.name))
+    end
+
+    retry(magonia_home_bp_recover_tap_option(option.name))()
+    retry(magonia_home_bp_recover_tap_confirm)()
+    return true
+
+  end, false, LIST.fmap(function(o)
+    return HORTENSIA.MAGONIA.HOME.BP_RECOVER.OPTIONS[o]
+  end, allowed_options))
+end
+
+function magonia_aid_requests_available()
+  return color_available(HORTENSIA.MAGONIA.AID_REQUESTS.REQUEST[1])
+end
+
+function magonia_aid_requests_battle_finished()
+  return match_all_colors(HORTENSIA.MAGONIA.AID_REQUESTS.BATTLE_FINISHED.COLORS)
+end
+
+function magonia_boss_already_defeated()
+  return match_all_colors(HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.COLORS)
 end

@@ -931,6 +931,50 @@ HORTENSIA = {
         FIRST = {x = 1514, y = 990},
         SECOND = {x = 1694, y = 990},
         THIRD = {x = 1899, y = 990},
+      },
+
+      BP_RECOVER = {
+        x = 312,
+        y = 1050,
+        COLOR = { AVAILABLE = 13985792 },
+        OPTIONS = {
+          EVENT_BPMAX = {
+            name = "EVENT_BPMAX",
+            x = 646,
+            y = 1037,
+            COLOR = { AVAILABLE = 1427975 }
+          },
+          EVENT_BP50 = {
+            name = "EVENT_BP50",
+            x = 1322,
+            y = 1037,
+            COLOR = { AVAILABLE = 1361415 }
+          }
+        },
+        CONFIRM = {x = 1334, y = 982}
+      },
+
+      AID_REQUESTS = {
+        x = 184,
+        y = 826
+      }
+    },
+
+    AID_REQUESTS = {
+      HOME = {x = 1313, y = 454},
+      BATTLE_FINISHED = {
+        CONFIRM = {x = 1081, y = 966},
+        COLORS = {
+          {x = 950, y = 964, color = 1539298},
+          {x = 1101, y = 966, color = 1076188},
+          {x = 1543, y = 465, color = 16776960},
+          {x = 1024, y = 1035, color = 15393221},
+          {x = 1872, y = 1233, color = 0},
+          {x = 204, y = 332, color = 0}
+        }
+      },
+      REQUEST = {
+        {x = 1594, y = 766, COLOR = { AVAILABLE = 12394272 }}
       }
     },
 
@@ -979,6 +1023,16 @@ HORTENSIA = {
 
       IN_BATTLE = {
         SKIP = {x = 1534, y = 1279}
+      },
+
+      ALREADY_DEFEATED = {
+        CONFIRM = {x = 1078, y = 966},
+        COLORS = {
+          {x = 1033, y = 1046, color = 15195586},
+          {x = 957, y = 973, color = 613846},
+          {x = 1093, y = 972, color = 878553},
+          {x = 1541, y = 467, color = 16776960}
+        }
       },
 
       BATTLE_COMPLETE = {
