@@ -793,7 +793,7 @@ function wait_network_loading()
       if LOG_ENABLED then
         log("waiting for network loading")
       end
-      sleep_sec(1)
+      sleep_sec(0.5)
     end
   end
 end
@@ -965,7 +965,7 @@ end
 
 function magonia_boss_battle_complete_confirm_rewards()
   act_once(magonia_boss_battle_complete_tap_rewards_confirm)()
-  act_once(magonia_boss_battle_complete_tap_rewards_confirm)()
+  act_once(magonia_boss_battle_complete_tap_rewards_confirm)(2)
 
   retry(magonia_boss_battle_complete_tap_magonia_home)()
 end
@@ -995,7 +995,7 @@ function magonia_recover_and_refresh()
     end
     return
   end
-  retry(magonia_boss_unit_select_tap_bp_recover)()
+  retry(magonia_boss_unit_select_tap_bp_recover)(1)
 
   if magonia_boss_battle_complete() then
     if LOG_ENABLED then
@@ -1054,7 +1054,7 @@ function magonia_home_consume_bp(allowed_options)
       log(string.format("magonia_home_consume_bp for option[%s]", option.name))
     end
 
-    retry(magonia_home_bp_recover_tap_option(option.name))()
+    retry(magonia_home_bp_recover_tap_option(option.name))(1)
     retry(magonia_home_bp_recover_tap_confirm)()
     return true
 

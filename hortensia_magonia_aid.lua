@@ -21,7 +21,7 @@ end
 -------------------------------
 
 local aid_request_sel = function()
-  return retry(magonia_aid_requests_tap_request(1))()
+  return retry(magonia_aid_requests_tap_request(1))(0)
 end
 
 -------------------------------
@@ -42,29 +42,29 @@ end
 function execute_with(aid_request_sel)
   return function(k)
     if not magonia_home_bp_full() then
-      retry(magonia_home_tap_bp_recover)()
+      retry(magonia_home_tap_bp_recover)(1)
       magonia_home_consume_bp(ALLOWED_BP_OPTIONS)
     end
 
     local function k2()
-      retry(magonia_home_tap_aid_requests)()
+      retry(magonia_home_tap_aid_requests)(1)
       if not magonia_aid_requests_available() then
-        retry(magonia_aid_requests_tap_home)()
+        retry(magonia_aid_requests_tap_home)(1)
         return k2()
       end
 
       local function k3()
         aid_request_sel()
-        if magonia_aid_requests_battle_finished() then
-          retry(magonia_aid_requests_battle_finished_tap_confirm)()
-          return k3()
-        end
 
         while not magonia_boss_unit_select() do
-          if LOG_ENABLED then
-            log("[THIS SHOULD NOT HAPPEN] not yet magonia_boss_unit_select, sleeping 0.5 seconds")
+          if magonia_aid_requests_battle_finished() then
+            retry(magonia_aid_requests_battle_finished_tap_confirm)(1)
+            return k3()
           end
-          sleep_sec(0.5)
+
+          if LOG_ENABLED then
+            log("tapped aid request but not yet magonia_boss_unit_select")
+          end
         end
 
         magonia_conduct_boss_battle(unit_sel_attack)(magonia_boss_battle_complete_confirm_rewards)
