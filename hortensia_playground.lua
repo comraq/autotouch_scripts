@@ -35,7 +35,7 @@ log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
 local x2,y2 = 1594, 766
 log(string.format("x[%f], y[%f], c[%d]", x2, y2, getColor(x2, y2)))
 --]]
-get_magonia_boss_already_defeated_colors()
+get_magonia_battle_complete_colors()
 
 
 
