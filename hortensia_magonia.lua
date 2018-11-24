@@ -8,6 +8,11 @@ ALLOWED_AP_OPTIONS = {
   "APMAX"
 }
 FINAL_WAVE_SKILL = true
+MAGONIA_UNIT_SELECT_PAUSE = 0.1
+MAGONIA_UNIT_SELECT_HOLD = 0
+MAGONIA_UNIT_SELECT_ATTACK_PAUSE = 5
+MAGONIA_UNIT_SELECT_ATTACK_HOLD = 0.3
+
 
 if LOG_ENABLED then
   log("\n\n\nbegin script logging:")
@@ -25,8 +30,15 @@ end
 -- Options for Unit Select --
 -------------------------------
 
-local unit_sel = function()
-  return retry(magonia_boss_unit_select_tap_unit("FIRST"))()
+local unit_sel_attack = function()
+  retry(magonia_boss_unit_select_tap_unit(2))(MAGONIA_UNIT_SELECT_PAUSE,
+                                              MAGONIA_UNIT_SELECT_HOLD)
+  retry(magonia_boss_unit_select_tap_unit(3))(MAGONIA_UNIT_SELECT_PAUSE,
+                                              MAGONIA_UNIT_SELECT_HOLD)
+  retry(magonia_boss_unit_select_tap_unit(4))(MAGONIA_UNIT_SELECT_PAUSE,
+                                              MAGONIA_UNIT_SELECT_HOLD)
+  return retry(magonia_boss_unit_select_tap_attack)(MAGONIA_UNIT_SELECT_ATTACK_PAUSE,
+                                                    MAGONIA_UNIT_SELECT_ATTACK_HOLD)
 end
 
 function execute_with(mission_sel)
@@ -55,7 +67,7 @@ function execute_with(mission_sel)
       retry(magonia_boss_appeared_tap_skip)()
     end
 
-    magonia_conduct_boss_battle(unit_sel)(magonia_boss_battle_complete_confirm_rewards)
+    magonia_conduct_boss_battle(unit_sel_attack)(magonia_boss_battle_complete_confirm_rewards)
     return k()
   end
 end

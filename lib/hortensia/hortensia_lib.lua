@@ -292,7 +292,7 @@ magonia_boss_appeared_tap_skip = generate_act_function("magonia_boss_appeared_ta
                                                        HORTENSIA.MAGONIA.BOSS.APPEARED.SKIP.x,
                                                        HORTENSIA.MAGONIA.BOSS.APPEARED.SKIP.y)
 magonia_boss_unit_select_tap_unit = function(n)
-  local name = "magonia_boss_unit_select_tap_unit_" .. n
+  local name = "magonia_boss_unit_select_tap_unit_" .. tostring(n)
   return generate_act_function(name,
                                HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.UNITS[n].x,
                                HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.UNITS[n].y)
@@ -896,9 +896,9 @@ function magonia_boss_battle_complete()
   return match_all_colors(HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.COLORS)
 end
 
-function magonia_conduct_boss_battle(unit_sel)
+function magonia_conduct_boss_battle(unit_sel_attack)
   return function(k)
-    magonia_execute_boss_battle(unit_sel)
+    magonia_execute_boss_battle(unit_sel_attack)
     if magonia_boss_battle_complete() then
       return k()
     end
@@ -912,7 +912,7 @@ function magonia_conduct_boss_battle(unit_sel)
         log("magonia_conduct_boss_battle, boss_battle_not_complete")
       end
 
-      magonia_execute_boss_battle(unit_sel)
+      magonia_execute_boss_battle(unit_sel_attack)
       magonia_recover_and_refresh()
     end
     return k()
@@ -927,9 +927,8 @@ function magonia_boss_battle_complete_confirm_rewards()
 end
 
 
-function magonia_execute_boss_battle(unit_sel)
-  unit_sel()
-  retry(magonia_boss_unit_select_tap_attack)()
+function magonia_execute_boss_battle(unit_sel_attack)
+  unit_sel_attack()
 
   while not (magonia_boss_unit_select() or magonia_boss_battle_complete()) do
     if LOG_ENABLED then

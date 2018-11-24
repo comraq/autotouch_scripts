@@ -37,9 +37,7 @@ log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 --]]
 
 
-if magonia_recover_complete() then
-  if LOG_ENABLED then
-    log("magonia_recover_and_refresh, finished recovery, tapping recover complete")
-  end
-  return retry(magonia_boss_unit_select_bp_recover_tap_complete)()
-end
+retry(magonia_boss_unit_select_tap_unit(2))(0.1,0)
+retry(magonia_boss_unit_select_tap_unit(3))(0.1,0)
+retry(magonia_boss_unit_select_tap_unit(4))(0.1,0)
+retry(magonia_boss_unit_select_tap_attack)(5,0.3)
