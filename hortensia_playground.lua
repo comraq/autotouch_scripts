@@ -36,4 +36,10 @@ log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 --]]
 
-get_final_wave_colors()
+
+if magonia_recover_complete() then
+  if LOG_ENABLED then
+    log("magonia_recover_and_refresh, finished recovery, tapping recover complete")
+  end
+  return retry(magonia_boss_unit_select_bp_recover_tap_complete)()
+end

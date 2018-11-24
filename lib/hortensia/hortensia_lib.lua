@@ -956,13 +956,12 @@ function magonia_recover_and_refresh()
   end
   retry(magonia_boss_unit_select_bp_recover_tap_two_mins)()
 
-  local function f(n)
-    if n <= 0 then
+  local function f()
+    if magonia_recover_complete() then
       if LOG_ENABLED then
-        log("magonia_recover_and_refresh, n <= 0, tapping recover complete")
+        log("magonia_recover_and_refresh, finished recovery, tapping recover complete")
       end
-      retry(magonia_boss_unit_select_bp_recover_tap_complete)()
-      return
+      return retry(magonia_boss_unit_select_bp_recover_tap_complete)()
     end
 
     if magonia_boss_battle_complete() then
@@ -975,11 +974,15 @@ function magonia_recover_and_refresh()
     if LOG_ENABLED then
       log("magonia_recover_and_refresh, not boss_battle_complete tapping refresh")
     end
-    retry(magonia_boss_unit_select_tap_refresh)()
+    act_once(magonia_boss_unit_select_tap_refresh)()
 
-    return f(n - 1)
+    return f()
   end
 
-  return f(24)
+  return f()
 end
 
+function magonia_recover_complete()
+  local loc = HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER
+  return match_color(loc.COLORS.RECOVER_COMPLETE, loc.x, loc.y)
+end

@@ -946,7 +946,11 @@ HORTENSIA = {
           x = 383,
           y = 1269,
           TWO_MINS = {x = 532, y = 556},
-          COMPLETE = {x = 1783, y = 785}
+          COMPLETE = {x = 1783, y = 785},
+          COLORS = {
+            RECOVERING = 11550773,
+            RECOVER_COMPLETE = 3757720
+          }
         },
         AID_REQUEST = {
           x = 592,
@@ -959,7 +963,6 @@ HORTENSIA = {
         },
         COLORS = {
           {x = 1292, y = 1249, color = 12397612},
-          {x = 592, y = 1269, color = 4208406},
           {x = 103, y = 1269, color = 9533707},
           {x = 1255, y = 307, color = 4499517}
         },
