@@ -29,12 +29,12 @@ end
 
 log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
---]]
 
 local x1,y1 = 1327, 1025
 log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
 local x2,y2 = 652, 1025
 log(string.format("x[%f], y[%f], c[%d]", x2, y2, getColor(x2, y2)))
+--]]
 
 
-
+get_magonia_boss_already_defeated_bp_not_consumed_colors()

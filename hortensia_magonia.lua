@@ -32,11 +32,11 @@ end
 
 local unit_sel_attack = function()
   act_once(magonia_boss_unit_select_tap_unit(1))(MUS_PAUSE, MUS_HOLD)
-  return act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+  act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+  return magonia_execute_boss_battle()
 end
-local exec_battle = function()
-  return magonia_execute_boss_battle(unit_sel_attack)
-end
+local exec_battle = unit_sel_attack
+
 local request_aid = function()
   retry(magonia_boss_unit_select_tap_aid_request)(1)
   retry(magonia_boss_unit_select_aid_request_tap_all)()
@@ -68,8 +68,10 @@ function execute_with(mission_sel)
       retry(magonia_boss_appeared_tap_skip)()
     end
 
-    magonia_conduct_boss_battle(exec_battle, request_aid)(magonia_boss_battle_complete_confirm_rewards)
-    return k()
+    return magonia_conduct_boss_battle(exec_battle, request_aid)(function()
+      magonia_boss_battle_complete_confirm_rewards()
+      return k()
+    end)
   end
 end
 

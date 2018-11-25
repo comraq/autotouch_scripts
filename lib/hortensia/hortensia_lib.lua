@@ -388,6 +388,10 @@ magonia_boss_already_defeated_tap_confirm =
   generate_act_function("magonia_boss_already_defeated_tap_confirm",
                         HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.CONFIRM.x,
                         HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.CONFIRM.y)
+magonia_boss_already_defeated_bp_not_consumed_tap_confirm =
+  generate_act_function("magonia_boss_already_defeated_bp_not_consumed_tap_confirm",
+                        HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.BP_NOT_CONSUMED.CONFIRM.x,
+                        HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.BP_NOT_CONSUMED.CONFIRM.y)
 
 magonia_boss_battle_complete_tap_rewards_confirm =
   generate_act_function("magonia_boss_battle_complete_tap_rewards_confirm",
@@ -988,13 +992,14 @@ function magonia_boss_battle_complete_confirm_rewards()
   retry(magonia_boss_battle_complete_tap_magonia_home)()
 end
 
-
-function magonia_execute_boss_battle(unit_sel_attack)
-  unit_sel_attack()
+function magonia_execute_boss_battle()
+  if LOG_ENABLED then
+    log("magonia_execute_boss_battle called")
+  end
 
   while not (magonia_boss_unit_select()
-          or magonia_boss_battle_complete()
-          or magonia_boss_already_defeated()) do
+    or magonia_boss_battle_complete()
+    or magonia_boss_already_defeated()) do
     if LOG_ENABLED then
       log("magonia_execute_boss_battle, in battle tapping skip")
     end
@@ -1117,7 +1122,7 @@ function magonia_boss_already_defeated()
   return match_all_colors(HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.COLORS)
 end
 
-function magonia_boss_unit_select_with_insufficient_bp_check(bp_options, sk)
+function magonia_boss_unit_select_with_insufficient_bp_check(bp_options, sk, ek)
   local function f(k)
     if LOG_ENABLED then
       log(string.format("magonia_boss_unit_select_with_insufficient_bp_check, checking bp insufficient with options[%s]", tostring(bp_options)))
@@ -1130,6 +1135,11 @@ function magonia_boss_unit_select_with_insufficient_bp_check(bp_options, sk)
                                                      MAGONIA_TAP_DUR_SEC)
 
       local bp_consumed = magonia_boss_unit_select_consume_bp(bp_options)
+      if magonia_boss_already_defeated_bp_not_consumed() then
+        retry(magonia_boss_already_defeated_bp_not_consumed_tap_confirm)()
+        return ek()
+      end
+
       if LOG_ENABLED then
         log("bp insufficient, bp_consumed: " .. tostring(bp_consumed))
       end
@@ -1149,5 +1159,9 @@ end
 
 function magonia_boss_unit_select_insufficient_bp()
   return match_all_colors(HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.INSUFFICIENT_BP.COLORS)
+end
+
+function magonia_boss_already_defeated_bp_not_consumed()
+  return match_all_colors(HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.BP_NOT_CONSUMED.COLORS)
 end
 

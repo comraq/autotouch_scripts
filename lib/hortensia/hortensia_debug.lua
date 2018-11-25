@@ -460,3 +460,20 @@ function get_magonia_boss_unit_select_bp_insufficient_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_magonia_boss_already_defeated_bp_not_consumed_colors()
+  local cs = {
+    {947,970},
+    {1096,970},
+    {1035,1037},
+    {1538,462},
+    {214,349},
+    {1750,1199}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
+
