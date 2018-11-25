@@ -14,8 +14,9 @@ local DEFAULT_GIFTBOX_PAUSE_DUR_SEC = 10
 local DEFAULT_MISSION_COMPLETE_REAFFIRM_DELAY_SEC = 2
 
 local NO_LOADING_TAP_PAUSE_SEC = 0
-local MAGONIA_TAP_DUR_SEC = 0.1
-local MAGONIA_TAP_PAUSE_SEC = 1
+local MAGONIA_REC_TAP_DUR_SEC = 0.1
+local MAGONIA_REC_TAP_PAUSE_SEC = 0.5
+local MAGONIA_REC_CONFIRM_TAP_PAUSE_SEC = 2
 
 
 function fif(cond, a, b)
@@ -986,7 +987,7 @@ function magonia_conduct_boss_battle(exec_battle, request_aid)
 end
 
 function magonia_boss_battle_complete_confirm_rewards()
-  act_once(magonia_boss_battle_complete_tap_rewards_confirm)()
+  act_once(magonia_boss_battle_complete_tap_rewards_confirm)(4)
   act_once(magonia_boss_battle_complete_tap_rewards_confirm)(2)
 
   retry(magonia_boss_battle_complete_tap_magonia_home)()
@@ -1018,8 +1019,8 @@ function magonia_recover_and_refresh()
     end
     return
   end
-  retry(magonia_boss_unit_select_tap_bp_recover)(MAGONIA_TAP_PAUSE_SEC,
-                                                 MAGONIA_TAP_DUR_SEC)
+  retry(magonia_boss_unit_select_tap_bp_recover)(MAGONIA_REC_TAP_PAUSE_SEC,
+                                                 MAGONIA_REC_TAP_DUR_SEC)
 
   if magonia_boss_battle_complete() then
     if LOG_ENABLED then
@@ -1102,7 +1103,7 @@ function magonia_boss_unit_select_consume_bp(allowed_options)
     end
 
     retry(magonia_boss_unit_select_bp_recover_tap_option(option.name))(1)
-    retry(magonia_boss_unit_select_bp_recover_tap_confirm)(3)
+    retry(magonia_boss_unit_select_bp_recover_tap_confirm)(MAGONIA_REC_CONFIRM_TAP_PAUSE_SEC)
     return true
 
   end, false, LIST.fmap(function(o)
@@ -1130,9 +1131,9 @@ function magonia_boss_unit_select_with_insufficient_bp_check(bp_options, sk, ek)
 
     if magonia_boss_unit_select_insufficient_bp() then
       retry(magonia_boss_unit_select_insufficient_bp_tap_confirm)(NO_LOADING_TAP_PAUSE_SEC,
-                                                                  MAGONIA_TAP_DUR_SEC)
-      retry(magonia_boss_unit_select_tap_bp_recover)(MAGONIA_TAP_PAUSE_SEC,
-                                                     MAGONIA_TAP_DUR_SEC)
+                                                                  MAGONIA_REC_TAP_DUR_SEC)
+      retry(magonia_boss_unit_select_tap_bp_recover)(MAGONIA_REC_TAP_PAUSE_SEC,
+                                                     MAGONIA_REC_TAP_DUR_SEC)
 
       local bp_consumed = magonia_boss_unit_select_consume_bp(bp_options)
       if magonia_boss_already_defeated_bp_not_consumed() then
