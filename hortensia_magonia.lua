@@ -7,6 +7,10 @@ ALLOWED_AP_OPTIONS = {
   "AP50",
   "APMAX"
 }
+ALLOWED_BP_OPTIONS = {
+  "EVENT_BP50",
+  "EVENT_BPMAX"
+}
 FINAL_WAVE_SKILL = true
 MUS_PAUSE = 0.1
 MUS_HOLD = 0.1
@@ -35,7 +39,56 @@ local unit_sel_attack = function()
   act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
   return magonia_execute_boss_battle()
 end
-local exec_battle = unit_sel_attack
+local function unit_sel_attack1()
+  act_once(magonia_boss_unit_select_tap_unit(2))(MUS_PAUSE, MUS_HOLD)
+  return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack1, magonia_execute_boss_battle)(function()
+    act_once(magonia_boss_unit_select_tap_unit(3))(MUS_PAUSE, MUS_HOLD)
+    return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack1, magonia_execute_boss_battle)(function()
+      act_once(magonia_boss_unit_select_tap_unit(4))(MUS_PAUSE, MUS_HOLD)
+      return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack1, magonia_execute_boss_battle)(function()
+        act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+        return magonia_execute_boss_battle()
+      end)
+    end)
+  end)
+end
+local function unit_sel_attack2()
+  act_once(magonia_boss_unit_select_tap_unit(3))(MUS_PAUSE, MUS_HOLD)
+  return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack2, magonia_execute_boss_battle)(function()
+    act_once(magonia_boss_unit_select_tap_unit(4))(MUS_PAUSE, MUS_HOLD)
+    return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack2, magonia_execute_boss_battle)(function()
+      act_once(magonia_boss_unit_select_tap_unit(5))(MUS_PAUSE, MUS_HOLD)
+      return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack2, magonia_execute_boss_battle)(function()
+        act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+        return magonia_execute_boss_battle()
+      end)
+    end)
+  end)
+end
+local function unit_sel_attack3()
+  act_once(magonia_boss_unit_select_tap_unit(3))(MUS_PAUSE, MUS_HOLD)
+  return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack3, magonia_execute_boss_battle)(function()
+    act_once(magonia_boss_unit_select_tap_unit(4))(MUS_PAUSE, MUS_HOLD)
+    return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack3, magonia_execute_boss_battle)(function()
+      act_once(magonia_boss_unit_select_tap_unit(6))(MUS_PAUSE, MUS_HOLD)
+      return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack3, magonia_execute_boss_battle)(function()
+        act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+        return magonia_execute_boss_battle()
+      end)
+    end)
+  end)
+end
+
+--local exec_battle = unit_sel_attack
+local exec_battle = function()
+  unit_sel_attack1()
+  if magonia_boss_unit_select() then
+    unit_sel_attack2()
+    if magonia_boss_unit_select() then
+      unit_sel_attack3()
+    end
+  end
+end
 
 local request_aid = function()
   retry(magonia_boss_unit_select_tap_aid_request)(1)

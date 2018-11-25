@@ -1004,12 +1004,20 @@ HORTENSIA = {
             },
             EVENT_BP50 = {
               name = "EVENT_BP50",
+              amount = 4,
               x = 1327,
               y = 1025,
               COLOR = { AVAILABLE = 1492745 }
             }
           },
-          CONFIRM = {x = 1250, y = 980}
+          CONFIRM = {
+            x = 1250,
+            y = 980,
+            BP50_AMOUNT = {
+              INCREASE = {x = 1301, y = 816},
+              DECREASE = {x = 988, y = 816}
+            }
+          }
         },
         AID_REQUEST = {
           x = 592,

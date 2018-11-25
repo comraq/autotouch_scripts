@@ -379,10 +379,16 @@ magonia_boss_unit_select_bp_recover_tap_confirm =
                         HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.CONFIRM.x,
                         HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.CONFIRM.y)
 magonia_boss_unit_select_bp_recover_tap_option = function(n)
-  local name = "magonia_boss_unit_select_bp_recover_tap_option" .. n
+  local name = "magonia_boss_unit_select_bp_recover_tap_option_" .. n
   return generate_act_function(name,
                                HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.OPTIONS[n].x,
                                HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.OPTIONS[n].y)
+end
+magonia_boss_unit_select_bp_recover_confirm_tap_bp50_amount = function(n)
+  local name = "magonia_boss_unit_select_bp_recover_confirm_tap_bp50_amount_" .. n
+  return generate_act_function(name,
+                               HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.CONFIRM.BP50_AMOUNT[n].x,
+                               HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.CONFIRM.BP50_AMOUNT[n].y)
 end
 
 magonia_boss_already_defeated_tap_confirm =
@@ -1008,7 +1014,7 @@ function magonia_execute_boss_battle()
   end
 
   if magonia_boss_already_defeated() then
-    retry(magonia_boss_already_defeated_tap_confirm)()
+    retry(magonia_boss_already_defeated_tap_confirm)(1)
   end
 end
 
@@ -1103,6 +1109,14 @@ function magonia_boss_unit_select_consume_bp(allowed_options)
     end
 
     retry(magonia_boss_unit_select_bp_recover_tap_option(option.name))(1)
+    if option.amount ~= nil then
+      log(string.format("bp confirm amount not nil [%d]", option.amount))
+      for i = 1,option.amount - 1,1 do
+        log(string.format("tapping consume bp50 amount increase, i=[%d]", i))
+        act_once(magonia_boss_unit_select_bp_recover_confirm_tap_bp50_amount("INCREASE"))(0, 0.1)
+      end
+    end
+
     retry(magonia_boss_unit_select_bp_recover_tap_confirm)(MAGONIA_REC_CONFIRM_TAP_PAUSE_SEC)
     return true
 
