@@ -8,10 +8,10 @@ ALLOWED_AP_OPTIONS = {
   "APMAX"
 }
 FINAL_WAVE_SKILL = true
-MAGONIA_UNIT_SELECT_PAUSE = 0.1
-MAGONIA_UNIT_SELECT_HOLD = 0
-MAGONIA_UNIT_SELECT_ATTACK_PAUSE = 5
-MAGONIA_UNIT_SELECT_ATTACK_HOLD = 0.3
+MUS_PAUSE = 0.1
+MUS_HOLD = 0.1
+MUSA_PAUSE = 5
+MUSA_HOLD = 0.3
 
 
 if LOG_ENABLED then
@@ -31,13 +31,14 @@ end
 -------------------------------
 
 local unit_sel_attack = function()
-  retry(magonia_boss_unit_select_tap_unit(1))(MAGONIA_UNIT_SELECT_PAUSE,
-                                              MAGONIA_UNIT_SELECT_HOLD)
-  return retry(magonia_boss_unit_select_tap_attack)(MAGONIA_UNIT_SELECT_ATTACK_PAUSE,
-                                                    MAGONIA_UNIT_SELECT_ATTACK_HOLD)
+  act_once(magonia_boss_unit_select_tap_unit(1))(MUS_PAUSE, MUS_HOLD)
+  return act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+end
+local exec_battle = function()
+  return magonia_execute_boss_battle(unit_sel_attack)
 end
 local request_aid = function()
-  retry(magonia_boss_unit_select_tap_aid_request)()
+  retry(magonia_boss_unit_select_tap_aid_request)(1)
   retry(magonia_boss_unit_select_aid_request_tap_all)()
 end
 
@@ -67,7 +68,7 @@ function execute_with(mission_sel)
       retry(magonia_boss_appeared_tap_skip)()
     end
 
-    magonia_conduct_boss_battle(unit_sel_attack, request_aid)(magonia_boss_battle_complete_confirm_rewards)
+    magonia_conduct_boss_battle(exec_battle, request_aid)(magonia_boss_battle_complete_confirm_rewards)
     return k()
   end
 end

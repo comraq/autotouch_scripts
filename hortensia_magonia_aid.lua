@@ -6,10 +6,10 @@ ALLOWED_BP_OPTIONS = {
   "EVENT_BPMAX"
 }
 FINAL_WAVE_SKILL = true
-MAGONIA_UNIT_SELECT_PAUSE = 0.1
-MAGONIA_UNIT_SELECT_HOLD = 0
-MAGONIA_UNIT_SELECT_ATTACK_PAUSE = 5
-MAGONIA_UNIT_SELECT_ATTACK_HOLD = 0.3
+MUS_PAUSE = 0.1
+MUS_HOLD = 0.1
+MUSA_PAUSE = 5
+MUSA_HOLD = 0.3
 
 
 if LOG_ENABLED then
@@ -28,53 +28,69 @@ end
 -- Options for Unit Select --
 -------------------------------
 
-local unit_sel_attack = function()
-  retry(magonia_boss_unit_select_tap_unit(2))(MAGONIA_UNIT_SELECT_PAUSE,
-                                              MAGONIA_UNIT_SELECT_HOLD)
-  retry(magonia_boss_unit_select_tap_unit(3))(MAGONIA_UNIT_SELECT_PAUSE,
-                                              MAGONIA_UNIT_SELECT_HOLD)
-  retry(magonia_boss_unit_select_tap_unit(4))(MAGONIA_UNIT_SELECT_PAUSE,
-                                              MAGONIA_UNIT_SELECT_HOLD)
-  return retry(magonia_boss_unit_select_tap_attack)(MAGONIA_UNIT_SELECT_ATTACK_PAUSE,
-                                                    MAGONIA_UNIT_SELECT_ATTACK_HOLD)
+local function unit_sel_attack1()
+  act_once(magonia_boss_unit_select_tap_unit(2))(MUS_PAUSE, MUS_HOLD)
+  return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack1)(function()
+    act_once(magonia_boss_unit_select_tap_unit(3))(MUS_PAUSE, MUS_HOLD)
+    return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack1)(function()
+      act_once(magonia_boss_unit_select_tap_unit(4))(MUS_PAUSE, MUS_HOLD)
+      return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack1)(function()
+          return act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+      end)
+    end)
+  end)
+end
+local function unit_sel_attack2()
+  act_once(magonia_boss_unit_select_tap_unit(1))(MUS_PAUSE, MUS_HOLD)
+  return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack2)(function()
+    act_once(magonia_boss_unit_select_tap_unit(2))(MUS_PAUSE, MUS_HOLD)
+    return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack2)(function()
+      act_once(magonia_boss_unit_select_tap_unit(3))(MUS_PAUSE, MUS_HOLD)
+      return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack2)(function()
+        act_once(magonia_boss_unit_select_tap_unit(4))(MUS_PAUSE, MUS_HOLD)
+        return magonia_boss_unit_select_with_insufficient_bp_check(ALLOWED_BP_OPTIONS, unit_sel_attack2)(function()
+          return act_once(magonia_boss_unit_select_tap_attack)(MUSA_PAUSE, MUSA_HOLD)
+        end)
+      end)
+    end)
+  end)
+end
+
+local exec_battle = function()
+  magonia_execute_boss_battle(unit_sel_attack1)
+  if magonia_boss_unit_select() then
+    magonia_execute_boss_battle(unit_sel_attack2)
+  end
 end
 
 function execute_with(aid_request_sel)
   return function(k)
-    if not magonia_home_bp_full() then
-      retry(magonia_home_tap_bp_recover)(1)
-      magonia_home_consume_bp(ALLOWED_BP_OPTIONS)
+    retry(magonia_home_tap_aid_requests)(1.5)
+    if not magonia_aid_requests_available() then
+      retry(magonia_aid_requests_tap_home)(1)
+      return k()
     end
 
     local function k2()
-      retry(magonia_home_tap_aid_requests)(1)
-      if not magonia_aid_requests_available() then
-        retry(magonia_aid_requests_tap_home)(1)
-        return k2()
-      end
+      aid_request_sel()
 
-      local function k3()
-        aid_request_sel()
-
-        while not magonia_boss_unit_select() do
-          if magonia_aid_requests_battle_finished() then
-            retry(magonia_aid_requests_battle_finished_tap_confirm)(1)
-            return k3()
-          end
-
-          if LOG_ENABLED then
-            log("tapped aid request but not yet magonia_boss_unit_select")
-          end
+      while not magonia_boss_unit_select() do
+        if magonia_aid_requests_battle_finished() then
+          retry(magonia_aid_requests_battle_finished_tap_confirm)(1)
+          return k2()
         end
 
-        magonia_conduct_boss_battle(unit_sel_attack)(magonia_boss_battle_complete_confirm_rewards)
-        return k()
-
+        if LOG_ENABLED then
+          log("tapped aid request but not yet magonia_boss_unit_select")
+        end
       end
-      return k3()
+
+      magonia_conduct_boss_battle(exec_battle)(magonia_boss_battle_complete_confirm_rewards)
+      return k()
 
     end
     return k2()
+
   end
 end
 

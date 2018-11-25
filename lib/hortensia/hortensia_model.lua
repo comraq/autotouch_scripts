@@ -994,7 +994,22 @@ HORTENSIA = {
           COLORS = {
             RECOVERING = 11550773,
             RECOVER_COMPLETE = 3757720
-          }
+          },
+          OPTIONS = {
+            EVENT_BPMAX = {
+              name = "EVENT_BPMAX",
+              x = 652,
+              y = 1025,
+              COLOR = { AVAILABLE = 1162502 }
+            },
+            EVENT_BP50 = {
+              name = "EVENT_BP50",
+              x = 1327,
+              y = 1025,
+              COLOR = { AVAILABLE = 1492745 }
+            }
+          },
+          CONFIRM = {x = 1250, y = 980}
         },
         AID_REQUEST = {
           x = 592,
@@ -1013,6 +1028,18 @@ HORTENSIA = {
           {x = 1880, y = 760},
           {x = 1880, y = 980},
           {x = 1880, y = 1200}
+        },
+        INSUFFICIENT_BP = {
+          CONFIRM = {
+            x = 1106,
+            y = 972
+          },
+          COLORS = {
+            {x = 947, y = 970, color = 680920},
+            {x = 1096, y = 970, color = 481493},
+            {x = 1035, y = 1037, color = 15261378},
+            {x = 1538, y = 462, color = 16776960}
+          }
         },
         COLORS = {
           {x = 1292, y = 1249, color = 12397612},

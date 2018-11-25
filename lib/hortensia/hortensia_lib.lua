@@ -13,6 +13,10 @@ local DEFAULT_SWIPE_DUR_SEC = 0.1
 local DEFAULT_GIFTBOX_PAUSE_DUR_SEC = 10
 local DEFAULT_MISSION_COMPLETE_REAFFIRM_DELAY_SEC = 2
 
+local NO_LOADING_TAP_PAUSE_SEC = 0
+local MAGONIA_TAP_DUR_SEC = 0.1
+local MAGONIA_TAP_PAUSE_SEC = 1
+
 
 function fif(cond, a, b)
   if cond then
@@ -365,6 +369,20 @@ magonia_boss_unit_select_tap_refresh =
   generate_act_function("magonia_boss_unit_select_tap_refresh",
                         HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.REFRESH.x,
                         HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.REFRESH.y)
+magonia_boss_unit_select_insufficient_bp_tap_confirm =
+  generate_act_function("magonia_boss_unit_select_insufficient_bp_tap_confirm",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.INSUFFICIENT_BP.CONFIRM.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.INSUFFICIENT_BP.CONFIRM.y)
+magonia_boss_unit_select_bp_recover_tap_confirm =
+  generate_act_function("magonia_boss_unit_select_bp_recover_tap_confirm",
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.CONFIRM.x,
+                        HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.CONFIRM.y)
+magonia_boss_unit_select_bp_recover_tap_option = function(n)
+  local name = "magonia_boss_unit_select_bp_recover_tap_option" .. n
+  return generate_act_function(name,
+                               HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.OPTIONS[n].x,
+                               HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.OPTIONS[n].y)
+end
 
 magonia_boss_already_defeated_tap_confirm =
   generate_act_function("magonia_boss_already_defeated_tap_confirm",
@@ -940,9 +958,9 @@ function magonia_boss_battle_complete()
   return match_all_colors(HORTENSIA.MAGONIA.BOSS.BATTLE_COMPLETE.COLORS)
 end
 
-function magonia_conduct_boss_battle(unit_sel_attack, request_aid)
+function magonia_conduct_boss_battle(exec_battle, request_aid)
   return function(k)
-    magonia_execute_boss_battle(unit_sel_attack)
+    exec_battle()
 
     if magonia_boss_battle_complete() then
       return k()
@@ -956,7 +974,7 @@ function magonia_conduct_boss_battle(unit_sel_attack, request_aid)
         log("magonia_conduct_boss_battle, boss_battle_not_complete")
       end
 
-      magonia_execute_boss_battle(unit_sel_attack)
+      exec_battle()
       magonia_recover_and_refresh()
     end
     return k()
@@ -995,7 +1013,8 @@ function magonia_recover_and_refresh()
     end
     return
   end
-  retry(magonia_boss_unit_select_tap_bp_recover)(1)
+  retry(magonia_boss_unit_select_tap_bp_recover)(MAGONIA_TAP_PAUSE_SEC,
+                                                 MAGONIA_TAP_DUR_SEC)
 
   if magonia_boss_battle_complete() then
     if LOG_ENABLED then
@@ -1063,6 +1082,29 @@ function magonia_home_consume_bp(allowed_options)
   end, allowed_options))
 end
 
+function magonia_boss_unit_select_consume_bp(allowed_options)
+  return LIST.foldl(function(consumed, option)
+    if consumed then
+      return true
+    end
+
+    if not color_available(option) then
+      return false
+    end
+
+    if LOG_ENABLED then
+      log(string.format("magonia_boss_unit_select_consume_bp for option[%s]", option.name))
+    end
+
+    retry(magonia_boss_unit_select_bp_recover_tap_option(option.name))(1)
+    retry(magonia_boss_unit_select_bp_recover_tap_confirm)(3)
+    return true
+
+  end, false, LIST.fmap(function(o)
+    return HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.BP_RECOVER.OPTIONS[o]
+  end, allowed_options))
+end
+
 function magonia_aid_requests_available()
   return color_available(HORTENSIA.MAGONIA.AID_REQUESTS.REQUEST[1])
 end
@@ -1074,3 +1116,38 @@ end
 function magonia_boss_already_defeated()
   return match_all_colors(HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.COLORS)
 end
+
+function magonia_boss_unit_select_with_insufficient_bp_check(bp_options, sk)
+  local function f(k)
+    if LOG_ENABLED then
+      log(string.format("magonia_boss_unit_select_with_insufficient_bp_check, checking bp insufficient with options[%s]", tostring(bp_options)))
+    end
+
+    if magonia_boss_unit_select_insufficient_bp() then
+      retry(magonia_boss_unit_select_insufficient_bp_tap_confirm)(NO_LOADING_TAP_PAUSE_SEC,
+                                                                  MAGONIA_TAP_DUR_SEC)
+      retry(magonia_boss_unit_select_tap_bp_recover)(MAGONIA_TAP_PAUSE_SEC,
+                                                     MAGONIA_TAP_DUR_SEC)
+
+      local bp_consumed = magonia_boss_unit_select_consume_bp(bp_options)
+      if LOG_ENABLED then
+        log("bp insufficient, bp_consumed: " .. tostring(bp_consumed))
+      end
+
+      if not bp_consumed then
+        return alert("insufficient bp!")
+      end
+
+      return sk()
+    end
+
+    return k()
+  end
+
+  return f
+end
+
+function magonia_boss_unit_select_insufficient_bp()
+  return match_all_colors(HORTENSIA.MAGONIA.BOSS.UNIT_SELECT.INSUFFICIENT_BP.COLORS)
+end
+
