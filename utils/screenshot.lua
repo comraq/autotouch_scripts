@@ -1,1 +1,1 @@
-screenshot("screenshots/temp.bmp", nil);
+screenshot("tmp/temp2.bmp", nil);

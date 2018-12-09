@@ -477,3 +477,73 @@ function get_magonia_boss_already_defeated_bp_not_consumed_colors()
   end, cs)
 end
 
+function get_mission_special_complete_colors()
+  local init_x1, cy1 = 100, 935
+  local final_x1 = 1100
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
+end
+
+function get_recollection_treasure_chance_colors()
+  local init_x1, cy1 = 168, 640
+  local final_x1 = 1068
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
+end
+
+function get_recollection_treasure_chance_complete_colors()
+  local init_x1, cy1 = 223, 1060
+  local final_x1 = 1823
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
+end
+
+function get_recollection_boss_encountered_colors()
+  local cs = {
+    {1197,735},
+    {1192,836},
+    {1864,737},
+    {1918,773},
+    {1973,815}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
+
+function get_recollection_paths_ap_insufficient_colors()
+  local cs = {
+    {1029,940},
+    {726,972},
+    {1339,975},
+    {1021,1038}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
+
+function get_recollection_boss_defeated_colors()
+  local cs = {
+    {224,1271},
+    {1149,1176},
+    {1539,1176},
+    {1912,1176},
+    {1578,1219}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end

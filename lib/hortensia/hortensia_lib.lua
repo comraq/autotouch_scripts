@@ -18,6 +18,11 @@ local MAGONIA_REC_TAP_DUR_SEC = 0.1
 local MAGONIA_REC_TAP_PAUSE_SEC = 0.5
 local MAGONIA_REC_CONFIRM_TAP_PAUSE_SEC = 2
 
+local RECOLLECTION_NEXT_IMAGE_PATH = "screenshots/recollection_next.bmp"
+local RECOLLECTION_NEXT_IMAGE_WIDTH = 300
+local RECOLLECTION_NEXT_IMAGE_HEIGHT = 200
+local FIND_IMAGE_FUZZY = 0.4
+
 
 function fif(cond, a, b)
   if cond then
@@ -86,10 +91,13 @@ end
 
 
 
-
 -----------------------------------------
 -- Taps for buttons in various screens --
 -----------------------------------------
+tap_screen_center = generate_act_function("tap_screen_center",
+                                          DEFAULT_WIDTH / 2,
+                                          DEFAULT_HEIGHT / 2)
+
 
 home_tap_missions = generate_act_function("home_tap_missions",
                                           HORTENSIA.HOME.MISSIONS.x,
@@ -171,6 +179,9 @@ battle_failed_tap_retreat = generate_act_function("battle_failed_tap_retreat",
                                                   HORTENSIA.BATTLE.FAILED.RETREAT.y)
 
 
+mission_complete_special_tap_confirm = generate_act_function("mission_complete_special_tap_confirm",
+                                                             HORTENSIA.BATTLE.SPECIAL_COMPLETE.CONFIRM.x,
+                                                             HORTENSIA.BATTLE.SPECIAL_COMPLETE.CONFIRM.y)
 mission_complete_rewards_tap_confirm = generate_act_function("mission_complete_rewards_tap_confirm",
                                                              HORTENSIA.BATTLE.COMPLETE.CONFIRM.x,
                                                              HORTENSIA.BATTLE.COMPLETE.CONFIRM.y)
@@ -250,6 +261,37 @@ sixhr_home_tap_sp_mission = generate_act_function("sixhr_home_tap_sp_mission",
 sixhr_raid_complete_tap_home = generate_act_function("sixhr_raid_complete_tap_home",
                                                      HORTENSIA.SIXHR.RAID.COMPLETE.HOME.x,
                                                      HORTENSIA.SIXHR.RAID.COMPLETE.HOME.y)
+
+recollection_home_tap_proceed = generate_act_function("recollection_home_tap_proceed",
+                                                      HORTENSIA.RECOLLECTION.HOME.PROCEED.x,
+                                                      HORTENSIA.RECOLLECTION.HOME.PROCEED.y)
+recollection_paths_ap_insufficient_tap_confirm = generate_act_function("recollection_paths_ap_insufficient_tap_confirm",
+                                                                       HORTENSIA.RECOLLECTION.PATHS.AP_INSUFFICIENT.CONFIRM.x,
+                                                                       HORTENSIA.RECOLLECTION.PATHS.AP_INSUFFICIENT.CONFIRM.y)
+recollection_paths_tap_lamp = generate_act_function("recollection_paths_tap_lamp",
+                                                    HORTENSIA.RECOLLECTION.PATHS.LAMP.x,
+                                                    HORTENSIA.RECOLLECTION.PATHS.LAMP.y)
+recollection_paths_lamp_tap_confirm = generate_act_function("recollection_paths_lamp_tap_confirm",
+                                                            HORTENSIA.RECOLLECTION.PATHS.LAMP.CONFIRM.x,
+                                                            HORTENSIA.RECOLLECTION.PATHS.LAMP.CONFIRM.y)
+recollection_paths_tap_path = function(total)
+  return function(n)
+    local name = string.format("recollection_paths_tap_path_%d_%d", total, n)
+    return generate_act_function(name,
+                                 HORTENSIA.RECOLLECTION.PATHS[total][n].x,
+                                 HORTENSIA.RECOLLECTION.PATHS[total][n].y)
+  end
+end
+recollection_treasure_chance_complete_tap_confirm =
+  generate_act_function("recollection_treasure_chance_complete_tap_confirm",
+                        HORTENSIA.RECOLLECTION.TREASURE_CHANCE.COMPLETE.CONFIRM.x,
+                        HORTENSIA.RECOLLECTION.TREASURE_CHANCE.COMPLETE.CONFIRM.y)
+recollection_boss_defeated_tap_items_confirm = generate_act_function("recollection_boss_defeated_tap_items_confirm",
+                                                                     HORTENSIA.RECOLLECTION.BOSS.DEFEATED.ITEMS_CONFIRM.x,
+                                                                     HORTENSIA.RECOLLECTION.BOSS.DEFEATED.ITEMS_CONFIRM.y)
+recollection_boss_defeated_tap_proceed = generate_act_function("recollection_boss_defeated_tap_proceed",
+                                                               HORTENSIA.RECOLLECTION.BOSS.DEFEATED.PROCEED.x,
+                                                               HORTENSIA.RECOLLECTION.BOSS.DEFEATED.PROCEED.y)
 
 
 friends_list_tap_greet = function(n)
@@ -1178,5 +1220,86 @@ end
 
 function magonia_boss_already_defeated_bp_not_consumed()
   return match_all_colors(HORTENSIA.MAGONIA.BOSS.ALREADY_DEFEATED.BP_NOT_CONSUMED.COLORS)
+end
+
+function mission_complete_special_complete()
+  return match_all_colors(HORTENSIA.BATTLE.SPECIAL_COMPLETE.COLORS)
+end
+
+------------------
+-- Recollection --
+------------------
+
+function recollection_treasure_chance()
+  return match_all_colors(HORTENSIA.RECOLLECTION.MISSION.COMPLETE.TREASURE_CHANCE.COLORS)
+end
+
+function recollection_treasure_chance_complete()
+  return match_all_colors(HORTENSIA.RECOLLECTION.TREASURE_CHANCE.COMPLETE.COLORS)
+end
+
+function recollection_paths_ap_insufficient()
+  return match_all_colors(HORTENSIA.RECOLLECTION.PATHS.AP_INSUFFICIENT.COLORS)
+end
+
+function recollection_is_next_path(coords)
+  if LOG_ENABLED then
+    log(string.format("recollection_is_next_path finding image at coords x[%f], y[%f]", coords.x, coords.y))
+  end
+
+  local res = findImage(RECOLLECTION_NEXT_IMAGE_PATH, 1, FIND_IMAGE_FUZZY, nil, {
+    coords.x,
+    coords.y,
+    RECOLLECTION_NEXT_IMAGE_WIDTH,
+    RECOLLECTION_NEXT_IMAGE_HEIGHT
+  })
+
+  local count = 0
+  for i, v in pairs(res) do
+    if LOG_ENABLED then
+      log(string.format("recollection_is_next_path found image at: x:%f, y:%f", v[1], v[2]));
+    end
+    count = count + 1
+  end
+  if LOG_ENABLED then
+    log(string.format("recollection_is_next_path count of findImage result is [%d]", count))
+  end
+  return count > 0
+end
+
+function recollection_lamp_available()
+  return color_available(HORTENSIA.RECOLLECTION.PATHS.LAMP)
+end
+
+function recollection_boss_encountered()
+  return match_all_colors(HORTENSIA.RECOLLECTION.BOSS.ENCOUNTERED.COLORS)
+end
+
+function recollection_boss_defeated()
+  return match_all_colors(HORTENSIA.RECOLLECTION.BOSS.DEFEATED.COLORS)
+end
+
+function recollection_execute_boss_battle()
+  if LOG_ENABLED then
+    log("recollection_execute_boss_battle called")
+  end
+
+  while not recollection_boss_defeated() do
+    if LOG_ENABLED then
+      log("recollection_execute_boss_battle, in battle tapping skip")
+    end
+    retry(magonia_boss_in_battle_tap_skip)()
+  end
+
+  return
+end
+
+function recollection_path_taken(path)
+  if LOG_ENABLED then
+    log("recollection_path_taken, trying to match color[%d] at x[%f], y[%f]",
+        HORTENSIA.RECOLLECTION.PATHS.TAKEN.COLOR, path.x, path.y)
+  end
+
+  return match_color(HORTENSIA.RECOLLECTION.PATHS.TAKEN.COLOR, path.x, path.y)
 end
 

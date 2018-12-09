@@ -30,11 +30,29 @@ end
 log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 
-local x1,y1 = 1327, 1025
+get_recollection_treasure_chance_colors()
+local res = findImage("screenshots/recollection_next.bmp", 1, 0.4, nil, { 1250, 900, 300, 200 })
+local count = 0
+for i, v in pairs(res) do
+  alert(string.format("Found rect at: x:%f, y:%f", v[1], v[2]));
+  count = count + 1
+end
+alert(string.format("count of table is [%d]", count))
+
+local color = 1776411
+
+local x1,y1 = 442, 1223
 log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
-local x2,y2 = 652, 1025
-log(string.format("x[%f], y[%f], c[%d]", x2, y2, getColor(x2, y2)))
+
+local loc1 = HORTENSIA.RECOLLECTION.PATHS[3][2]
+local loc2 = HORTENSIA.RECOLLECTION.PATHS[3][3]
+log(string.format("matching color at path2[%s], path3[%s]", tostring(match_color(color, loc1.x, loc1.y)),
+                                                            tostring(match_color(color, loc2.x, loc2.y))))
 --]]
 
+log(string.format("insufficient_ap [%s] ", tostring(insufficient_ap())))
 
-get_magonia_boss_already_defeated_bp_not_consumed_colors()
+
+
+
+

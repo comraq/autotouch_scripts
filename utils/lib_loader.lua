@@ -24,6 +24,7 @@ local fns = {
   -- Model --
   -----------
   "hortensia_model",
+  "hortensia_recollection_stages",
 
 
   --------------------------
