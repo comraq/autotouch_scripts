@@ -1,6 +1,6 @@
 require("utils/lib_loader")
 
-LOG_ENABLED = true
+LOG_ENABLED = false
 ALLOWED_BP_OPTIONS = {
   "EVENT_BP50",
   "EVENT_BPMAX"
