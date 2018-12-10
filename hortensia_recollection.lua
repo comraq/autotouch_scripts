@@ -1,7 +1,7 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = true
-STAGE_NUM = 32
+STAGE_NUM = 50
 ALLOWED_AP_OPTIONS = {
   "AP10",
   "AP30",
@@ -16,7 +16,7 @@ ALLOWED_TICKET_OPTIONS = {
   "MAURICE"
 }
 
-FINAL_WAVE_SKILL = true
+FINAL_WAVE_SKILL = false
 MUS_PAUSE = 0.1
 MUS_HOLD = 0
 MUSA_PAUSE = 5
@@ -123,6 +123,9 @@ function execute_with(n, k)
 
     if recollection_boss_encountered() then
       recollection_conduct_boss_battle(exec_battle)
+      giftbox_accept_items()
+      retry(missions_tap_dropdown)()
+      retry(missions_dropdown_tap_event(2))(10) -- Loading event may take time
 
       return with_insufficient_ap_check(recollection_home_proceed, ALLOWED_AP_OPTIONS)(function()
         return exec_mission(function()

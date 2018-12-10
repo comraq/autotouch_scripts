@@ -55,5 +55,6 @@ local loc2 = HORTENSIA.RECOLLECTION.PATHS[3][3]
 log(string.format("matching color at path2[%s], path3[%s]", tostring(match_color(color, loc1.x, loc1.y)),
                                                             tostring(match_color(color, loc2.x, loc2.y))))
 --]]
-local x1,y1 = 140, 572
-log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+log(string.format("mission_complete_special_complete [%s]", tostring(mission_complete_special_complete())))
+
+

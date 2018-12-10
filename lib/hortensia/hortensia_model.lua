@@ -112,6 +112,11 @@ HORTENSIA = {
       GIFTBOX = {
         x = 1942,
         y = 687
+      },
+
+      EVENT = {
+        {x = 398, y = 617},
+        {x = 387, y = 900},
       }
     },
 
@@ -364,7 +369,8 @@ HORTENSIA = {
         {x = 100, y = 935, color = 5190146},
         {x = 200, y = 935, color = 16508027},
         {x = 300, y = 935, color = 16574559},
-        {x = 400, y = 935, color = 5848853},
+        -- Stability, sometime unable to match this color
+        --{x = 400, y = 935, color = 5848853},
         {x = 500, y = 935, color = 5190146},
         {x = 600, y = 935, color = 16248802},
         {x = 700, y = 935, color = 16441464},

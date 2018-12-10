@@ -137,6 +137,12 @@ missions_tap_dropdown = generate_act_function("missions_tap_dropdown",
 missions_dropdown_tap_giftbox = generate_act_function("missions_dropdown_tap_giftbox",
                                                       HORTENSIA.MISSIONS.DROPDOWN.GIFTBOX.x,
                                                       HORTENSIA.MISSIONS.DROPDOWN.GIFTBOX.y)
+missions_dropdown_tap_event = function(n)
+  local name = string.format("missions_dropdown_tap_event_[%d", n)
+  return generate_act_function(name,
+                               HORTENSIA.MISSIONS.DROPDOWN.EVENT[n].x,
+                               HORTENSIA.MISSIONS.DROPDOWN.EVENT[n].y)
+end
 missions_tap_boss = generate_act_function("missions_tap_boss",
                                           HORTENSIA.MISSIONS.BOSS.x,
                                           HORTENSIA.MISSIONS.BOSS.y)
@@ -1359,7 +1365,7 @@ function recollection_treasure_chance_battle(ticket_options)
       return alert("no ticket used for treasure_chance")
     end
 
-    sleep_sec(5) -- For stability, use ticket animation may take some time
+    sleep_sec(7) -- For stability, use ticket animation may take some time
     if recollection_treasure_chance_failed() then
       if LOG_ENABLED then
         log("treasure chance failed")

@@ -69,10 +69,10 @@ end
 
 -- The public function with additional logic to match color c at location x,y
 function match_color(c, x, y)
+  log(string.format("matching c[%f], centered around x[%f], y[%f]", c, x, y))
   if APPROX_COLOR_MATCH then
     local locs = findColor(c, 1, calc_reg(x, y))
     if #locs > 0 and LOG_ENABLED then
-      log(string.format("matching c[%f], centered around x[%f], y[%f]", c, x, y))
       for i,v in pairs(locs) do
         log(string.format("found x[%f], y[%f]", v[1], v[2]))
       end
