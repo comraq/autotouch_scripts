@@ -1284,7 +1284,7 @@ function recollection_is_next_path(coords)
   return count > 0
 end
 
-function recollection_lamp_available()
+function recollection_paths_lamp_available()
   return color_available(HORTENSIA.RECOLLECTION.PATHS.LAMP)
 end
 
@@ -1371,4 +1371,87 @@ function recollection_treasure_chance_battle(ticket_options)
     retry(tap_screen_center)()
     return succ_k()
   end
+end
+
+function recollection_paths_use_lamp(k)
+  if not recollection_paths_lamp_available() then
+    return alert("Encountered lamp path but no lamps available!")
+  end
+
+  retry(recollection_paths_tap_lamp)()
+  retry(recollection_paths_lamp_tap_confirm)()
+end
+
+function recollection_paths_lamp_in_use()
+  local loc = HORTENSIA.RECOLLECTION.PATHS.LAMP
+  return match_color(loc.COLOR.IN_USE, loc.x, loc.y)
+end
+
+function recollection_get_stage(n)
+  return HORTENSIA_RECOLLECTION[n]
+end
+
+function recollection_get_paths(stage)
+  return HORTENSIA.RECOLLECTION.PATHS[stage.total]
+end
+
+function recollection_get_next_stage_num(n)
+  if n >= 100 then
+    return 1
+  else
+    return n + 1
+  end
+end
+
+function recollection_get_path_indices(stage)
+  local ps = {}
+  if recollection_paths_lamp_in_use() then
+    if LOG_ENABLED then
+      log("building paths for stage with lamp in use")
+    end
+
+    local last = nil
+    local paths = recollection_get_paths(stage)
+    for i,v in ipairs(paths) do
+      if recollection_is_next_path(v.IMAGE) then
+        last = i
+        if LOG_ENABLED then
+          log(string.format("found next path image at i[%d]", i))
+        end
+      else
+        table.insert(ps, i)
+      end
+    end
+
+    if last == nil then
+      return alert("did not find next path image for stage!")
+    end
+
+    table.insert(ps, last)
+    return ps
+  end
+
+  for i = 1, stage.total, 1 do
+    table.insert(ps, i)
+  end
+  return ps
+end
+
+function recollection_conduct_boss_battle(exec_battle)
+  if LOG_ENABLED then
+    log("recollection_conduct_boss_battle, tapping screen center")
+  end
+
+  retry(tap_screen_center)()
+  exec_battle()
+
+  retry(recollection_boss_defeated_tap_items_confirm)()
+  retry(recollection_boss_defeated_tap_proceed)(10) -- Long animation after boss defeated
+  retry(tap_screen_center)()
+
+  if LOG_ENABLED then
+    log("recollection boss defeated")
+  end
+
+  return
 end

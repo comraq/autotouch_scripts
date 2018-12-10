@@ -180,6 +180,25 @@ LIST = {
     end
 
     return acc
+  end,
+
+  tail = function(xs)
+    local ys = {}
+    for i,v in ipairs(xs) do
+      if i > 1 then
+        ys[i - 1] = v
+      end
+    end
+
+    return ys
+  end,
+
+  length = function(xs)
+    local n = 0
+    for i,v in pairs(xs) do
+      n = n + 1
+    end
+    return n
   end
 }
 

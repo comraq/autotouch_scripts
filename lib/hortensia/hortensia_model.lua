@@ -1127,8 +1127,6 @@ HORTENSIA = {
       COMPLETE = {
         TREASURE_CHANCE = {
           COLORS = {
-            {x = 168, y = 640, color = 5183010},
-            {x = 268, y = 640, color = 9768783},
             {x = 368, y = 640, color = 8652116},
             {x = 468, y = 640, color = 10099578},
             {x = 568, y = 640, color = 7996807},
@@ -1158,8 +1156,11 @@ HORTENSIA = {
       LAMP = {
         x = 140,
         y = 572,
-        COLOR = { AVAILABLE = 1638144 },
-        CONFIRM = {x = 1333, y = 1122}
+        COLOR = {
+          AVAILABLE = 1638144,
+          IN_USE = 13352784
+        },
+        CONFIRM = {x = 1333, y = 1122},
       },
 
       [2] = {

@@ -1,7 +1,7 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = true
-STAGE_NUM = 89
+STAGE_NUM = 32
 ALLOWED_AP_OPTIONS = {
   "AP10",
   "AP30",
@@ -62,22 +62,6 @@ local exec_battle = function()
   end)
 end
 
-function get_stage(n)
-  return HORTENSIA_RECOLLECTION[n]
-end
-
-function get_paths(stage)
-  return HORTENSIA.RECOLLECTION.PATHS[stage.total]
-end
-
-function get_next_stage_num(n)
-  if n >= 100 then
-    return 1
-  else
-    return n + 1
-  end
-end
-
 function exec_mission(k)
   -- Special Mission
   retry(battle_helper_select_tap_first_helper)()
@@ -95,6 +79,7 @@ function exec_mission(k)
         retry(battle_party_select_tap_confirm)()
 
         return in_battle_daemon(recollection_treasure_chance_complete)(function()
+          sleep_sec(5) -- For stability, treasure_chance_complete animation may take some time
           retry(recollection_treasure_chance_complete_tap_confirm)()
           return k()
         end)
@@ -107,11 +92,11 @@ function exec_mission(k)
 end
 
 function execute_with(n, k)
-  local stage = get_stage(n)
-  local paths = get_paths(stage)
+  local stage = recollection_get_stage(n)
+  local paths = recollection_get_paths(stage)
 
-  if stage.lamp then
-    return alert("encountered lamp path!")
+  if stage.lamp and not recollection_paths_lamp_in_use() then
+    recollection_paths_use_lamp()
   end
 
   if LOG_ENABLED then
@@ -119,47 +104,29 @@ function execute_with(n, k)
   end
 
   local tap_path = recollection_paths_tap_path(stage.total)
-  local function f(i)
-    if i > stage.total then
-      return alert(tostring("i[%d] > stage.total, this should not happen", i))
-      --[[
-      local next_stage = get_next_stage_num(n)
-      if LOG_ENABLED then
-        log(string.format("exhausted all paths on stage[%d], proceeding with next_stage[%d]", n, next_stage))
-      end
-      return k(next_stage)
-      --]]
+  local ps = recollection_get_path_indices(stage)
+  local function f(ps)
+    if LIST.length(ps) == 0 then
+      return alert("number of paths remain is 0, this should not happen")
     end
 
+    local i = ps[1]
     if recollection_path_taken(paths[i]) then
       if LOG_ENABLED then
         log(string.format("already taken current path[%d], moving onto next path", i))
       end
-      return f(i + 1)
+      return f(LIST.tail(ps))
     end
 
     retry(tap_path(i))()
     retry(tap_screen_center)()
 
     if recollection_boss_encountered() then
-      if LOG_ENABLED then
-        log("recollection_boss_encountered, tapping screen center")
-      end
-
-      retry(tap_screen_center)()
-      exec_battle()
-
-      retry(recollection_boss_defeated_tap_items_confirm)()
-      retry(recollection_boss_defeated_tap_proceed)(10)
-      retry(tap_screen_center)()
-
-      if LOG_ENABLED then
-        log("recollection boss defeated")
-      end
+      recollection_conduct_boss_battle(exec_battle)
 
       return with_insufficient_ap_check(recollection_home_proceed, ALLOWED_AP_OPTIONS)(function()
         return exec_mission(function()
-          local next_stage = get_next_stage_num(n)
+          local next_stage = recollection_get_next_stage_num(n)
           if LOG_ENABLED then
             log(string.format("proceeding with next_stage[%d]", next_stage))
           end
@@ -177,13 +144,13 @@ function execute_with(n, k)
       return with_insufficient_ap_check(recollection_home_proceed, ALLOWED_AP_OPTIONS)(function()
         return exec_mission(function()
           if not recollection_path_taken(paths[i]) then
-            local next_stage = get_next_stage_num(n)
+            local next_stage = recollection_get_next_stage_num(n)
             if LOG_ENABLED then
               log(string.format("path just taken is available once again, moving onto next_stage[%d]", next_stage))
             end
             return k(next_stage)
           end
-          return f(i + 1)
+          return f(LIST.tail(ps))
         end)
       end)
     end
@@ -193,17 +160,17 @@ function execute_with(n, k)
     end
     return exec_mission(function()
       if not recollection_path_taken(paths[i]) then
-        local next_stage = get_next_stage_num(n)
+        local next_stage = recollection_get_next_stage_num(n)
         if LOG_ENABLED then
           log(string.format("path just taken is available once again, moving onto next_stage[%d]", next_stage))
         end
         return k(next_stage)
       end
-      return f(i + 1)
+      return f(LIST.tail(ps))
     end)
   end
 
-  return f(1)
+  return f(ps)
 end
 
 local function main(n)
