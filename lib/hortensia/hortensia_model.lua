@@ -278,7 +278,7 @@ HORTENSIA = {
           {x = 660, y = 515, color = 15458758},
           {x = 760, y = 515, color = 15195586},
           {x = 860, y = 515, color = 15195586},
-          {x = 960, y = 515, color = 14208694},
+          --{x = 960, y = 515, color = 14208694},
           {x = 1060, y = 515, color = 5722449},
           {x = 1160, y = 515, color = 15064000},
           {x = 1260, y = 515, color = 15129536},
@@ -289,7 +289,7 @@ HORTENSIA = {
           {x = 1004, y = 683, color = 5722449},
           {x = 1104, y = 683, color = 15195585},
           {x = 1204, y = 683, color = 15195585},
-          {x = 508, y = 970, color = 13024671},
+          --{x = 508, y = 970, color = 13024671},
           {x = 608, y = 970, color = 14998206},
           {x = 708, y = 970, color = 14866620},
           {x = 808, y = 970, color = 15393221},
@@ -346,6 +346,16 @@ HORTENSIA = {
 
   BATTLE = {
     HELPER_SELECT = {
+      COLORS = {
+        {x = 1067, y = 396, color = 5000268},
+        {x = 1317, y = 399, color = 5000268},
+        {x = 1618, y = 393, color = 5000268},
+        {x = 1838, y = 401, color = 5000268},
+        {x = 1846, y = 587, color = 9568256},
+        {x = 1861, y = 766, color = 13119280},
+        {x = 1852, y = 1124, color = 10092544},
+        {x = 1854, y = 1294, color = 13119280}
+      },
       FIRST = {
         x = 1858,
         y = 509
@@ -366,13 +376,13 @@ HORTENSIA = {
 
     SPECIAL_COMPLETE = {
       COLORS = {
+        -- Commented out some color matching for stability
         {x = 100, y = 935, color = 5190146},
         {x = 200, y = 935, color = 16508027},
         {x = 300, y = 935, color = 16574559},
-        -- Stability, sometime unable to match this color
         --{x = 400, y = 935, color = 5848853},
         {x = 500, y = 935, color = 5190146},
-        {x = 600, y = 935, color = 16248802},
+        --{x = 600, y = 935, color = 16248802},
         {x = 700, y = 935, color = 16441464},
         {x = 800, y = 935, color = 16644015},
         {x = 900, y = 935, color = 16704674},

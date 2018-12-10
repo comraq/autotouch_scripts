@@ -54,7 +54,7 @@ local loc1 = HORTENSIA.RECOLLECTION.PATHS[3][2]
 local loc2 = HORTENSIA.RECOLLECTION.PATHS[3][3]
 log(string.format("matching color at path2[%s], path3[%s]", tostring(match_color(color, loc1.x, loc1.y)),
                                                             tostring(match_color(color, loc2.x, loc2.y))))
---]]
 log(string.format("mission_complete_special_complete [%s]", tostring(mission_complete_special_complete())))
-
+--]]
+get_battle_helper_select_colors()
 

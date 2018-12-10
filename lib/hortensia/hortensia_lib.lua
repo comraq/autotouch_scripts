@@ -538,8 +538,9 @@ function activate_skill(member)
   return swipe(cx, cy, cx-DEFAULT_SWIPE_LENGTH_RES, cy)
 end
 
-function mission_complete()
-  if mission_complete_reaffirm(mission_complete_battle_complete, "battle_complete") then
+function mission_complete(battle_complete)
+  local f = fif(battle_complete, thunk(battle_complete), thunk(mission_complete_battle_complete))
+  if mission_complete_reaffirm(f, "battle_complete") then
     return true
 
   elseif mission_complete_reaffirm(mission_complete_rank_up, "rank_up") then
@@ -789,6 +790,9 @@ end
 ----------------------------
 -- Insufficient AP Checks --
 ----------------------------
+function battle_helper_select()
+  return match_all_colors(HORTENSIA.BATTLE.HELPER_SELECT.COLORS)
+end
 
 function with_insufficient_ap_check(action, ap_options)
   local function f(k)
@@ -821,11 +825,21 @@ function with_insufficient_ap_check(action, ap_options)
       return alert("insufficient ap!")
     end
 
-    if ap_consumed_still_insufficient() then
+    -- TODO: Recollection remains on Recollection home screen if ap option
+    --       is consumed but still insufficient ap
+    if not battle_helper_select() then
+      -- Did not proceed to battle helper select, indicates ap consumed but
+      -- ap still insufficient
       if LOG_ENABLED then
-        log("ap consumed but still insufficient!")
+        log("ap consumed but did not proceed to battle helper select")
       end
-      retry(insufficient_ap_tap_consumed_still_insufficient_confirm)()
+      if ap_consumed_still_insufficient() then
+        if LOG_ENABLED then
+          log("ap consumed but still insufficient!")
+        end
+        retry(insufficient_ap_tap_consumed_still_insufficient_confirm)()
+      end
+
       return f(k)
     else
       return k()
@@ -1454,7 +1468,7 @@ function recollection_conduct_boss_battle(exec_battle)
 
   retry(recollection_boss_defeated_tap_items_confirm)()
   retry(recollection_boss_defeated_tap_proceed)(10) -- Long animation after boss defeated
-  retry(tap_screen_center)()
+  act_once(tap_screen_center)()
 
   if LOG_ENABLED then
     log("recollection boss defeated")

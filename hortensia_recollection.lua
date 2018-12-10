@@ -1,7 +1,7 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = true
-STAGE_NUM = 50
+STAGE_NUM = 80
 ALLOWED_AP_OPTIONS = {
   "AP10",
   "AP30",
@@ -12,8 +12,8 @@ ALLOWED_BP_OPTIONS = {}
 ALLOWED_TICKET_OPTIONS = {
   "CHARLOT",
   "MARYUS",
-  "DEFROT",
-  "MAURICE"
+  "MAURICE",
+  "DEFROT"
 }
 
 FINAL_WAVE_SKILL = true
@@ -62,12 +62,16 @@ local exec_battle = function()
   end)
 end
 
+local special_mission_complete = function()
+  return mission_complete(mission_complete_special_complete)
+end
+
 function exec_mission(k)
   -- Special Mission
   retry(battle_helper_select_tap_first_helper)()
   retry(battle_party_select_tap_confirm)()
 
-  return in_battle_daemon(mission_complete_special_complete)(function()
+  return in_battle_daemon(special_mission_complete)(function()
 
     act_once(mission_complete_special_tap_confirm)(7)
     if recollection_treasure_chance() then

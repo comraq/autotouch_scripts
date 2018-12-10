@@ -568,3 +568,21 @@ function get_recollection_treasure_chance_failed_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_battle_helper_select_colors()
+  local cs = {
+    {1067,396},
+    {1317,399},
+    {1618,393},
+    {1838,401},
+    {1846,587},
+    {1861,766},
+    {1852,1124},
+    {1854,1294}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end
