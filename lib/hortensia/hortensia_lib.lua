@@ -2,7 +2,7 @@
 -- Dimensions and Timing --
 ---------------------------
 
-local WAIT_LOADING = true
+local WAIT_LOADING = false -- Disabled due for stability
 local DEFAULT_TAP_PAUSE_SEC = 5
 local DEFAULT_TAP_DUR_SEC = 1
 local DEFAULT_BATTLE_DAEMON_INTERVAL_SEC = 3
@@ -881,6 +881,7 @@ function deprecated_wait_network_loading()
   end
 end
 
+-- TODO: Refactor to use findImage instead
 function wait_network_loading()
   if WAIT_LOADING then
     while match_all_colors(HORTENSIA.LOADING.RUNNING.COLORS) do
