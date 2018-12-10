@@ -547,3 +547,24 @@ function get_recollection_boss_defeated_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_recollection_treasure_chance_failed_colors()
+  local cs = {
+    {1444,764},
+    {1398,827},
+    {1568,801},
+    {1505,758},
+    {1390,873},
+    {1488,873},
+    {1573,873},
+    {1549,921},
+    {1365,983},
+    {1504,927},
+    {1551,965}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end

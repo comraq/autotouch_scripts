@@ -1182,6 +1182,57 @@ HORTENSIA = {
     },
 
     TREASURE_CHANCE = {
+      FAILED = {
+        COLORS = {
+          {x = 1444, y = 764, color = 4497109},
+          {x = 1398, y = 827, color = 4827123},
+          {x = 1568, y = 801, color = 4695271},
+          {x = 1505, y = 758, color = 4562382},
+          {x = 1390, y = 873, color = 3704746},
+          {x = 1488, y = 873, color = 3704746},
+          {x = 1573, y = 873, color = 3704746},
+          {x = 1549, y = 921, color = 1913662},
+          {x = 1365, y = 983, color = 5023419},
+          {x = 1504, y = 927, color = 4561065},
+          {x = 1551, y = 965, color = 5022901}
+        }
+      },
+      TICKET = {
+        CONFIRM = {x = 1182, y = 961},
+        OPTIONS = {
+          DEFROT = {
+            name = "DEFROT",
+            x = 244,
+            y = 1204,
+            COLOR = { AVAILABLE = 163319 }
+          },
+          MAURICE = {
+            name = "MAURICE",
+            x = 602,
+            y = 1201,
+            COLOR = { AVAILABLE = 229368 }
+          },
+          ADELHEID = {
+            name = "ADELHEID",
+            x = 959,
+            y = 1198,
+            COLOR = { AVAILABLE = 229368 }
+          },
+          MARYUS = {
+            name = "MARYUS",
+            x = 1358,
+            y = 1254,
+            COLOR = { AVAILABLE = 12552455 }
+          },
+          CHARLOT = {
+            name = "CHARLOT",
+            x = 1818,
+            y = 1252,
+            COLOR = { UNAVAILABLE = 2557952 }
+          }
+        }
+      },
+
       COMPLETE = {
         CONFIRM = {x = 1033, y = 1236},
         COLORS = {

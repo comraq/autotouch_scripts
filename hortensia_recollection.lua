@@ -1,7 +1,7 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = true
-STAGE_NUM = 87
+STAGE_NUM = 89
 ALLOWED_AP_OPTIONS = {
   "AP10",
   "AP30",
@@ -9,6 +9,12 @@ ALLOWED_AP_OPTIONS = {
   "APMAX"
 }
 ALLOWED_BP_OPTIONS = {}
+ALLOWED_TICKET_OPTIONS = {
+  "CHARLOT",
+  "MARYUS",
+  "DEFROT",
+  "MAURICE"
+}
 
 FINAL_WAVE_SKILL = true
 MUS_PAUSE = 0.1
@@ -81,7 +87,18 @@ function exec_mission(k)
 
     act_once(mission_complete_special_tap_confirm)(7)
     if recollection_treasure_chance() then
-      return alert("treasure chance encountered!")
+      if LOG_ENABLED then
+        log("encountered treasure chance!")
+      end
+      return recollection_treasure_chance_battle(ALLOWED_TICKET_OPTIONS)(function()
+        retry(battle_helper_select_tap_first_helper)()
+        retry(battle_party_select_tap_confirm)()
+
+        return in_battle_daemon(recollection_treasure_chance_complete)(function()
+          retry(recollection_treasure_chance_complete_tap_confirm)()
+          return k()
+        end)
+      end, k)
     end
 
     act_once(mission_complete_special_tap_confirm)()
@@ -104,11 +121,14 @@ function execute_with(n, k)
   local tap_path = recollection_paths_tap_path(stage.total)
   local function f(i)
     if i > stage.total then
+      return alert(tostring("i[%d] > stage.total, this should not happen", i))
+      --[[
       local next_stage = get_next_stage_num(n)
       if LOG_ENABLED then
         log(string.format("exhausted all paths on stage[%d], proceeding with next_stage[%d]", n, next_stage))
       end
       return k(next_stage)
+      --]]
     end
 
     if recollection_path_taken(paths[i]) then

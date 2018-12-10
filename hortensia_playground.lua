@@ -5,6 +5,12 @@ ALLOWED_AP_OPTIONS = {
   "AP50",
   "APMAX"
 }
+ALLOWED_TICKET_OPTIONS = {
+  "CHARLOT",
+  "MARYUS",
+  "DEFROT",
+  "MAURICE"
+}
 ALLOW_RP_POTIONS = true
 
 if LOG_ENABLED then
@@ -50,9 +56,4 @@ log(string.format("matching color at path2[%s], path3[%s]", tostring(match_color
                                                             tostring(match_color(color, loc2.x, loc2.y))))
 --]]
 
-log(string.format("insufficient_ap [%s] ", tostring(insufficient_ap())))
-
-
-
-
-
+log("mission_complete_special_complete: " .. tostring(mission_complete_special_complete()))

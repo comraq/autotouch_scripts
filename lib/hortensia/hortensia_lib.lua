@@ -86,7 +86,13 @@ function match_any_colors(cs)
 end
 
 function color_available(loc)
-  return match_color(loc.COLOR.AVAILABLE, loc.x, loc.y)
+  if loc.COLOR.AVAILABLE then
+    return match_color(loc.COLOR.AVAILABLE, loc.x, loc.y)
+  elseif loc.COLOR.UNAVAILABLE then
+    return not match_color(loc.COLOR.UNAVAILABLE, loc.x, loc.y)
+  else
+    return alert(string.format("No color for available or unavailable at loc.x[%f], loc.y[%f]", loc.x, loc.y))
+  end
 end
 
 
@@ -292,6 +298,17 @@ recollection_boss_defeated_tap_items_confirm = generate_act_function("recollecti
 recollection_boss_defeated_tap_proceed = generate_act_function("recollection_boss_defeated_tap_proceed",
                                                                HORTENSIA.RECOLLECTION.BOSS.DEFEATED.PROCEED.x,
                                                                HORTENSIA.RECOLLECTION.BOSS.DEFEATED.PROCEED.y)
+
+recollection_treasure_chance_tap_ticket = function(n)
+  local name = "recollection_treasure_chance_tap_ticket_" .. n
+  return generate_act_function(name,
+                               HORTENSIA.RECOLLECTION.TREASURE_CHANCE.TICKET.OPTIONS[n].x,
+                               HORTENSIA.RECOLLECTION.TREASURE_CHANCE.TICKET.OPTIONS[n].y)
+end
+recollection_treasure_chance_ticket_tap_confirm =
+  generate_act_function("recollection_treasure_chance_ticket_tap_confirm",
+                        HORTENSIA.RECOLLECTION.TREASURE_CHANCE.TICKET.CONFIRM.x,
+                        HORTENSIA.RECOLLECTION.TREASURE_CHANCE.TICKET.CONFIRM.y)
 
 
 friends_list_tap_greet = function(n)
@@ -1303,3 +1320,55 @@ function recollection_path_taken(path)
   return match_color(HORTENSIA.RECOLLECTION.PATHS.TAKEN.COLOR, path.x, path.y)
 end
 
+function recollection_treasure_chance_use_ticket(allowed_options)
+  return LIST.foldl(function(consumed, option)
+    if consumed then
+      return true
+    end
+
+    if not color_available(option) then
+      return false
+    end
+
+    if LOG_ENABLED then
+      log(string.format("recollection_treasure_chance_use_ticket for option[%s]", option.name))
+    end
+
+    retry(recollection_treasure_chance_tap_ticket(option.name))()
+    retry(recollection_treasure_chance_ticket_tap_confirm)()
+    return true
+
+  end, false, LIST.fmap(function(o)
+    return HORTENSIA.RECOLLECTION.TREASURE_CHANCE.TICKET.OPTIONS[o]
+  end, allowed_options))
+end
+
+function recollection_treasure_chance_failed()
+  return match_all_colors(HORTENSIA.RECOLLECTION.TREASURE_CHANCE.FAILED.COLORS)
+end
+
+function recollection_treasure_chance_battle(ticket_options)
+  return function(succ_k, fail_k)
+    if LOG_ENABLED then
+      log("attempting recollection_treasure_chance_battle")
+    end
+
+    retry(tap_screen_center)()
+    local ticket_used = recollection_treasure_chance_use_ticket(ticket_options)
+    if not ticket_used then
+      return alert("no ticket used for treasure_chance")
+    end
+
+    sleep_sec(5) -- For stability, use ticket animation may take some time
+    if recollection_treasure_chance_failed() then
+      if LOG_ENABLED then
+        log("treasure chance failed")
+      end
+      retry(tap_screen_center)()
+      return fail_k()
+    end
+
+    retry(tap_screen_center)()
+    return succ_k()
+  end
+end
