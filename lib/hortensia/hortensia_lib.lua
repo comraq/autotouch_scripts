@@ -1326,7 +1326,7 @@ function recollection_execute_boss_battle()
     if LOG_ENABLED then
       log("recollection_execute_boss_battle, in battle tapping skip")
     end
-    retry(magonia_boss_in_battle_tap_skip)()
+    act_once(magonia_boss_in_battle_tap_skip)()
   end
 
   return
