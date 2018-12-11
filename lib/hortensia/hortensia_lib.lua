@@ -1380,7 +1380,7 @@ function recollection_treasure_chance_battle(ticket_options)
       return alert("no ticket used for treasure_chance")
     end
 
-    sleep_sec(7) -- For stability, use ticket animation may take some time
+    sleep_sec(10) -- For stability, use ticket animation may take some time
     if recollection_treasure_chance_failed() then
       if LOG_ENABLED then
         log("treasure chance failed")
