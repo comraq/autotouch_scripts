@@ -22,6 +22,8 @@ MUS_PAUSE = 0.1
 MUS_HOLD = 0
 MUSA_PAUSE = 5
 MUSA_HOLD = 0.3
+REC_PATHS_LOAD_PAUSE = 7
+REC_HOME_LOAD_PAUSE = 10
 
 
 if LOG_ENABLED then
@@ -74,7 +76,7 @@ function exec_mission(k)
 
   return in_battle_daemon(special_mission_complete)(function()
 
-    act_once(mission_complete_special_tap_confirm)(7)
+    act_once(mission_complete_special_tap_confirm)(REC_PATHS_LOAD_PAUSE)
     if recollection_treasure_chance() then
       if LOG_ENABLED then
         log("encountered treasure chance!")
@@ -85,13 +87,13 @@ function exec_mission(k)
 
         return in_battle_daemon(recollection_treasure_chance_complete)(function()
           sleep_sec(5) -- For stability, treasure_chance_complete animation may take some time
-          retry(recollection_treasure_chance_complete_tap_confirm)()
+          retry(recollection_treasure_chance_complete_tap_confirm)(REC_PATHS_LOAD_PAUSE)
           return k()
         end)
       end, k)
     end
 
-    act_once(mission_complete_special_tap_confirm)()
+    act_once(mission_complete_special_tap_confirm)(REC_PATHS_LOAD_PAUSE)
     return k()
   end)
 end
@@ -130,7 +132,7 @@ function execute_with(n, k)
       recollection_conduct_boss_battle(exec_battle)
       giftbox_accept_items()
       retry(missions_tap_dropdown)()
-      retry(missions_dropdown_tap_event(2))(10) -- Loading event may take time
+      retry(missions_dropdown_tap_event(1))(REC_HOME_LOAD_PAUSE) -- Loading event may take time
 
       return with_insufficient_ap_check(recollection_home_proceed, ALLOWED_AP_OPTIONS)(function()
         return exec_mission(function()

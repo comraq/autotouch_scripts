@@ -1334,8 +1334,8 @@ end
 
 function recollection_path_taken(path)
   if LOG_ENABLED then
-    log("recollection_path_taken, trying to match color[%d] at x[%f], y[%f]",
-        HORTENSIA.RECOLLECTION.PATHS.TAKEN.COLOR, path.x, path.y)
+    log(string.format("recollection_path_taken, trying to match color[%d] at x[%f], y[%f]",
+                      HORTENSIA.RECOLLECTION.PATHS.TAKEN.COLOR, path.x, path.y))
   end
 
   return match_color(HORTENSIA.RECOLLECTION.PATHS.TAKEN.COLOR, path.x, path.y)
