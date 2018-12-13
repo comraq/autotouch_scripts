@@ -191,6 +191,14 @@ battle_failed_tap_retreat = generate_act_function("battle_failed_tap_retreat",
                                                   HORTENSIA.BATTLE.FAILED.RETREAT.y)
 
 
+mission_complete_friend_request_tap_send =
+  generate_act_function("mission_complete_friend_request_tap_send",
+                        HORTENSIA.BATTLE.COMPLETE.FRIEND_REQUEST.SEND.x,
+                        HORTENSIA.BATTLE.COMPLETE.FRIEND_REQUEST.SEND.y)
+mission_complete_friend_request_tap_discard =
+  generate_act_function("mission_complete_friend_request_tap_discard",
+                        HORTENSIA.BATTLE.COMPLETE.FRIEND_REQUEST.DISCARD.x,
+                        HORTENSIA.BATTLE.COMPLETE.FRIEND_REQUEST.DISCARD.y)
 mission_complete_special_tap_confirm = generate_act_function("mission_complete_special_tap_confirm",
                                                              HORTENSIA.BATTLE.SPECIAL_COMPLETE.CONFIRM.x,
                                                              HORTENSIA.BATTLE.SPECIAL_COMPLETE.CONFIRM.y)
@@ -559,6 +567,10 @@ end
 
 function mission_complete_battle_complete()
   return match_all_colors(HORTENSIA.BATTLE.COMPLETE.COLORS)
+end
+
+function mission_complete_battle_complete_friend_request()
+  return match_all_colors(HORTENSIA.BATTLE.COMPLETE.FRIEND_REQUEST.COLORS)
 end
 
 function mission_complete_reaffirm(pred, name)

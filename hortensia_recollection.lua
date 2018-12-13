@@ -1,7 +1,7 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = true
-STAGE_NUM = 80
+STAGE_NUM = 56
 ALLOWED_AP_OPTIONS = {
   "AP10",
   "AP30",
@@ -77,6 +77,13 @@ function exec_mission(k)
   return in_battle_daemon(special_mission_complete)(function()
 
     act_once(mission_complete_special_tap_confirm)(REC_PATHS_LOAD_PAUSE)
+    if mission_complete_battle_complete_friend_request() then
+      if LOG_ENABLED then
+        log("battle complete, got friend request prompt")
+      end
+      retry(mission_complete_friend_request_tap_discard)()
+    end
+
     if recollection_treasure_chance() then
       if LOG_ENABLED then
         log("encountered treasure chance!")

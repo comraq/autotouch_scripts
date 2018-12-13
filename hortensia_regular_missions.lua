@@ -53,11 +53,9 @@ end
 ---------------------------------
 
 local battle_complete_saved_mission = function()
-  mission_complete_proceed_to_rewards_confirm()
   return retry(mission_complete_tap_saved_mission)()
 end
 local battle_complete_confirm = function()
-  mission_complete_proceed_to_rewards_confirm()
   return retry(mission_complete_rewards_tap_confirm)(10)
 end
 
@@ -70,6 +68,14 @@ function execute_with(mission_sel, on_battle_complete)
       retry(battle_party_select_tap_confirm)()
 
       return in_battle_daemon()(function()
+        mission_complete_proceed_to_rewards_confirm()
+        if mission_complete_battle_complete_friend_request() then
+          if LOG_ENABLED then
+            log("battle complete, got friend request prompt")
+          end
+          retry(mission_complete_friend_request_tap_discard)()
+        end
+
         on_battle_complete()
         return k()
       end)

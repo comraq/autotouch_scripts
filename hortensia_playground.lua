@@ -56,5 +56,5 @@ log(string.format("matching color at path2[%s], path3[%s]", tostring(match_color
                                                             tostring(match_color(color, loc2.x, loc2.y))))
 log(string.format("mission_complete_special_complete [%s]", tostring(mission_complete_special_complete())))
 --]]
-get_battle_helper_select_colors()
+get_battle_complete_friend_request_colors()
 

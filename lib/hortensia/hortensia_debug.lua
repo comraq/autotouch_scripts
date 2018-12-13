@@ -586,3 +586,19 @@ function get_battle_helper_select_colors()
     log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
   end, cs)
 end
+
+function get_battle_complete_friend_request_colors()
+  local cs = {
+    {620,493},
+    {1392,490},
+    {702,1082},
+    {913,1083},
+    {1126,1079},
+    {1347,1079}
+  }
+
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
+end

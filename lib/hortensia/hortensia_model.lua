@@ -352,9 +352,10 @@ HORTENSIA = {
         {x = 1618, y = 393, color = 5000268},
         {x = 1838, y = 401, color = 5000268},
         {x = 1846, y = 587, color = 9568256},
-        {x = 1861, y = 766, color = 13119280},
-        {x = 1852, y = 1124, color = 10092544},
-        {x = 1854, y = 1294, color = 13119280}
+        -- Reduce Color matching for 2nd, 3rd, 4th helper because they may not always exist
+        -- {x = 1861, y = 766, color = 13119280},
+        -- {x = 1852, y = 1124, color = 10092544},
+        -- {x = 1854, y = 1294, color = 13119280}
       },
       FIRST = {
         x = 1858,
@@ -418,6 +419,19 @@ HORTENSIA = {
       CONFIRM = {
         x = 1343,
         y = 1238
+      },
+
+      FRIEND_REQUEST = {
+        COLORS = {
+          {x = 620, y = 493, color = 15261379},
+          {x = 1392, y = 490, color = 15327428},
+          {x = 702, y = 1082, color = 547798},
+          {x = 913, y = 1083, color = 680407},
+          {x = 1126, y = 1079, color = 12658471},
+          {x = 1347, y = 1079, color = 12986665},
+        },
+        SEND = {x = 1244, y = 1086},
+        DISCARD = {x = 805, y = 1085}
       },
 
       SAVED_MISSION = {
