@@ -85,7 +85,7 @@ function exec_mission(k)
       if LOG_ENABLED then
         log("battle_complete, got friend request prompt, tap_discard")
       end
-      retry(mission_complete_friend_request_tap_discard)()
+      retry(mission_complete_friend_request_tap_discard)(REC_PATHS_LOAD_PAUSE)
     end
 
     if mission_complete_rank_up() then
