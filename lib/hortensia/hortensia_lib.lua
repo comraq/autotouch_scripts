@@ -202,6 +202,8 @@ mission_complete_friend_request_tap_discard =
 mission_complete_special_tap_confirm = generate_act_function("mission_complete_special_tap_confirm",
                                                              HORTENSIA.BATTLE.SPECIAL_COMPLETE.CONFIRM.x,
                                                              HORTENSIA.BATTLE.SPECIAL_COMPLETE.CONFIRM.y)
+
+-- Note: mission_complete_rewards_tap_confirm = mission_complete_EP_tap_confirm
 mission_complete_rewards_tap_confirm = generate_act_function("mission_complete_rewards_tap_confirm",
                                                              HORTENSIA.BATTLE.COMPLETE.CONFIRM.x,
                                                              HORTENSIA.BATTLE.COMPLETE.CONFIRM.y)
@@ -551,9 +553,6 @@ function mission_complete(battle_complete)
   if mission_complete_reaffirm(f, "battle_complete") then
     return true
 
-  elseif mission_complete_reaffirm(mission_complete_rank_up, "rank_up") then
-    return true
-
   elseif mission_complete_reaffirm(mission_complete_ep_up_story_unlock, "ep_up_story_unlock") then
     return true
 
@@ -598,30 +597,12 @@ function mission_complete_ep_up_awakening_unlock()
 end
 
 function mission_complete_proceed_to_rewards_confirm(pause, hold)
-  while true do
-    if LOG_ENABLED then
-      log("entering mission_complete_proceed_to_rewards_confirm loop")
-    end
+  if LOG_ENABLED then
+    log("entering mission_complete_proceed_to_rewards_confirm")
+  end
 
-    if mission_complete_EP_confirmed() then
-      if LOG_ENABLED then
-        log("proceed_to_rewards_confirm, EP_confirmed")
-      end
-      return
-
-    elseif mission_complete_battle_complete() then
-      if LOG_ENABLED then
-        log("proceed_to_rewards_confirm, EP_tap_confirm")
-      end
-      retry(mission_complete_EP_tap_confirm, mission_complete_EP_confirmed)(pause, hold)
-
-    elseif mission_complete_rank_up() then
-      if LOG_ENABLED then
-        log("proceed_to_rewards_confirm, rank_up_tap_confirm")
-      end
-      retry(mission_complete_rank_up_tap_confirm)(pause, hold)
-
-    elseif mission_complete_ep_up_story_unlock() then
+  while mission_complete_ep_up_story_unlock() or mission_complete_ep_up_awakening_unlock() do
+    if mission_complete_ep_up_story_unlock() then
       if LOG_ENABLED then
         log("proceed_to_rewards_confirm, ep_up_story_unlock_tap_confirm")
       end
@@ -634,6 +615,54 @@ function mission_complete_proceed_to_rewards_confirm(pause, hold)
       retry(mission_complete_ep_up_awakening_unlock_tap_confirm)(pause, hold)
 
     end
+  end
+
+  if mission_complete_battle_complete() then
+    if LOG_ENABLED then
+      log("proceed_to_rewards_confirm, EP_tap_confirm")
+    end
+    act_once(mission_complete_EP_tap_confirm, mission_complete_EP_confirmed)(pause, hold)
+
+  elseif mission_complete_special_complete() then
+    if LOG_ENABLED then
+      log("proceed_to_rewards_confirm, special_tap_confirm")
+    end
+    act_once(mission_complete_special_tap_confirm)(pause, hold)
+  end
+end
+
+function mission_complete_rewards_confirm(pause, hold)
+  if LOG_ENABLED then
+    log("entering mission_complete_rewards_confirm")
+  end
+
+  -- Friend request occurs before rank up
+  if mission_complete_battle_complete_friend_request() then
+    if LOG_ENABLED then
+      log("rewards_confirm, got friend request prompt, tap_discard")
+    end
+    retry(mission_complete_friend_request_tap_discard)(pause, hold)
+  end
+
+  if mission_complete_rank_up() then
+    if LOG_ENABLED then
+      log("rewards_confirm, rank_up_tap_confirm")
+    end
+    retry(mission_complete_rank_up_tap_confirm)(pause, hold)
+  end
+
+  if mission_complete_battle_complete() then
+    if LOG_ENABLED then
+      log("rewards_confirm, EP_tap_confirm")
+    end
+    act_once(mission_complete_EP_tap_confirm, mission_complete_EP_confirmed)(pause, hold)
+
+  elseif mission_complete_special_complete() then
+    if LOG_ENABLED then
+      log("rewards_confirm, special_tap_confirm")
+    end
+    act_once(mission_complete_special_tap_confirm)(pause, hold)
+
   end
 end
 

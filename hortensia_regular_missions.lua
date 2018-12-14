@@ -71,9 +71,16 @@ function execute_with(mission_sel, on_battle_complete)
         mission_complete_proceed_to_rewards_confirm()
         if mission_complete_battle_complete_friend_request() then
           if LOG_ENABLED then
-            log("battle complete, got friend request prompt")
+            log("battle_complete, got friend request prompt, tap_discard")
           end
           retry(mission_complete_friend_request_tap_discard)()
+        end
+
+        if mission_complete_rank_up() then
+          if LOG_ENABLED then
+            log("battle_complete, rank_up_tap_confirm")
+          end
+          retry(mission_complete_rank_up_tap_confirm)()
         end
 
         on_battle_complete()
