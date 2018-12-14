@@ -69,6 +69,10 @@ local special_mission_complete = function()
   return mission_complete(mission_complete_special_complete)
 end
 
+local treasure_chance_complete = function()
+  return recollection_treasure_chance_complete() or mission_complete_battle_complete_friend_request()
+end
+
 function exec_mission(k)
   -- Special Mission
   retry(battle_helper_select_tap_first_helper)()
@@ -92,7 +96,14 @@ function exec_mission(k)
         retry(battle_helper_select_tap_first_helper)()
         retry(battle_party_select_tap_confirm)()
 
-        return in_battle_daemon(recollection_treasure_chance_complete)(function()
+        return in_battle_daemon(treasure_chance_complete)(function()
+          if mission_complete_battle_complete_friend_request() then
+            if LOG_ENABLED then
+              log("treasure chance battle complete, got friend request prompt")
+            end
+            retry(mission_complete_friend_request_tap_discard)()
+          end
+
           sleep_sec(5) -- For stability, treasure_chance_complete animation may take some time
           retry(recollection_treasure_chance_complete_tap_confirm)(REC_PATHS_LOAD_PAUSE)
           return k()
