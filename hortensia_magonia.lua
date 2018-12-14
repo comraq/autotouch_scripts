@@ -109,14 +109,7 @@ function execute_with(mission_sel)
         return in_battle_daemon()(function()
 
           mission_complete_proceed_to_rewards_confirm()
-          if mission_complete_battle_complete_friend_request() then
-            if LOG_ENABLED then
-              log("battle complete, got friend request prompt")
-            end
-            retry(mission_complete_friend_request_tap_discard)()
-          end
-
-          retry(mission_complete_rewards_tap_confirm)(10)
+          mission_complete_rewards_confirm(10)
           return k()
         end)
       end)

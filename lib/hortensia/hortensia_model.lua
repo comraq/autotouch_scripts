@@ -484,6 +484,11 @@ HORTENSIA = {
         }
       },
 
+      --[[
+      --  Some unlocks have additional requirements that fails to satisify
+      --  the below color matching
+      --  TODO: update EP_UP unlocks color matching
+      --]]
       EP_UP = {
         STORY_UNLOCK = {
           COLORS = {
