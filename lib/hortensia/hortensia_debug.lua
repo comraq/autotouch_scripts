@@ -26,26 +26,24 @@ function get_mission_complete_colors()
 end
 
 function get_insufficient_ap_colors()
-  local init_x1, cy1 = 330, 330
-  local final_x1 = 1730
-  for cx1 = init_x1, final_x1, 100
-  do
-    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
-  end
+  local cs = {
+    {430,330},
+    {530,330},
+    {630,330},
+    {1330,330},
+    {1430,330},
+    {565,625},
+    {1216,625},
+    {568,834},
+    {1233,841},
+    {586,1048},
+    {586,1048},
+  }
 
-  local init_x1, cy1 = 1100, 1000
-  local final_x1 = 1600
-  for cx1 = init_x1, final_x1, 100
-  do
-    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
-  end
-
-  local init_x1, cy1 = 770, 1160
-  local final_x1 = 1270
-  for cx1 = init_x1, final_x1, 100
-  do
-    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
-  end
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
 end
 
 function get_ap_option_consumed_still_insufficient_colors()
@@ -589,17 +587,17 @@ function get_battle_helper_select_colors()
 end
 
 function get_battle_complete_friend_request_colors()
-  local cs = {
-    {620,493},
-    {1392,490},
-    {702,1082},
-    {913,1083},
-    {1126,1079},
-    {1347,1079}
-  }
+  local init_x1, cy1 = 590, 573
+  local final_x1 = 1390
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
 
-  LIST.fmap(function(p)
-    local x,y = p[1], p[2]
-    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
-  end, cs)
+  local init_x1, cy1 = 654, 1045
+  local final_x1 = 1354
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
 end

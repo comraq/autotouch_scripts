@@ -202,69 +202,63 @@ HORTENSIA = {
 
     INSUFFICIENT_AP = {
       COLORS = {
-        -- Reduced color matching to be compatible with Recollection
-        {x = 330, y = 330, color = 14998208},
+        compat = true,
         {x = 430, y = 330, color = 7363130},
         {x = 530, y = 330, color = 7363130},
         {x = 630, y = 330, color = 7363130},
-        {x = 730, y = 330, color = 7363130},
-        {x = 830, y = 330, color = 7363130},
-        --{x = 930, y = 330, color = 13880514},
-        {x = 1030, y = 330, color = 7363130},
-        {x = 1130, y = 330, color = 7363130},
-        {x = 1230, y = 330, color = 7363130},
         {x = 1330, y = 330, color = 7363130},
         {x = 1430, y = 330, color = 7363130},
-        --{x = 1530, y = 330, color = 9205328},
-        {x = 1630, y = 330, color = 7363130},
-        {x = 1730, y = 330, color = 12761501},
-        {x = 1100, y = 1000, color = 2091022},
-        {x = 1200, y = 1000, color = 15325591},
-        {x = 1300, y = 1000, color = 1427719},
-        --{x = 1400, y = 1000, color = 9288586},
-        {x = 1500, y = 1000, color = 16777215},
-        {x = 1600, y = 1000, color = 2288398},
-        {x = 770, y = 1160, color = 15130049},
-        {x = 870, y = 1160, color = 2936565},
-        --{x = 970, y = 1160, color = 669282},
-        {x = 1070, y = 1160, color = 1737700},
-        {x = 1170, y = 1160, color = 2936565},
-        {x = 1270, y = 1160, color = 15327428},
+        {x = 565, y = 625, color = 16777215},
+        {x = 1216, y = 625, color = 16777215},
+        {x = 568, y = 834, color = 16777215},
+        {x = 1233, y = 841, color = 35531},
+        {x = 586, y = 1048, color = 7421954},
+        {x = 586, y = 1048, color = 7421954}
       },
 
       AP10 = {
+        compat = true,
         name = "AP10",
-        x = 655,
-        y = 590,
-        COLOR = { AVAILABLE = 1292043 }
+        LOC = {x = 655, y = 590},
+        x = 671,
+        y = 512,
+        COLOR = { AVAILABLE = 8191861 }
       },
 
       AP30 = {
+        compat = true,
         name = "AP30",
-        x = 1310,
-        y = 590,
-        COLOR = { AVAILABLE = 962568 }
+        LOC = {x = 1310, y = 590},
+        x = 1378,
+        y = 512,
+        COLOR = { AVAILABLE = 7864178 }
       },
 
       AP50 = {
+        compat = true,
         name = "AP50",
-        x = 655,
-        y = 795,
-        COLOR = { AVAILABLE = 1293321 }
+        LOC = {x = 655, y = 795},
+        x = 675,
+        y = 719,
+        COLOR = { AVAILABLE = 9174917 }
       },
 
       APMAX = {
+        compat = true,
         name = "APMAX",
-        x = 1310,
-        y = 795,
-        COLOR = { AVAILABLE = 1161480 }
+        LOC = {x = 1310, y = 795},
+        x = 1360,
+        y = 719,
+        COLOR = { AVAILABLE = 9305990 }
       },
 
       APSTONE = {
+        compat = true,
         name = "APSTONE",
-        x = 655,
-        y = 1000,
-        COLOR = { AVAILABLE = 1427719 }
+        LOC = {x = 655, y = 1000},
+        x = 671,
+        y = 925,
+        COLOR = { AVAILABLE = 8585083 }
       },
 
       CONSUME_CONFIRM = {
@@ -352,10 +346,6 @@ HORTENSIA = {
         {x = 1618, y = 393, color = 5000268},
         {x = 1838, y = 401, color = 5000268},
         {x = 1846, y = 587, color = 9568256},
-        -- Reduce Color matching for 2nd, 3rd, 4th helper because they may not always exist
-        -- {x = 1861, y = 766, color = 13119280},
-        -- {x = 1852, y = 1124, color = 10092544},
-        -- {x = 1854, y = 1294, color = 13119280}
       },
       FIRST = {
         x = 1858,
@@ -395,6 +385,7 @@ HORTENSIA = {
 
     COMPLETE = {
       COLORS = {
+        compat = true,
         {x = 1250, y = 268, color = 131329},
         {x = 1227, y = 387, color = 6894387},
         {x = 1606, y = 360, color = 9830399},
@@ -411,57 +402,57 @@ HORTENSIA = {
 
       FRIEND_REQUEST = {
         COLORS = {
-          {x = 620, y = 493, color = 15261379},
-          {x = 1392, y = 490, color = 15327428},
-          {x = 702, y = 1082, color = 547798},
-          {x = 913, y = 1083, color = 680407},
-          {x = 1126, y = 1079, color = 12658471},
-          {x = 1347, y = 1079, color = 12986665},
+          compat = true,
+          {x = 590, y = 573, color = 8872755},
+          {x = 690, y = 573, color = 8872755},
+          {x = 790, y = 573, color = 8872755},
+          {x = 890, y = 573, color = 8872755},
+          {x = 990, y = 573, color = 8872755},
+          {x = 1090, y = 573, color = 8872755},
+          {x = 1190, y = 573, color = 8872755},
+          {x = 1290, y = 573, color = 8872755},
+          {x = 1390, y = 573, color = 8872755},
+          {x = 964, y = 1045, color = 4827132},
+          {x = 994, y = 1045, color = 15459014},
+          {x = 1044, y = 1045, color = 14866877},
+          {x = 1124, y = 1045, color = 16297902},
+          {x = 1314, y = 1045, color = 16296360},
         },
         SEND = {x = 1244, y = 1086},
         DISCARD = {x = 805, y = 1085}
       },
 
       SAVED_MISSION = {
-        x = 1697,
-        y = 1246,
+        compat = true,
+        LOC = {x = 1697, y = 1246},
+        x = 1827,
+        y = 1290,
         COLOR = {
-          UNAVAILABLE = 1710618,
-          AVAILBLE = 38830
+          UNAVAILABLE = 4671303,
+          AVAILBLE = 10922153
         }
       },
 
       RANK_UP = {
         COLORS = {
+          compat = true,
           {x = 621, y = 357, color = 16777214},
-          {x = 623, y = 421, color = 16776936},
-          {x = 622, y = 476, color = 16776647},
           {x = 691, y = 368, color = 16777214},
           {x = 673, y = 417, color = 16776937},
-          {x = 704, y = 479, color = 16776383},
           {x = 749, y = 399, color = 16777203},
           {x = 760, y = 440, color = 16776922},
-          {x = 817, y = 452, color = 16776912},
           {x = 750, y = 483, color = 16776127},
-          {x = 824, y = 489, color = 16776386},
           {x = 878, y = 406, color = 16777197},
-          {x = 876, y = 476, color = 16776647},
-          {x = 917, y = 397, color = 16776952},
-          {x = 948, y = 421, color = 16776936},
           {x = 951, y = 483, color = 16776127},
           {x = 1010, y = 357, color = 16777214},
-          {x = 1014, y = 473, color = 16776647},
-          {x = 1073, y = 395, color = 16777205},
           {x = 1062, y = 436, color = 16776928},
           {x = 1084, y = 479, color = 16776127},
           {x = 1210, y = 361, color = 16777214},
           {x = 1210, y = 447, color = 16776918},
           {x = 1260, y = 489, color = 16776127},
-          {x = 1304, y = 459, color = 16776910},
           {x = 1302, y = 371, color = 16777214},
           {x = 1364, y = 360, color = 16777214},
           {x = 1429, y = 370, color = 16777214},
-          {x = 1357, y = 420, color = 16776936},
           {x = 1395, y = 416, color = 16777200},
           {x = 1360, y = 484, color = 16776127}
         },

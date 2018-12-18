@@ -33,7 +33,7 @@ function execute_with(mission_sel, on_oath_complete)
   return function(k)
     return with_insufficient_ap_check(mission_sel, ALLOWED_AP_OPTIONS)(function()
       -- Regular Mission
-      retry(battle_helper_select_tap_first_helper)()
+      retry(battle_helper_select_tap_first_helper)(2)
       retry(battle_party_select_tap_confirm)()
 
       return in_battle_daemon()(function()
@@ -47,7 +47,7 @@ function execute_with(mission_sel, on_oath_complete)
 
         local function enter_oath_battle()
           retry(oath_battle_prep_tap_proceed)(10)
-          retry(battle_helper_select_tap_first_helper)()
+          retry(battle_helper_select_tap_first_helper)(2)
           retry(battle_party_select_tap_confirm)()
 
           return with_insufficient_rp_check(rp_sel, 1, ALLOW_RP_POTIONS)(function()
@@ -65,7 +65,7 @@ function execute_with(mission_sel, on_oath_complete)
         -- Oath Battle
         retry(oath_encountered_tap_proceed)()
         retry(oath_battle_prep_tap_proceed)(10)
-        retry(battle_helper_select_tap_first_helper)()
+        retry(battle_helper_select_tap_first_helper)(2)
         retry(battle_party_select_tap_confirm)()
 
         return with_insufficient_rp_check(rp_sel, rp_amount, ALLOW_RP_POTIONS)(function()

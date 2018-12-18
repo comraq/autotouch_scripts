@@ -5,9 +5,9 @@ FINAL_WAVE_SKILL = true
 ALLOWED_AP_OPTIONS = {
   --"AP10",
   --"AP30",
-  --"AP50",
-  --"APMAX",
-  --"APSTONE"
+  "AP50",
+  "APMAX",
+  "APSTONE"
 }
 
 if LOG_ENABLED then
@@ -26,7 +26,7 @@ end
 
 -- First battle
 local missions_first_battle = function()
-  return retry(missions_three_battles_tap_battle("FIRST"))(10)
+  return retry(missions_three_battles_tap_battle("THIRD"))(10)
 end
 
 -- Sixth battle
@@ -64,7 +64,7 @@ function execute_with(mission_sel, on_battle_complete)
   return function(k)
 
     return with_insufficient_ap_check(mission_sel, ALLOWED_AP_OPTIONS)(function()
-      retry(battle_helper_select_tap_first_helper)()
+      retry(battle_helper_select_tap_first_helper)(2)
       retry(battle_party_select_tap_confirm)()
 
       return in_battle_daemon()(function()
@@ -91,14 +91,14 @@ function execute_with(mission_sel, on_battle_complete)
 end
 
 local execute = execute_with(
-                             --missions_first_battle
+                             missions_first_battle
                              --missions_sixth_battle
                              --united_sp_mission
-                             missions_daily
+                             --missions_daily
                              ,
 
-                             --battle_complete_saved_mission
-                             battle_complete_confirm
+                             battle_complete_saved_mission
+                             --battle_complete_confirm
                              )
 local function main()
   return execute(main)

@@ -211,8 +211,8 @@ mission_complete_EP_tap_confirm = generate_act_function("mission_complete_EP_tap
                                                         HORTENSIA.BATTLE.COMPLETE.CONFIRM.x,
                                                         HORTENSIA.BATTLE.COMPLETE.CONFIRM.y)
 mission_complete_tap_saved_mission = generate_act_function("mission_complete_tap_saved_mission",
-                                                           HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.x,
-                                                           HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.y)
+                                                           HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.LOC.x,
+                                                           HORTENSIA.BATTLE.COMPLETE.SAVED_MISSION.LOC.y)
 mission_complete_rank_up_tap_confirm = generate_act_function("mission_complete_rank_up_tap_confirm",
                                                              HORTENSIA.BATTLE.COMPLETE.RANK_UP.CONFIRM.x,
                                                              HORTENSIA.BATTLE.COMPLETE.RANK_UP.CONFIRM.y)
@@ -229,8 +229,8 @@ mission_complete_ep_up_awakening_unlock_tap_confirm =
 insufficient_ap_tap_potion = function(potion_name)
   local name = "insufficient_ap_tap_potion_" .. potion_name
   return generate_act_function(name,
-                               HORTENSIA.MISSIONS.INSUFFICIENT_AP[potion_name].x,
-                               HORTENSIA.MISSIONS.INSUFFICIENT_AP[potion_name].y)
+                               HORTENSIA.MISSIONS.INSUFFICIENT_AP[potion_name].LOC.x,
+                               HORTENSIA.MISSIONS.INSUFFICIENT_AP[potion_name].LOC.y)
 end
 insufficient_ap_tap_consume_confirm = generate_act_function("insufficient_ap_tap_consume_confirm",
 							                                              HORTENSIA.MISSIONS.INSUFFICIENT_AP.CONSUME_CONFIRM.x,

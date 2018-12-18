@@ -75,7 +75,7 @@ end
 
 function exec_mission(k)
   -- Special Mission
-  retry(battle_helper_select_tap_first_helper)()
+  retry(battle_helper_select_tap_first_helper)(2)
   retry(battle_party_select_tap_confirm)()
 
   return in_battle_daemon(special_mission_complete)(function()
@@ -100,7 +100,7 @@ function exec_mission(k)
         log("encountered treasure chance!")
       end
       return recollection_treasure_chance_battle(ALLOWED_TICKET_OPTIONS)(function()
-        retry(battle_helper_select_tap_first_helper)()
+        retry(battle_helper_select_tap_first_helper)(2)
         retry(battle_party_select_tap_confirm)()
 
         return in_battle_daemon(treasure_chance_complete)(function()

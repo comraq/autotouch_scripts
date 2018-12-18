@@ -103,7 +103,7 @@ function execute_with(mission_sel)
       retry(missions_tap_home_or_back)()
       return with_insufficient_ap_check(mission_sel, ALLOWED_AP_OPTIONS)(function()
         -- Regular Mission
-        retry(battle_helper_select_tap_first_helper)()
+        retry(battle_helper_select_tap_first_helper)(2)
         retry(battle_party_select_tap_confirm)()
 
         return in_battle_daemon()(function()
