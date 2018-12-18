@@ -9,19 +9,20 @@ function skillbar_top_color(member)
 end
 
 function get_mission_complete_colors()
-  local init_x1, cy1 = 100, 939
-  local final_x1 = 1100
-  for cx1 = init_x1, final_x1, 100
-  do
-    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
-  end
+  local cs = {
+    {1250,268},
+    {1227,387},
+    {1606,360},
+    {1654,1218},
+    {1653,1271},
+    {1993,1219},
+    {2003,1264},
+  }
 
-  local init_x1, cy1 = 1700, 1243
-  local final_x1 = 2000
-  for cx1 = init_x1, final_x1, 100
-  do
-    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
-  end
+  LIST.fmap(function(p)
+    local x,y = p[1], p[2]
+    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
+  end, cs)
 end
 
 function get_insufficient_ap_colors()

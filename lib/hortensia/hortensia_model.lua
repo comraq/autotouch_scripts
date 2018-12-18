@@ -395,25 +395,13 @@ HORTENSIA = {
 
     COMPLETE = {
       COLORS = {
-        --[[
-        -- Reduced color match to be compatibly with event mission complete such as 6hr raid or reconquest stone hunt
-        --
-        -- {x = 100, y = 939, color = 14788123},
-        -- {x = 200, y = 939, color = 16502123},
-        -- {x = 300, y = 939, color = 16637264},
-        -- {x = 400, y = 939, color = 14860167},
-        -- {x = 500, y = 939, color = 14789656},
-        -- {x = 600, y = 939, color = 12230263},
-        -- {x = 700, y = 939, color = 16494651},
-        -- {x = 800, y = 939, color = 16642200},
-        -- {x = 900, y = 939, color = 16572325},
-        -- {x = 1000, y = 939, color = 5979653},
-        -- {x = 1100, y = 939, color = 14264162},
-        --]]
-        {x = 1700, y = 1243, color = 2236962},
-        {x = 1800, y = 1243, color = 13290186},
-        {x = 1900, y = 1243, color = 13421772},
-        {x = 2000, y = 1243, color = 2236962}
+        {x = 1250, y = 268, color = 131329},
+        {x = 1227, y = 387, color = 6894387},
+        {x = 1606, y = 360, color = 9830399},
+        {x = 1654, y = 1218, color = 3684408},
+        {x = 1653, y = 1271, color = 1973790},
+        {x = 1993, y = 1219, color = 3684408},
+        {x = 2003, y = 1264, color = 1842204},
       },
 
       CONFIRM = {
