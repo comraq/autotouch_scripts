@@ -33,9 +33,6 @@ end
 
 --[[
 
-log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
-log(string.format("ipad_air()[%s]", tostring(ipad_air())))
-
 get_recollection_treasure_chance_colors()
 local res = findImage("screenshots/recollection_next.bmp", 1, 0.4, nil, { 1250, 900, 300, 200 })
 local count = 0
@@ -55,6 +52,11 @@ local loc2 = HORTENSIA.RECOLLECTION.PATHS[3][3]
 log(string.format("matching color at path2[%s], path3[%s]", tostring(match_color(color, loc1.x, loc1.y)),
                                                             tostring(match_color(color, loc2.x, loc2.y))))
 log(string.format("mission_complete_special_complete [%s]", tostring(mission_complete_special_complete())))
---]]
-get_battle_complete_friend_request_colors()
 
+log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
+log(string.format("ipad_air()[%s]", tostring(ipad_air())))
+--]]
+
+log(string.format("battle_helper_select [%s]", tostring(battle_helper_select())))
+
+get_battle_helper_select_colors()

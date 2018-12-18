@@ -8,11 +8,21 @@ local WIDTH,HEIGHT = getScreenResolution();
 local w,h = WIDTH/DEFAULT_WIDTH,HEIGHT/DEFAULT_HEIGHT
 
 function adjust_coords(x, y)
-  return DEFAULT_HEIGHT-y, x
+  -- Only adjust coords for ipad air, which runs on autotouch 4.2.2
+  if ipad_air() then
+    return DEFAULT_HEIGHT-y, x
+  else
+    return x, y
+  end
 end
 
 function adjust_coords_inverse(x, y)
-  return y, -1 * (x - DEFAULT_HEIGHT)
+  -- Only adjust coords for ipad air, which runs on autotouch 4.2.2
+  if ipad_air() then
+    return y, -1 * (x - DEFAULT_HEIGHT)
+  else
+    return x, y
+  end
 end
 
 function out_of_bounds(x, y)
@@ -41,18 +51,7 @@ end
 --------------------------------------------------
 
 function cgetColor(x, y)
-  if ipad_air() then
-    if LOG_ENABLED then
-      -- log(string.format("ipad_air true, getColor(w[%f] * x[%f], h[%f] * y[%f])", w, x, h, y))
-    end
-    return getColor(w * x, h * y)
-  else
-    local x1,y1 = adjust_coords(x, y)
-    if LOG_ENABLED then
-      -- log(string.format("ipad_air false, getColor(h[%f] * x1[%f], w[%f] * y1[%f])", h, x1, w, y1))
-    end
-    return getColor(h * x1, w * y1)
-  end
+  return getColor(w * x, h * y)
 end
 
 function ctouchDown(id, x, y)
