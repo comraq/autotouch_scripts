@@ -137,6 +137,15 @@ poker_secret_room_tap = function(number)
                                HORTENSIA.POKER.SECRET_ROOM[number].x,
                                HORTENSIA.POKER.SECRET_ROOM[number].y)
 end
+poker_secret_room_use_key_tap_confirm =
+  generate_act_function("poker_secret_room_use_key_tap_confirm",
+                        HORTENSIA.POKER.SECRET_ROOM.USE_KEY.CONFIRM.x,
+                        HORTENSIA.POKER.SECRET_ROOM.USE_KEY.CONFIRM.y)
+poker_secret_room_use_key_tap_cancel =
+  generate_act_function("poker_secret_room_use_key_tap_cancel",
+                        HORTENSIA.POKER.SECRET_ROOM.USE_KEY.CANCEL.x,
+                        HORTENSIA.POKER.SECRET_ROOM.USE_KEY.CANCEL.y)
+
 missions_tap_dropdown = generate_act_function("missions_tap_dropdown",
                                               HORTENSIA.MISSIONS.DROPDOWN.x,
                                               HORTENSIA.MISSIONS.DROPDOWN.y)
@@ -699,11 +708,9 @@ function mission_complete_EP_confirmed()
 end
 
 function is_final_wave()
-  if ipad_air() then
-    return match_all_colors(HORTENSIA.IN_BATTLE.WAVE.FINAL.IPAD_AIR.COLORS)
-  else
-    return match_all_colors(HORTENSIA.IN_BATTLE.WAVE.FINAL.IPAD_2017.COLORS)
-  end
+  return LIST.foldl(function(e, cs)
+    return e or match_all_colors(cs)
+  end, false, HORTENSIA.IN_BATTLE.WAVE.FINAL.COLORS)
 end
 
 
@@ -1536,4 +1543,13 @@ function recollection_conduct_boss_battle(exec_battle)
   end
 
   return
+end
+
+
+-----------
+-- Poker --
+-----------
+
+function poker_use_key()
+  return match_all_colors(HORTENSIA.POKER.SECRET_ROOM.USE_KEY.COLORS)
 end

@@ -46,6 +46,20 @@ local united_sp_mission = function()
   return retry(united_battle_home_tap_sp_mission)(10)
 end
 
+-- Poker secret room
+local poker_secret_room = function()
+  local act = function()
+    return retry(poker_secret_room_tap("THIRD"))(10)
+  end
+
+  act()
+  if poker_use_key() then
+    -- Poker use key confirm only responds to short taps
+    retry(poker_secret_room_use_key_tap_confirm)(5, 0.1)
+    return act()
+  end
+end
+
 
 
 ---------------------------------
@@ -91,14 +105,15 @@ function execute_with(mission_sel, on_battle_complete)
 end
 
 local execute = execute_with(
-                             missions_first_battle
+                             --missions_first_battle
                              --missions_sixth_battle
                              --united_sp_mission
                              --missions_daily
+                             poker_secret_room
                              ,
 
-                             battle_complete_saved_mission
-                             --battle_complete_confirm
+                             --battle_complete_saved_mission
+                             battle_complete_confirm
                              )
 local function main()
   return execute(main)

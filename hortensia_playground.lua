@@ -58,4 +58,4 @@ log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 
 --]]
 
-get_final_wave_colors()
+get_poker_secret_room_use_key_colors()

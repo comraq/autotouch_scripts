@@ -672,8 +672,12 @@ HORTENSIA = {
 
     WAVE = {
       FINAL = {
-        IPAD_AIR = {
-          COLORS = {
+        --[[
+             Note: Final wave colors seems to have been udpated?
+                 * added two variants for compatibility
+        --]]
+        COLORS = {
+          {
             {x = 22, y = 1141, color = 16711422},
             {x = 54, y = 1141, color = 16711422},
             {x = 94, y = 1141, color = 16711422},
@@ -688,11 +692,8 @@ HORTENSIA = {
             {x = 278, y = 1141, color = 16711422},
             {x = 292, y = 1141, color = 16711422},
             {x = 314, y = 1141, color = 16711422}
-          }
-        },
-
-        IPAD_2017 = {
-          COLORS = {
+          },
+          {
             {x = 22, y = 1141, color = 16777215},
             {x = 54, y = 1141, color = 16777215},
             {x = 94, y = 1141, color = 16777215},
@@ -709,7 +710,7 @@ HORTENSIA = {
             {x = 314, y = 1141, color = 16777215}
           }
         }
-      }
+      },
     }
   },
 
@@ -1169,8 +1170,21 @@ HORTENSIA = {
         y = 1195
       },
 
-      CONFIRM = {x = 1310, y = 1078},
-      CANCEL = {x = 859, y = 1078}
+      USE_KEY = {
+        CONFIRM = {x = 1310, y = 1078},
+        CANCEL = {x = 859, y = 1078},
+        COLORS = {
+          {x = 600, y = 487, color = 11765316},
+          {x = 700, y = 487, color = 11765316},
+          {x = 800, y = 487, color = 11765316},
+          {x = 900, y = 487, color = 11765316},
+          {x = 1000, y = 487, color = 11765316},
+          {x = 1100, y = 487, color = 11765316},
+          {x = 1200, y = 487, color = 11765316},
+          {x = 1300, y = 487, color = 11765316},
+          {x = 1400, y = 487, color = 11765316}
+        }
+      }
     }
   },
 

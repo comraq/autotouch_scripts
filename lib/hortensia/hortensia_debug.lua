@@ -579,3 +579,12 @@ function get_battle_complete_friend_request_colors()
     log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
   end
 end
+
+function get_poker_secret_room_use_key_colors()
+  local init_x1, cy1 = 600, 487
+  local final_x1 = 1400
+  for cx1 = init_x1, final_x1, 100
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
+end
