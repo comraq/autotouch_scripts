@@ -362,18 +362,10 @@ HORTENSIA = {
 
     SPECIAL_COMPLETE = {
       COLORS = {
-        -- Commented out some color matching for stability
-        {x = 100, y = 935, color = 5190146},
-        {x = 200, y = 935, color = 16508027},
-        {x = 300, y = 935, color = 16574559},
-        --{x = 400, y = 935, color = 5848853},
-        {x = 500, y = 935, color = 5190146},
-        --{x = 600, y = 935, color = 16248802},
-        {x = 700, y = 935, color = 16441464},
-        {x = 800, y = 935, color = 16644015},
-        {x = 900, y = 935, color = 16704674},
-        {x = 1000, y = 935, color = 2959138},
-        {x = 1100, y = 935, color = 14263905}
+        compat = true,
+        {x = 1250, y = 268, color = 131329},
+        {x = 1227, y = 387, color = 6894387},
+        {x = 1606, y = 360, color = 9830399},
       },
       CONFIRM = {x = 1605, y = 1246}
     },
@@ -677,6 +669,7 @@ HORTENSIA = {
                  * added two variants for compatibility
         --]]
         COLORS = {
+          compat = true,
           {
             {x = 22, y = 1141, color = 16711422},
             {x = 54, y = 1141, color = 16711422},
@@ -1174,6 +1167,7 @@ HORTENSIA = {
         CONFIRM = {x = 1310, y = 1078},
         CANCEL = {x = 859, y = 1078},
         COLORS = {
+          compat = true,
           {x = 600, y = 487, color = 11765316},
           {x = 700, y = 487, color = 11765316},
           {x = 800, y = 487, color = 11765316},

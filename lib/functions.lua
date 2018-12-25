@@ -196,7 +196,7 @@ LIST = {
 
   length = function(xs)
     local n = 0
-    for i,v in pairs(xs) do
+    for i,v in ipairs(xs) do
       n = n + 1
     end
     return n

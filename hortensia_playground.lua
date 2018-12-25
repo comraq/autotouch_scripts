@@ -58,4 +58,4 @@ log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 
 --]]
 
-get_poker_secret_room_use_key_colors()
+log(string.format("mission_complete_special_complete [%s]", tostring(mission_complete_special_complete())))
