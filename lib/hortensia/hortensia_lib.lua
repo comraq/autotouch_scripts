@@ -131,6 +131,12 @@ missions_three_battles_tap_battle = function(number)
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].x,
                                HORTENSIA.MISSIONS.THREE_BATTLES[number].y)
 end
+poker_secret_room_tap = function(number)
+  local name = "poker_secret_room_tap_" .. number
+  return generate_act_function(name,
+                               HORTENSIA.POKER.SECRET_ROOM[number].x,
+                               HORTENSIA.POKER.SECRET_ROOM[number].y)
+end
 missions_tap_dropdown = generate_act_function("missions_tap_dropdown",
                                               HORTENSIA.MISSIONS.DROPDOWN.x,
                                               HORTENSIA.MISSIONS.DROPDOWN.y)
@@ -534,7 +540,7 @@ end
 function activate_skill(member)
   local cx,cy = HORTENSIA.IN_BATTLE.MEMBERS[member].SKILLBAR.TOP.x, HORTENSIA.IN_BATTLE.MEMBERS[member].SKILLBAR.TOP.y
 
-  if not match_color(HORTENSIA.IN_BATTLE.COLORS.SKILLBAR.FULL, cx, cy) then
+  if not skill_bar_full(cx, cy) then
     if LOG_ENABLED then
       log(string.format("skillbar not full for member[%s], with skillbar_color[%d]", member, cgetColor(cx, cy)))
     end
@@ -546,6 +552,16 @@ function activate_skill(member)
   end
 
   return swipe(cx, cy, cx-DEFAULT_SWIPE_LENGTH_RES, cy)
+end
+
+function skill_bar_full(x, y)
+  return match_any_colors(LIST.fmap(function(c)
+    return {
+      x = x,
+      y = y,
+      color = c
+    }
+  end, HORTENSIA.IN_BATTLE.COLORS.SKILLBAR.FULL))
 end
 
 function mission_complete(battle_complete)
@@ -683,7 +699,11 @@ function mission_complete_EP_confirmed()
 end
 
 function is_final_wave()
-  return match_all_colors(HORTENSIA.IN_BATTLE.WAVE.FINAL.COLORS)
+  if ipad_air() then
+    return match_all_colors(HORTENSIA.IN_BATTLE.WAVE.FINAL.IPAD_AIR.COLORS)
+  else
+    return match_all_colors(HORTENSIA.IN_BATTLE.WAVE.FINAL.IPAD_2017.COLORS)
+  end
 end
 
 

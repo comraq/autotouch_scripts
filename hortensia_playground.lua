@@ -55,9 +55,7 @@ log(string.format("mission_complete_special_complete [%s]", tostring(mission_com
 
 log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
+
 --]]
 
-log(string.format("mission_complete_battle_complete_friend_request [%s]", tostring(mission_complete_battle_complete_friend_request())))
-log(string.format("mission_complete_rank_up [%s]", tostring(mission_complete_rank_up())))
-
-
+get_final_wave_colors()

@@ -47,23 +47,16 @@ function get_insufficient_ap_colors()
 end
 
 function get_ap_option_consumed_still_insufficient_colors()
-  local init_x1, cy1 = 560, 515
-  local final_x1 = 1460
+  local init_x1, cy1 = 600, 554
+  local final_x1 = 1400
   for cx1 = init_x1, final_x1, 100
   do
     log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
   end
 
-  local init_x1, cy1 = 804, 683
-  local final_x1 = 1204
-  for cx1 = init_x1, final_x1, 100
-  do
-    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
-  end
-
-  local init_x1, cy1 = 508, 970
-  local final_x1 = 1508
-  for cx1 = init_x1, final_x1, 100
+  local init_x1, cy1 = 868, 931
+  local final_x1 = 1186
+  for cx1 = init_x1, final_x1, 10
   do
     log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
   end
@@ -357,27 +350,12 @@ function get_greeted_dialog_colors()
 end
 
 function get_final_wave_colors()
-  local cs = {
-    {25,1133},
-    {56,1140},
-    {72,1139},
-    {79,1126},
-    {92,1135},
-    {129,1135},
-    {166,1150},
-
-    {243,1140},
-    {256,1144},
-    {278,1139},
-    {280,1154},
-    {291,1143},
-    {311,1143}
-  }
-
-  LIST.fmap(function(p)
-    local x,y = p[1], p[2]
-    log(string.format("{x = %d, y = %d, color = %d},", x, y, getColor(x, y)))
-  end, cs)
+  local init_x1, cy1 = 22, 1141
+  local final_x1 = 338
+  for cx1 = init_x1, final_x1, 2
+  do
+    log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
+  end
 end
 
 function get_magonia_battle_complete_colors()
