@@ -336,11 +336,10 @@ HORTENSIA = {
     HELPER_SELECT = {
       COLORS = {
         compat = true,
-        {x = 1067, y = 396, color = 5000268},
+        {x = 1254, y = 399, color = 5000268},
         {x = 1317, y = 399, color = 5000268},
-        {x = 1618, y = 393, color = 5000268},
-        {x = 1838, y = 401, color = 5000268},
-        {x = 1846, y = 587, color = 9568256},
+        {x = 1668, y = 393, color = 5000268},
+        {x = 1838, y = 401, color = 5000268}
       },
       FIRST = {
         x = 1858,

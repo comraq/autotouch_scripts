@@ -57,5 +57,4 @@ log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 
 --]]
-
-log(string.format("mission_complete_special_complete [%s]", tostring(mission_complete_special_complete())))
+get_battle_helper_select_colors()
