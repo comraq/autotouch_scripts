@@ -372,6 +372,15 @@ end
 united_battle_home_tap_sp_mission = generate_act_function("united_battle_home_tap_sp_mission",
                                                           HORTENSIA.UNITED_BATTLE.HOME.SP_MISSION.x,
                                                           HORTENSIA.UNITED_BATTLE.HOME.SP_MISSION.y)
+lessons_home_tap_mission = function(n)
+  local name = "lessons_home_tap_mission" .. tostring(n)
+  return generate_act_function(name,
+                               HORTENSIA.LESSONS.MISSIONS[n].x,
+                               HORTENSIA.LESSONS.MISSIONS[n].y)
+end
+lessons_mission_tap_confirm = generate_act_function("lessons_mission_tap_confirm",
+                                                    HORTENSIA.LESSONS.MISSIONS.CONFIRM.x,
+                                                    HORTENSIA.LESSONS.MISSIONS.CONFIRM.y)
 
 magonia_home_tap_mission = function(n)
   local name = "magonia_home_tap_mission_" .. n

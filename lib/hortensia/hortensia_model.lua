@@ -598,7 +598,7 @@ HORTENSIA = {
     COLORS = {
       SKILLBAR = {
         compat = true,
-        FULL = {13803008, 13805056}
+        FULL = {13147904, 13148160}
         -- Currently not used and perhaps not compat
         --NOT_FULL = 131072
       }
@@ -1479,6 +1479,13 @@ HORTENSIA = {
         x = 1942,
         y = 1225
       }
+    }
+  },
+
+  LESSONS = {
+    MISSIONS = {
+      CONFIRM = {x = 1241, y = 1045},
+      [1] = {x = 1468, y = 608}
     }
   }
 }

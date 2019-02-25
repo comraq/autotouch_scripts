@@ -25,8 +25,8 @@ local missions_daily = function()
 end
 
 -- First battle
-local missions_first_battle = function()
-  return retry(missions_three_battles_tap_battle("THIRD"))(10)
+local missions_battle = function()
+  return retry(missions_three_battles_tap_battle("FIRST"))(10)
 end
 
 -- Sixth battle
@@ -44,6 +44,14 @@ end
 -- United sp_mission
 local united_sp_mission = function()
   return retry(united_battle_home_tap_sp_mission)(10)
+end
+
+-- Lessons event
+local lessons_mission = function()
+  retry(lessons_home_tap_mission(1))()
+
+  -- the confirm here only responds to short taps
+  return retry(lessons_mission_tap_confirm)(10, 0.1)
 end
 
 -- Poker secret room
@@ -105,11 +113,12 @@ function execute_with(mission_sel, on_battle_complete)
 end
 
 local execute = execute_with(
-                             --missions_first_battle
+                             --missions_battle
                              --missions_sixth_battle
                              --united_sp_mission
                              --missions_daily
-                             poker_secret_room
+                             --poker_secret_room
+                             lessons_mission
                              ,
 
                              --battle_complete_saved_mission

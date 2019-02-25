@@ -57,4 +57,7 @@ log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 
 --]]
-get_battle_helper_select_colors()
+--get_final_wave_colors()
+log(string.format("is_final_wave [%s]", tostring(is_final_wave())))
+LIST.fmap(activate_skill, HORTENSIA.BATTLE_MEMBERS_LIST)
+
