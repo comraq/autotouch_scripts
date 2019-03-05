@@ -1268,31 +1268,31 @@ HORTENSIA = {
             name = "DEFROT",
             x = 244,
             y = 1204,
-            COLOR = { AVAILABLE = 163319 }
+            COLOR = { AVAILABLE = 98042 }
           },
           MAURICE = {
             name = "MAURICE",
             x = 602,
             y = 1201,
-            COLOR = { AVAILABLE = 229368 }
+            COLOR = { AVAILABLE = 97270 }
           },
           ADELHEID = {
             name = "ADELHEID",
             x = 959,
             y = 1198,
-            COLOR = { AVAILABLE = 229368 }
+            COLOR = { AVAILABLE = 558320 }
           },
           MARYUS = {
             name = "MARYUS",
             x = 1358,
             y = 1254,
-            COLOR = { AVAILABLE = 12552455 }
+            COLOR = { UNAVAILABLE = 3213056 }
           },
           CHARLOT = {
             name = "CHARLOT",
             x = 1818,
             y = 1252,
-            COLOR = { UNAVAILABLE = 2557952 }
+            COLOR = { UNAVAILABLE = 5375488 }
           }
         }
       },

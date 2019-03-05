@@ -57,7 +57,18 @@ log(string.format("dsn[%s], orientation[%s]", getSN(), getOrientation()))
 log(string.format("ipad_air()[%s]", tostring(ipad_air())))
 
 --]]
---get_final_wave_colors()
-log(string.format("is_final_wave [%s]", tostring(is_final_wave())))
-LIST.fmap(activate_skill, HORTENSIA.BATTLE_MEMBERS_LIST)
 
+local x1,y1 = 1818, 1252
+log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+local x1,y1 = 1358, 1254
+log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+local x1,y1 = 959, 1198
+log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+local x1,y1 = 602, 1201
+log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+local x1,y1 = 244, 1204
+log(string.format("x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))

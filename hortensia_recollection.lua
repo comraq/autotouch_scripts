@@ -1,12 +1,13 @@
 require("utils/lib_loader")
 
 LOG_ENABLED = true
-STAGE_NUM = 3
+STAGE_NUM = 16
 ALLOWED_AP_OPTIONS = {
   "AP10",
   "AP30",
   "AP50",
-  "APMAX"
+  "APMAX",
+  "APSTONE"
 }
 ALLOWED_BP_OPTIONS = {}
 ALLOWED_TICKET_OPTIONS = {
@@ -157,7 +158,7 @@ function execute_with(n, k)
       recollection_conduct_boss_battle(exec_battle)
       giftbox_accept_items()
       retry(missions_tap_dropdown)()
-      retry(missions_dropdown_tap_event(1))(REC_HOME_LOAD_PAUSE) -- Loading event may take time
+      retry(missions_dropdown_tap_event(2))(REC_HOME_LOAD_PAUSE) -- Loading event may take time
 
       return with_insufficient_ap_check(recollection_home_proceed, ALLOWED_AP_OPTIONS)(function()
         return exec_mission(function()

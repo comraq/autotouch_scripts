@@ -1503,10 +1503,12 @@ end
 
 function recollection_get_path_indices(stage)
   local ps = {}
+  --[[
   if recollection_paths_lamp_in_use() then
     if LOG_ENABLED then
       log("building paths for stage with lamp in use")
     end
+    --]]
 
     local last = nil
     local paths = recollection_get_paths(stage)
@@ -1522,16 +1524,21 @@ function recollection_get_path_indices(stage)
     end
 
     if last == nil then
-      return alert("did not find next path image for stage!")
+      if LOG_ENABLED then
+        log("Did not find next path image for stage! Built ascending order of indices.")
+      end
+    else
+      table.insert(ps, last)
     end
 
-    table.insert(ps, last)
+    --[[
     return ps
   end
 
   for i = 1, stage.total, 1 do
     table.insert(ps, i)
   end
+  --]]
   return ps
 end
 

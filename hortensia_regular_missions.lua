@@ -5,9 +5,9 @@ FINAL_WAVE_SKILL = true
 ALLOWED_AP_OPTIONS = {
   --"AP10",
   --"AP30",
-  "AP50",
-  "APMAX",
-  "APSTONE"
+  --"AP50",
+  --"APMAX",
+  --"APSTONE"
 }
 
 if LOG_ENABLED then
@@ -116,9 +116,9 @@ local execute = execute_with(
                              --missions_battle
                              --missions_sixth_battle
                              --united_sp_mission
-                             --missions_daily
+                             missions_daily
                              --poker_secret_room
-                             lessons_mission
+                             --lessons_mission
                              ,
 
                              --battle_complete_saved_mission

@@ -584,3 +584,20 @@ function get_poker_secret_room_use_key_colors()
     log(string.format("{x = %d, y = %d, color = %d},", cx1, cy1, getColor(cx1, cy1)))
   end
 end
+
+function get_recollection_ticket_colors()
+  local x1,y1 = 1818, 1252
+  log(string.format("charlot ticket x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+  local x1,y1 = 1358, 1254
+  log(string.format("maryus ticket x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+  local x1,y1 = 959, 1198
+  log(string.format("adelheid x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+  local x1,y1 = 602, 1201
+  log(string.format("maurice x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+
+  local x1,y1 = 244, 1204
+  log(string.format("defrot x[%f], y[%f], c[%d]", x1, y1, getColor(x1, y1)))
+end

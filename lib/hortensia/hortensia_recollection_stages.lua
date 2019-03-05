@@ -117,9 +117,9 @@ HORTENSIA_RECOLLECTION = {
   [94]  = {total = 4},
   [95]  = {total = 4},
 
-  [96]  = {total = 4},
+  [96]  = {total = 4, lamp = true},
   [97]  = {total = 4},
-  [98]  = {total = 4, lamp = true},
+  [98]  = {total = 4},
   [99]  = {total = 4},
   [100] = {total = 4},
 }
