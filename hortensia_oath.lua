@@ -1,10 +1,12 @@
 require("utils/lib_loader")
 
-LOG_ENABLED = false
+LOG_ENABLED = true
 ALLOWED_AP_OPTIONS = {
+  "AP10",
   "AP30",
   "AP50",
-  "APMAX"
+  "APMAX",
+  "APSTONE"
 }
 ALLOW_RP_POTIONS = true
 FINAL_WAVE_SKILL = true
@@ -54,9 +56,21 @@ function execute_with(mission_sel, on_oath_complete, oath_not_encountered)
       retry(battle_party_select_tap_confirm)()
 
       return in_battle_daemon()(function()
-
         mission_complete_proceed_to_rewards_confirm()
-        mission_complete_rewards_confirm(10)
+        if mission_complete_battle_complete_friend_request() then
+          if LOG_ENABLED then
+            log("battle_complete, got friend request prompt, tap_discard")
+          end
+          retry(mission_complete_friend_request_tap_discard)()
+        end
+
+        if mission_complete_rank_up() then
+          if LOG_ENABLED then
+            log("battle_complete, rank_up_tap_confirm")
+          end
+          retry(mission_complete_rank_up_tap_confirm)()
+        end
+        retry(mission_complete_rewards_tap_confirm)(10)
 
         if (not encountered_oath()) then
           oath_not_encountered()

@@ -665,6 +665,9 @@ function mission_complete_proceed_to_rewards_confirm(pause, hold)
   end
 end
 
+--[[
+ Currently does not work due to battle complete screen not available
+--]]
 function mission_complete_rewards_confirm(pause, hold)
   if LOG_ENABLED then
     log("entering mission_complete_rewards_confirm")

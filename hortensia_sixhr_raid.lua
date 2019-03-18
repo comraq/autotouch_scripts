@@ -38,8 +38,22 @@ function execute_with(mission_sel, on_oath_complete)
 
       return in_battle_daemon()(function()
 
-        mission_complete_proceed_to_rewards_confirm_loop()
-        mission_complete_rewards_confirm(10)
+        mission_complete_proceed_to_rewards_confirm()
+        if mission_complete_battle_complete_friend_request() then
+          if LOG_ENABLED then
+            log("battle_complete, got friend request prompt, tap_discard")
+          end
+          retry(mission_complete_friend_request_tap_discard)()
+        end
+
+        if mission_complete_rank_up() then
+          if LOG_ENABLED then
+            log("battle_complete, rank_up_tap_confirm")
+          end
+          retry(mission_complete_rank_up_tap_confirm)()
+        end
+        retry(mission_complete_rewards_tap_confirm)(10)
+
 
         if (not encountered_sixhr_raid()) then
           return k()
